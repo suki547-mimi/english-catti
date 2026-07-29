@@ -1,0 +1,31 @@
+# Audio files (generated, can be regenerated)
+data/audio/
+data/audio_test/
+
+# Large raw external sources
+Files/*.apkg
+data/external/*.js
+data/external/*.csv.bak
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+.venv/
+venv/
+
+# VS Code local artifacts
+.vscode/*.log
+.vscode/settings.json
+!.vscode/mcp.json
+
+# Temp / debug logs
+tools/_*.txt
+tools/_*.log
+
+# OS junk
+Thumbs.db
+.DS_Store
+desktop.ini
