@@ -35,8 +35,9 @@
 | 网络已抓 | ChinaDaily 每日一词 223 篇 + 外交部 41 天 EN+CN |
 | 外部骨架 | CATTI 3 口译 5,000 词（GitHub 开源 CSV，含 12 类话题） |
 | 张培基 apkg | **2,212 中英对齐句** + 1,033 英文短句（明文可读） |
-| 双语句总量 | 白皮书 101 + ChinaDaily 410 + MFA 278 + 张培基 2,212 = **3,001** |
-| 术语总量 | 本地 6,038 + ChinaDaily 580 + CATTI3 5,000 = **~11,600**（有去重空间） |
+| 双语句总量 | 白皮书 101 + ChinaDaily 410 + MFA 278 + 张培基 2,212 = **3,001**（去重后 **1,549**） |
+| 术语总量 | 本地 6,038 + ChinaDaily 580 + CATTI3 5,000 → 合并去重 **11,021** entries / **5,778 unique headword** |
+| Git 备份 | ✅ `github.com/suki547-mimi/english-catti` 已 push；日常 `.\tools\backup.ps1` |
 | 发音库 | 方案定：edge-tts 主 + Free Dict API 补 + 有道兜底（未生成） |
 | 网页词本 | ❌ 未开工 |
 | SRS 引擎 | ❌ 未开工 |
@@ -57,11 +58,13 @@
 | ~~Q2~~ | ~~**CATTI 目标时间线**~~ | ~~3 口先~~ | ✅ **2026-07-29 定**：不设截止日期，**每天 10 词，作长期基础** |
 | ~~Q3~~ | ~~**是否规划国际考试**~~ | ~~CATTI 2 笔过后再看~~ | ✅ **2026-07-29 定**：**暂不规划**，专注 CATTI |
 | ~~Q4~~ | ~~**关 3 近义词辨析**~~ | ~~改选修~~ | ✅ **2026-07-29 定**：关 3 **改成"搭配填空 collocation cloze"**（详见功能 4） |
-| Q5 | **LLM 打分接哪个？** VS Code Copilot 的 `vscode.lm` API 只能在 **VS Code 扩展**里调用 | **改做 VS Code 扩展（webview panel）** 就能免费用你的 Copilot tokens——见 Q6 修订 | ⏳ |
-| Q6 | ~~**前端技术栈**~~：改为 **VS Code 扩展 + Webview**（HTML+JS/TS） | 扩展壳 + 内嵌 webview，UI 与静态站几乎一样；额外收益：能调 `vscode.lm`（Copilot 免费）+ 读工作区文件 | ⏳（Q5/Q6 合并决策） |
+| ~~Q5~~ | ~~**LLM 打分接哪个？**~~ | ~~做 VS Code 扩展~~ | ✅ **2026-07-29 定**：做 VS Code 扩展 + Webview，白嫖 Copilot（vscode.lm API） |
+| ~~Q6~~ | ~~**前端技术栈**~~ | ~~VS Code Webview~~ | ✅ **2026-07-29 定**：Webview 内嵌 SPA（技术栈可选 Vanilla/React/Vue），完全支持交互（tab / 卡片 / 音频 / 拖拽） |
 | Q7 | **CATTI PDF OCR 补词** | 推迟 | ⏳ |
-| ~~Q8~~ | ~~**数据备份策略**~~ | ~~git 私仓~~ | ✅ **2026-07-29 定**：git 私仓（GitHub），详见文末教程 |
-| Q9 | **发音库** | edge-tts 主源（免费/高质/无限）+ Free Dict API 补权威真人音 + 有道兜底 | ⏳（要不要现在生成？） |
+| ~~Q8~~ | ~~**数据备份策略**~~ | ~~git 私仓~~ | ✅ **2026-07-29 完成**：初始 push 到 `github.com/suki547-mimi/english-catti`；日常用 `tools\backup.ps1` |
+| Q9 | **发音库** | edge-tts 主源 + Free Dict API 补 + 有道兜底（≈300-400 MB for 15-18k 词） | ⏳（等词表定型再一次跑） |
+| Q10 | **词库合并/去重策略**：本地 6,038 + ChinaDaily 580 + CATTI3 5,000 + 张培基 headword 提取 后如何去重？优先级？| 建议合并 key = `(headword.lower(), zh.lower())`；同 key 保留最丰富的一条，合并 `sources[]` | ⏳ |
+| Q11 | **Economist 备选**：原源下线，怎么补？| 建议：抓 chinadaily 双语新闻栏 或 直接抓 fmprc 白皮书英/中版 | ⏳ |
 
 ---
 
@@ -434,4 +437,6 @@ git reset --hard <commit-hash>  # 危险！彻底回退到某天（会丢失之�
 | 2026-07-29 | 用户提供张培基 Anki apkg（9,484 卡）→ 解析出 **2,212 张培基中英对齐句 + 1,033 英文短句**（加密仅在评析字段，明文可用） |
 | 2026-07-29 | **一批决策落定**：Q1a/Q2/Q3/Q4/Q8 → 见待议表；新增 Q9（发音库）；发音方案定：edge-tts + Free Dict API + Youdao |
 | 2026-07-29 | **重大架构调整**：功能 1+3+4 改为 **VS Code 扩展 + Webview** 形态，以复用 Copilot 免费额度做 LLM 判分 |
+| 2026-07-29 | Git 私仓建立：MinGit 装到用户目录、初始 push 到 `github.com/suki547-mimi/english-catti`（70 文件 / 35 万行）；Q5+Q6+Q8 全部关掉 |
+| 2026-07-29 | **词库合并完成**：三源去重合并 → 11,021 entries / **5,778 unique headword** / 1,549 双语句；[merge_all.py](../tools/merge_all.py) |
 
