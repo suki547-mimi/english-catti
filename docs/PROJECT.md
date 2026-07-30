@@ -37,14 +37,18 @@
 | 张培基 apkg | **2,212 中英对齐句** + 1,033 英文短句（明文可读） |
 | 双语句总量 | 白皮书 101 + ChinaDaily 410 + MFA 278 + 张培基 2,212 = **3,001**（去重后 **1,549**） |
 | 术语总量 | 合并去重后 **18,193** entries / **12,950 unique headword**（本地 + ChinaDaily + CATTI3 + Google 10k 补量）|
-| 音频库 | edge-tts 生成中：17,469 unique EN × 2 accents = 34,938 mp3（后台跑，预计 5-6h 完成）|
-| VS Code 扩展 | ✅ M0 骨架完成 `english-extension/`，F5 可跑，含 词本/学习/复习/**读书角**/统计 5 tab，接入 vscode.lm |
-| Git 备份 | ✅ `github.com/suki547-mimi/english-catti` 已 push；日常 `.\tools\backup.ps1` |
-| 发音库 | 方案定：edge-tts 主 + Free Dict API 补 + 有道兜底（未生成） |
-| 网页词本 | ❌ 未开工 |
-| SRS 引擎 | ❌ 未开工 |
-| 5 关判定 | ❌ 未开工（Q3 改搭配填空/改错，见下） |
-| 闹钟 | ❌ 未开工 |
+| 单词音频 | ✅ 完成：17,469 unique EN × 2 accents = **34,938 mp3**（426 MB，US+UK） |
+| 例句音频 | ✅ 完成：1,549 语料句 × 3 口音 = **4,370 mp3**（US+UK+ZH，94%）+ LLM 现场生成句按需 edge-tts |
+| IPA 音标 | ✅ 91% 覆盖（Youdao 4,210 + FreeDict 641；11,000+ 词有音标） |
+| VS Code 扩展 | ✅ **v0.3.0** — `english-extension/`，5 tab（词本/学习/复习/📚 读书角/统计），vscode.lm + Copilot Chat 深度集成 |
+| Git 备份 | ✅ `github.com/suki547-mimi/english-catti` 已同步；日常 `.\tools\backup.ps1` |
+| 学习进度存储 | ✅ `user_state.json` + 每日备份 30 份轮换；`state.currentLearnSession` 落盘（reload 可续 4/10） |
+| 艾宾浩斯 SRS | ✅ 已就绪：`[1, 2, 4, 7, 15, 30]` 天间隔 · gap-preservation 逻辑 · 分数驱动大池辅助 |
+| 5 关判定 | ⏳ 仅关 1 上线（EN→ZH LLM 语义判分）；关 2/3/4/5 UI 未做 |
+| 读书角 | ✅ v0.3.0 首发：LLM 生成《青年文摘》风格短文 · 开机后台自动生成 · 逐句 Copilot 讲解 · 收藏夹 · 单句/逐句音频 |
+| 深度学习卡 | ✅ 英英/常用度/近义辨析/影视名场面/高频搭配 · 后台预取 3 个词（点击瞬发） |
+| 闹钟 | ✅ v0.3.0 上线：VS Code 内每日提醒（默认 10:00 / 15:00 / 20:00）· 通知内 3 选 1 快捷入口 · Windows Task Scheduler 系统级提醒（VS Code 关着也响）· 智能跳过（今日目标已达 → 不打扰） |
+| CATTI 2 词表 | ❌ GitHub 多次限速，未成功获取官方版；当前 12.9k headwords 已覆盖高频 |
 
 ---
 
@@ -445,4 +449,6 @@ git reset --hard <commit-hash>  # 危险！彻底回退到某天（会丢失之�
 | 2026-07-30 | **保存 bug 修复 + 会话持久化**：`user_state.json` 缺失（记录方法未 save）→ 全部补上；`currentLearnSession` 落盘 → reload 后能续 4/10；每日 30 份备份轮换；起始页新增 chips（今日新学 X/10 / 待复习 / 累计 / 词库） |
 | 2026-07-30 | **例句音频**：批量 [generate_sentence_audio.py](../tools/generate_sentence_audio.py) 生成 1,549 句 × 3 口音（US/UK/ZH）；LLM 生成句支持按需 edge-tts + 磁盘缓存（`data/audio/sentences/dynamic/`） |
 | 2026-07-30 | **读书角 tab 上线**：LLM 生成 3-5 篇《青年文摘》风格短文（复习词织入）；纯英文默认；点句 → Copilot Chat 讲解；🇨🇳 按钮切翻译；🇺🇸🇬🇧 单句/逐句播放；⭐ 收藏夹；数据存 `data/reading_corner/`（daily/`{date}.json` + `favorites.json`） |
+| 2026-07-30 | **v0.3.0 发布**：<br>• 版本号从 0.0.1 → **0.3.0**（读书角+闹钟大特性）<br>• 读书角 **开机后台自动生成**（`maybeAutoGenerateReading` 在 activate 后 3s 触发）<br>• LLM prompt 重写：**质量 > 词汇覆盖**，词汇变"可选调味料"，句数 ≥ 5 才收<br>• 读书角**生成后立刻预取音频**（US+UK 并发 3，全部句子）→ 点播放瞬发<br>• 生成失败时展示原始错误消息 + Output 日志入口<br>• 空态提示改善：复习 tab 明确"艾宾浩斯要等明天""今天已过一遍" |
+| 2026-07-30 | **闹钟功能开工**（v0.3.0 内）：<br>• VS Code 内提醒：`englishCatti.alarms.times`（默认 10:00 / 15:00 / 20:00）· 每次到点通知内含 学习/复习/读书角/再等 10 分钟 4 个按钮<br>• 智能跳过：如果今日已学 ≥10 词 且 待复习=0，静默跳过<br>• 命令 `English CATTI: Configure Daily Alarms` 交互设置时间<br>• 命令 `English CATTI: Install Windows System Alarms` 用 `schtasks.exe` 创建 Windows 任务计划（VS Code 关着也响）→ 生成 `data/notify_alarm.ps1` |
 

@@ -30,6 +30,9 @@ tools/_test_*.py
 # Daily state backups (kept locally by extension)
 data/user_state.backup-*.json
 
+# Daily LLM-generated reading corner articles (regenerated each day; noisy)
+data/reading_corner/daily/
+
 # OS junk
 Thumbs.db
 .DS_Store

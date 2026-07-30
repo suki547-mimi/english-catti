@@ -2,7 +2,7 @@
   "name": "english-catti",
   "displayName": "English CATTI",
   "description": "Personal CATTI 2/3 vocabulary trainer with SRS + Copilot-graded assessments",
-  "version": "0.0.1",
+  "version": "0.3.0",
   "publisher": "suki547-mimi",
   "private": true,
   "engines": {
@@ -32,6 +32,21 @@
         "command": "englishCatti.stats",
         "title": "English CATTI: Show Statistics",
         "category": "English CATTI"
+      },
+      {
+        "command": "englishCatti.reading",
+        "title": "English CATTI: Open Reading Corner",
+        "category": "English CATTI"
+      },
+      {
+        "command": "englishCatti.configureAlarms",
+        "title": "English CATTI: Configure Daily Alarms",
+        "category": "English CATTI"
+      },
+      {
+        "command": "englishCatti.installOSAlarms",
+        "title": "English CATTI: Install Windows System Alarms",
+        "category": "English CATTI"
       }
     ],
     "keybindings": [
@@ -40,7 +55,28 @@
         "key": "ctrl+alt+e",
         "when": "editorTextFocus || !editorTextFocus"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "English CATTI",
+      "properties": {
+        "englishCatti.alarms.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "启用 VS Code 内每日提醒（当你打开 VS Code 时会到点弹通知）"
+        },
+        "englishCatti.alarms.times": {
+          "type": "array",
+          "default": ["10:00", "15:00", "20:00"],
+          "items": { "type": "string", "pattern": "^([01]?\\d|2[0-3]):[0-5]\\d$" },
+          "description": "每日提醒时间（24 小时制，HH:MM）。默认 10:00 / 15:00 / 20:00"
+        },
+        "englishCatti.alarms.skipIfDone": {
+          "type": "boolean",
+          "default": true,
+          "description": "如果当日新学目标已达成（10 词）并且待复习清空，跳过该次提醒"
+        }
+      }
+    }
   },
   "scripts": {
     "compile": "tsc -p ./",

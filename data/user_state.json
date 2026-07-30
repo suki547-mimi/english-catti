@@ -1,7 +1,7 @@
 {
   "version": 2,
   "created_at": "2026-07-30T07:46:20.217Z",
-  "updated_at": "2026-07-30T09:12:39.800Z",
+  "updated_at": "2026-07-30T09:26:59.573Z",
   "words": {
     "1815da7d5abcad3e": {
       "id": "1815da7d5abcad3e",
@@ -338,20 +338,23 @@
       "score_reviewed": 0
     }
   },
-  "sessions": [],
-  "currentLearnSession": {
-    "wordIds": [
-      "877c74cb25872046",
-      "b2fc0701191c6d5b",
-      "48a05c0b9e91f6a3",
-      "e5a01ec3a2f5c21e",
-      "28694b5d6e175207",
-      "beede44e864b82ef",
-      "084ad69de91bdd44"
-    ],
-    "idx": 6,
-    "known": 5,
-    "unknown": 1,
-    "startedAt": "2026-07-30T08:49:34.991Z"
-  }
+  "sessions": [
+    {
+      "at": "2026-07-30T09:26:59.572Z",
+      "mode": "learn",
+      "gate": 1,
+      "word_ids": [
+        "877c74cb25872046",
+        "b2fc0701191c6d5b",
+        "48a05c0b9e91f6a3",
+        "e5a01ec3a2f5c21e",
+        "28694b5d6e175207",
+        "beede44e864b82ef",
+        "084ad69de91bdd44"
+      ],
+      "correct": 5,
+      "incorrect": 2
+    }
+  ],
+  "currentLearnSession": null
 }

@@ -1,9 +1,13 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
-import { openMainPanel } from './panel';
+import { openMainPanel, maybeAutoGenerateReading } from './panel';
+import { refreshAlarms, configureAlarmsInteractive, installOSAlarms } from './alarms';
 
 export function activate(context: vscode.ExtensionContext) {
+  const ws = vscode.workspace.workspaceFolders?.[0];
+  const dataRoot = ws?.uri.fsPath;
+
   context.subscriptions.push(
     vscode.commands.registerCommand('englishCatti.open', () => {
       openMainPanel(context, 'browse');
@@ -17,6 +21,15 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.commands.registerCommand('englishCatti.stats', () => {
       openMainPanel(context, 'stats');
     }),
+    vscode.commands.registerCommand('englishCatti.reading', () => {
+      openMainPanel(context, 'reading');
+    }),
+    vscode.commands.registerCommand('englishCatti.configureAlarms', () => {
+      configureAlarmsInteractive(context, dataRoot);
+    }),
+    vscode.commands.registerCommand('englishCatti.installOSAlarms', () => {
+      installOSAlarms(dataRoot);
+    }),
   );
 
   // Status bar item — one-click open.
@@ -28,11 +41,27 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(statusBar);
 
   // Auto-open panel if this workspace has our data files.
-  const ws = vscode.workspace.workspaceFolders?.[0];
   if (ws && fs.existsSync(path.join(ws.uri.fsPath, 'data', 'unified_vocab.json'))) {
     // Delay slightly so it doesn't clash with restore-panel-state
     setTimeout(() => openMainPanel(context, 'learn'), 800);
+    // Kick off background reading-corner generation so articles are ready
+    // by the time the user opens the tab. Delay ~3s to let workspace settle.
+    setTimeout(() => {
+      maybeAutoGenerateReading(context, ws.uri.fsPath).catch((e) =>
+        console.warn('maybeAutoGenerateReading failed:', e));
+    }, 3000);
   }
+
+  // Schedule daily VS Code-internal alarms. Refires whenever the user changes
+  // englishCatti.alarms.* settings.
+  refreshAlarms(context, dataRoot);
+  context.subscriptions.push(
+    vscode.workspace.onDidChangeConfiguration((e) => {
+      if (e.affectsConfiguration('englishCatti.alarms')) {
+        refreshAlarms(context, dataRoot);
+      }
+    })
+  );
 
   console.log('English CATTI extension activated.');
 }

@@ -232,42 +232,52 @@ export interface ReadingArticle {
   created_at: string;
 }
 
-/** Generate 3-5 short reading pieces (青年文摘 style) that weave in a set of
- *  review-target words. Returns an array of articles (may be empty on error). */
+/** Generate 3-5 short reading pieces (青年文摘 style). Vocab is used as a
+ *  gentle hint pool, NOT a hard requirement — the prompt prioritizes literary
+ *  quality over cramming target words. Returns { items, error?: string }. */
 export async function generateReadingArticles(
   reviewWords: Array<{ en: string; zh: string }>,
   extraWords: Array<{ en: string; zh: string }> = [],
   count = 4,
-): Promise<ReadingArticle[]> {
+): Promise<{ items: ReadingArticle[]; error?: string }> {
   try {
     const model = await getModel();
-    if (!model) { return []; }
-    const vocabList = [...reviewWords, ...extraWords]
-      .slice(0, 30)
-      .map((w) => `- ${w.en} (${w.zh})`)
-      .join('\n');
+    if (!model) { return { items: [], error: '未找到可用的 Copilot 语言模型（请先登录 GitHub Copilot）。' }; }
+    // Pick a small, high-signal vocab pool as gentle hint (max 12 words)
+    const hintPool = [...reviewWords.slice(0, 8), ...extraWords.slice(0, 4)]
+      .filter((w) => w && w.en && /^[a-zA-Z\s\-']{2,}$/.test(w.en));
+    const vocabList = hintPool.length
+      ? hintPool.map((w) => `- ${w.en} (${w.zh})`).join('\n')
+      : '(暂无——请自由发挥)';
+    const themes = ['life', 'reflection', 'travel', 'growth', 'family', 'career', 'observation', 'relationship'];
+    const seedTheme = themes[Math.floor(Math.random() * themes.length)];
     const prompt =
-      `你是一位英语学习内容作者。请为一名 CATTI 2 笔译目标的中国学习者创作 ${count} 篇短文，` +
-      `风格类似《青年文摘》——温和、真诚、有小小的思考或触动，可以是生活片段、旅行感悟、成长小事、` +
-      `观察随笔、职场反思、亲情故事等。每篇 250-400 词，约 4-6 分钟阅读时长。\n\n` +
-      `**必须**尽量自然地使用以下复习词汇（每篇 3-6 个即可，不必全部塞进去）：\n${vocabList}\n\n` +
-      `每篇文章须：\n` +
-      `- 有一个吸引人的英文标题（title）\n` +
-      `- 主题标签 theme：从 life / reflection / travel / growth / family / career / observation / relationship 里挑一个\n` +
-      `- 分成 8-16 个短句（每句独立成行），每句配备中文翻译（zh）供后续按需查看\n` +
-      `- 语言地道，句式多样（长短结合），避免堆砌生词\n` +
-      `- vocab_used 里列出这篇里实际用到的目标词（英文，小写）\n\n` +
-      `只输出一段 JSON 数组，不要 markdown 代码围栏，不要额外文字。格式示例：\n` +
+      `你是一位优秀的英语学习内容作者，风格接近《青年文摘》《读者》《The New York Times · Modern Love》。\n\n` +
+      `请为一名 CATTI 2-3 水平的中国学习者创作 ${count} 篇短文。\n\n` +
+      `**最重要的原则**：\n` +
+      `1. **质量第一**。宁可完全不用下面提供的词汇，也不要生硬拼凑。这些词汇只是"可选择性调味料"，不是"必须完成的清单"。\n` +
+      `2. 每篇文章要有真实的感受、洞察、或触动的瞬间——不是编造的"励志故事"，而是让读者读完可以静静回味的那种小文。\n` +
+      `3. 语言地道、干净、有节奏感。**长短句结合**，善用平实的动词，避免形容词堆砌。\n` +
+      `4. 题材尽量**多样化**（每篇不同主题）：其中一篇建议从主题 "${seedTheme}" 开始想。\n\n` +
+      `**可选**参考词汇（如果自然，用其中 1-4 个即可；不自然就完全不用）：\n${vocabList}\n\n` +
+      `每篇结构：\n` +
+      `- title：吸引人的英文标题（不要用感叹号、不要老套的"the power of X"套路）\n` +
+      `- theme：从这 8 个里挑一个：${themes.join(' / ')}\n` +
+      `- minutes：预估阅读时间 (4-6)\n` +
+      `- sentences：数组，10-16 个短句，每个 { "en": "...", "zh": "..." }，zh 是自然流畅的翻译（不是硬直译）\n` +
+      `- vocab_used：这篇里实际用到的建议词汇（英文小写；如果没用就是空数组）\n\n` +
+      `**输出**：只输出一段 JSON 数组。不要 markdown 代码围栏，不要任何解释性文字，直接以 \`[\` 开头，以 \`]\` 结尾。\n` +
+      `格式示例（只是示例，不要照抄内容）：\n` +
       `[\n` +
       `  {\n` +
       `    "title": "The Morning Light",\n` +
       `    "theme": "reflection",\n` +
       `    "minutes": 5,\n` +
       `    "sentences": [\n` +
-      `      {"en": "I woke up to a gray sky.", "zh": "我在灰蒙蒙的天空下醒来。"},\n` +
-      `      {"en": "It felt like the world was holding its breath.", "zh": "仿佛世界屏住了呼吸。"}\n` +
+      `      {"en": "I woke up before the alarm.", "zh": "闹钟没响我就醒了。"},\n` +
+      `      {"en": "The light was thin and gray, like a memory that has been washed too many times.", "zh": "光线薄而灰，像被反复洗过的记忆。"}\n` +
       `    ],\n` +
-      `    "vocab_used": ["gray", "breath"]\n` +
+      `    "vocab_used": ["thin", "memory"]\n` +
       `  }\n` +
       `]`;
     const messages = [vscode.LanguageModelChatMessage.User(prompt)];
@@ -275,14 +285,13 @@ export async function generateReadingArticles(
     const response = await model.sendRequest(messages, {}, cts.token);
     const raw = await collectResponse(response);
     log(`[generateReadingArticles] raw length: ${raw.length}`);
-    // parseJson only handles objects; do a manual array extraction here.
     const arr = extractJsonArray(raw);
     if (!arr) {
-      log(`[generateReadingArticles] parse failed, raw head: ${raw.slice(0, 200)}`);
-      return [];
+      log(`[generateReadingArticles] parse failed. Head: ${raw.slice(0, 400)}`);
+      return { items: [], error: `LLM 返回未能解析为 JSON 数组（原文前 200 字：${raw.slice(0, 200)}…）` };
     }
     const now = new Date().toISOString();
-    return arr.map((a: any, i: number) => ({
+    const items = arr.map((a: any, i: number) => ({
       id: `${Date.now()}-${i}`,
       title: String(a.title || `Untitled ${i + 1}`).trim(),
       theme: String(a.theme || 'life').trim(),
@@ -292,10 +301,14 @@ export async function generateReadingArticles(
         : [],
       vocab_used: Array.isArray(a.vocab_used) ? a.vocab_used.map((v: any) => String(v).toLowerCase()) : [],
       created_at: now,
-    })).filter((a) => a.sentences.length >= 3);
+    })).filter((a) => a.sentences.length >= 5);
+    if (items.length === 0) {
+      return { items: [], error: `LLM 生成了 ${arr.length} 项，但没有一篇达到最少 5 句的标准。` };
+    }
+    return { items };
   } catch (e: any) {
     log(`[generateReadingArticles] error: ${e.message || e}`);
-    return [];
+    return { items: [], error: `LLM 调用异常: ${e.message || e}` };
   }
 }
 

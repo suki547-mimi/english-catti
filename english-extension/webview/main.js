@@ -350,17 +350,19 @@ function runLearnSession(words) {
     vscode.postMessage({ type: 'saveLearnSession', session: null });
     const doneKnown = session.known, doneUnknown = session.unknown, doneTotal = words.length;
     state.learnSession = null;
-    area.innerHTML = `
-      <div class="card">
-        <h3>本轮结束 ✅</h3>
-        <p>共学 ${doneTotal} 词，认识 ${doneKnown}，不熟 ${doneUnknown}</p>
-        <p class="muted">"认识"的词已进入艾宾浩斯队列（明天开始复习）。</p>
-        <p>
-          <button id="againBtn">再学 10 个（今日还有余力）</button>
-        </p>
-      </div>
-    `;
-    document.getElementById('againBtn').addEventListener('click', () => renderLearn());
+    // Re-render the whole learn tab so header chips ("今日新学 X/10") and the
+    // "继续上次" button update. Then overlay the celebration inside learnArea.
+    renderLearn().then(() => {
+      const a = document.getElementById('learnArea');
+      if (!a) { return; }
+      a.innerHTML = `
+        <div class="card">
+          <h3>本轮结束 ✅</h3>
+          <p>共学 ${doneTotal} 词，认识 ${doneKnown}，不熟 ${doneUnknown}</p>
+          <p class="muted">"认识"的词已进入艾宾浩斯队列（明天开始复习）。</p>
+        </div>
+      `;
+    });
   }
 
   async function showCard() {
@@ -812,8 +814,13 @@ async function renderReview() {
 async function renderEbbinghausOverview() {
   const body = document.getElementById('reviewBody');
   const due = await fetchEbbinghausDue(200);
+  const summary = await fetchUserSummary();
+  const totalLearned = summary?.total_learned || 0;
   const byGate = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
   for (const d of due) { byGate[d.gate] = (byGate[d.gate] || 0) + 1; }
+  const emptyHint = totalLearned === 0
+    ? '还没有已学的词。请先去"学习" tab 学几个新词。'
+    : '✨ 今天你新学的词按艾宾浩斯曲线安排在 <b>明天</b> 复习（间隔 1 天）。已到期的词会自动出现在这里。';
   body.innerHTML = `
     <div class="card">
       <b>今日应复习：${due.length} 词</b>
@@ -822,6 +829,7 @@ async function renderEbbinghausOverview() {
         关卡分布：
         ${[1,2,3,4,5].map(g => `<span style="margin-right:12px">关 ${g}: <b>${byGate[g]||0}</b></span>`).join('')}
       </div>
+      ${due.length === 0 ? `<p class="muted" style="margin-top:10px">${emptyHint}</p>` : ''}
       <p style="margin-top:14px">
         <button id="startEbb" ${due.length === 0 ? 'disabled' : ''}>
           ${due.length === 0 ? '今日没有到期词' : `开始复习（最多 20 个 / 次）`}
@@ -841,15 +849,21 @@ async function renderEbbinghausOverview() {
 async function renderScoreOverview() {
   const body = document.getElementById('reviewBody');
   const pool = await fetchScorePool();
+  const summary = await fetchUserSummary();
+  const totalLearned = summary?.total_learned || 0;
   const avgScore = pool.length ? (pool.reduce((s, p) => s + p.score, 0) / pool.length) : 0;
+  const emptyHint = totalLearned === 0
+    ? '还没有已学的词。请先去"学习" tab 学几个新词。'
+    : `你已学 <b>${totalLearned}</b> 个词，但今天已经全部接触过一遍了 ✨ 明天回来可以接着练。`;
   body.innerHTML = `
     <div class="card">
       <b>可复习池：${pool.length} 词</b>（已学过的词，今天未复习过的）
       <p class="muted" style="margin-top:6px">越低分/低 gate 的词权重越高；每次随机抽 10 个练关 1。</p>
       <p style="margin-top:8px">平均分：<b>${avgScore.toFixed(1)}</b>/100</p>
+      ${pool.length === 0 ? `<p class="muted" style="margin-top:10px">${emptyHint}</p>` : ''}
       <p style="margin-top:14px">
         <button id="startScore" ${pool.length === 0 ? 'disabled' : ''}>
-          ${pool.length === 0 ? '池子空——先去学习一些词' : '开始复习 10 个'}
+          ${pool.length === 0 ? '今日没可练的' : '开始复习 10 个'}
         </button>
       </p>
     </div>
@@ -1054,18 +1068,51 @@ async function renderReadingToday() {
   const box = document.getElementById('readingBody');
   const resp = await callHost('getTodayArticles');
   const items = resp.items || [];
-  if (items.length === 0) {
+  const status = resp.status || { state: 'idle' };
+  if (items.length > 0) { renderArticleList(items); return; }
+  if (status.state === 'running') {
     box.innerHTML = `
       <div class="card">
-        <p>今天还没有生成文章。基于你复习队列里的词生成一批？</p>
-        <p><button id="genArticles">✨ 生成 4 篇短文</button>
-           <span class="muted" style="margin-left:8px">用 Copilot LLM，30-60 秒</span></p>
+        <p>🌀 后台正在为你生成今日短文…</p>
+        <p class="muted">启动时已自动触发，大约 30-60 秒。你可以先往其他 tab 学习，或等在这里。</p>
+        <p><button class="secondary" id="pollAgain">🔄 刷新</button></p>
+      </div>
+    `;
+    document.getElementById('pollAgain').addEventListener('click', () => renderReadingToday());
+    // Auto-poll every 4s
+    if (!readingState.pollTimer) {
+      readingState.pollTimer = setInterval(async () => {
+        if (readingState.sub !== 'today' || readingState.view !== 'list') {
+          clearInterval(readingState.pollTimer); readingState.pollTimer = null; return;
+        }
+        const r = await callHost('getTodayArticles');
+        if ((r.items && r.items.length > 0) || (r.status && r.status.state !== 'running')) {
+          clearInterval(readingState.pollTimer); readingState.pollTimer = null;
+          renderReadingToday();
+        }
+      }, 4000);
+    }
+    return;
+  }
+  if (status.state === 'failed') {
+    box.innerHTML = `
+      <div class="card">
+        <p class="result-bad">❗后台自动生成失败：${escapeHtml(status.error || '未知错误')}</p>
+        <p><button id="genArticles">✨ 手动重新生成 4 篇</button></p>
       </div>
     `;
     document.getElementById('genArticles').addEventListener('click', () => generateReading());
     return;
   }
-  renderArticleList(items);
+  // idle / done-but-empty (e.g. extension just re-installed)
+  box.innerHTML = `
+    <div class="card">
+      <p>今天还没有生成短文。根据你待复习的词生成一批？</p>
+      <p><button id="genArticles">✨ 生成 4 篇短文</button>
+         <span class="muted" style="margin-left:8px">用 Copilot LLM，30-60 秒</span></p>
+    </div>
+  `;
+  document.getElementById('genArticles').addEventListener('click', () => generateReading());
 }
 
 async function renderReadingFavorites(items) {
@@ -1137,8 +1184,15 @@ async function generateReading() {
   const resp = await callHost('generateTodayArticles', { reviewWords, extraWords, count: 4 });
   const items = resp.items || [];
   if (items.length === 0) {
-    box.innerHTML = `<div class="card"><p class="result-bad">生成失败。请检查 Copilot 是否可用。</p>
-      <p><button id="retryGen">重试</button></p></div>`;
+    const errMsg = resp.error || 'Copilot 不可用或返回了非预期格式';
+    box.innerHTML = `<div class="card">
+      <p class="result-bad">❗ 生成失败</p>
+      <p class="muted" style="font-size:12px; white-space:pre-wrap; margin-top:8px">${escapeHtml(errMsg)}</p>
+      <p style="margin-top:12px">
+        <button id="retryGen">🔄 重试</button>
+        <span class="muted" style="margin-left:8px">如反复失败，可打开 View → Output → English CATTI 查看详细日志</span>
+      </p>
+    </div>`;
     document.getElementById('retryGen').addEventListener('click', () => generateReading());
     return;
   }

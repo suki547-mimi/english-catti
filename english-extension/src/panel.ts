@@ -10,6 +10,9 @@ let panel: vscode.WebviewPanel | undefined;
 let store: UserStore | undefined;
 let currentDataRoot: string | undefined;
 
+/** Background reading-corner generation status shared with the webview. */
+let readingGenState: { state: 'idle' | 'running' | 'done' | 'failed'; startedAt?: string; error?: string } = { state: 'idle' };
+
 const VOICE_MAP: Record<string, string> = {
   us: 'en-US-AriaNeural',
   uk: 'en-GB-SoniaNeural',
@@ -73,6 +76,89 @@ function saveFavorites(items: ReadingArticle[]) {
   if (!root) { return; }
   const p = path.join(root, 'favorites.json');
   fs.writeFileSync(p, JSON.stringify(items, null, 2), 'utf8');
+}
+
+/** Fire background TTS generation for every English sentence in every article,
+ *  both US and UK accents. Uses `generateSentenceAudio` which is cached and dedup-safe.
+ *  Runs with a bounded concurrency queue so we don't hammer edge-tts. */
+function prefetchArticleAudio(items: ReadingArticle[]) {
+  if (!items || items.length === 0) { return; }
+  const jobs: Array<{ text: string; accent: 'us' | 'uk' }> = [];
+  for (const a of items) {
+    for (const s of a.sentences || []) {
+      const t = String(s.en || '').trim();
+      if (t && t.length <= 500) {
+        jobs.push({ text: t, accent: 'us' });
+        jobs.push({ text: t, accent: 'uk' });
+      }
+    }
+  }
+  const CONCURRENCY = 3;
+  let cursor = 0;
+  const worker = async () => {
+    while (cursor < jobs.length) {
+      const idx = cursor++;
+      const job = jobs[idx];
+      try { await generateSentenceAudio(job.text, job.accent); } catch { /* ignore */ }
+    }
+  };
+  const workers: Promise<void>[] = [];
+  for (let i = 0; i < CONCURRENCY; i++) { workers.push(worker()); }
+  Promise.all(workers).then(() => {
+    console.log(`[reading] prefetched audio for ${items.length} articles (${jobs.length} tts jobs)`);
+  }).catch(() => { /* ignore */ });
+}
+
+/** Kick off background generation if today's file doesn't exist yet.
+ *  Called on extension activation so articles are ready when the user opens the tab. */
+export async function maybeAutoGenerateReading(context: vscode.ExtensionContext, wsRoot?: string) {
+  const root = wsRoot || currentDataRoot;
+  if (!root) { return; }
+  // Ensure store is available so we can pull review words
+  const localStore = store || new UserStore(path.join(root, 'data'));
+  currentDataRoot = root;
+  const dailyDir = path.join(root, 'data', 'reading_corner', 'daily');
+  fs.mkdirSync(dailyDir, { recursive: true });
+  const p = path.join(dailyDir, `${todayKey()}.json`);
+  if (fs.existsSync(p)) {
+    readingGenState = { state: 'done' };
+    return;
+  }
+  if (readingGenState.state === 'running') { return; }
+  readingGenState = { state: 'running', startedAt: new Date().toISOString() };
+
+  // Pull vocab pool the same way the webview would (via store + local unified_vocab)
+  const vocabPath = path.join(root, 'data', 'unified_vocab.json');
+  let vocabById: Record<string, { en: string; zh: string }> = {};
+  try {
+    const raw = fs.readFileSync(vocabPath, 'utf8');
+    const arr = JSON.parse(raw) as Array<{ id: string; en: string; zh: string }>;
+    for (const w of arr) { vocabById[w.id] = { en: w.en, zh: w.zh }; }
+  } catch { /* ignore */ }
+  const due = localStore.getEbbinghausDue(50);
+  const reviewWords = due.map((d) => vocabById[d.wordId]).filter((w) => w && w.en && /^[a-zA-Z\s\-']+$/.test(w.en));
+  const learnedIds = localStore.learnedIds().slice(0, 20);
+  const extraWords = learnedIds.map((id) => vocabById[id]).filter((w) => w && w.en && /^[a-zA-Z\s\-']+$/.test(w.en));
+
+  // Fire and forget — result cached to disk regardless
+  (async () => {
+    try {
+      const result = await generateReadingArticles(reviewWords, extraWords, 4);
+      if (result.items.length > 0) {
+        fs.writeFileSync(p, JSON.stringify(result.items, null, 2), 'utf8');
+        readingGenState = { state: 'done' };
+        // Immediately start pre-generating US/UK audio for every sentence.
+        prefetchArticleAudio(result.items);
+      } else {
+        readingGenState = { state: 'failed', error: result.error || '未生成任何文章' };
+      }
+      // Poke the webview if it's open
+      if (panel) { panel.webview.postMessage({ type: 'readingAutoGenDone', status: readingGenState }); }
+    } catch (e: any) {
+      readingGenState = { state: 'failed', error: e?.message || String(e) };
+      if (panel) { panel.webview.postMessage({ type: 'readingAutoGenDone', status: readingGenState }); }
+    }
+  })();
 }
 
 /** Generate one sentence mp3 with edge-tts and cache under
@@ -317,14 +403,23 @@ export async function openMainPanel(context: vscode.ExtensionContext, mode: stri
       // ---------- Reading Corner ----------
       case 'getTodayArticles': {
         const items = loadTodayArticles();
-        panel.webview.postMessage({ type: 'todayArticles', requestId: msg.requestId, items });
+        const status = readingGenState;
+        panel.webview.postMessage({ type: 'todayArticles', requestId: msg.requestId, items, status });
         break;
       }
       case 'generateTodayArticles': {
-        // reviewWords + extraWords come from webview (it knows what's due)
-        const items = await generateReadingArticles(msg.reviewWords || [], msg.extraWords || [], msg.count || 4);
-        if (items.length > 0) { saveTodayArticles(items); }
-        panel.webview.postMessage({ type: 'todayArticles', requestId: msg.requestId, items });
+        const result = await generateReadingArticles(msg.reviewWords || [], msg.extraWords || [], msg.count || 4);
+        if (result.items.length > 0) {
+          saveTodayArticles(result.items);
+          prefetchArticleAudio(result.items);
+        }
+        panel.webview.postMessage({
+          type: 'todayArticles',
+          requestId: msg.requestId,
+          items: result.items,
+          error: result.error,
+          status: { state: result.items.length > 0 ? 'done' : 'failed', error: result.error },
+        });
         break;
       }
       case 'getFavoriteArticles': {
