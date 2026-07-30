@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src {{CSP_SOURCE}} data:; media-src {{CSP_SOURCE}}; script-src {{CSP_SOURCE}}; style-src {{CSP_SOURCE}} 'unsafe-inline'; font-src {{CSP_SOURCE}}; connect-src {{CSP_SOURCE}}">
+  <title>English CATTI</title>
+  <link rel="stylesheet" href="{{CSS}}">
+</head>
+<body data-mode="{{MODE}}" data-base="{{DATA_BASE}}">
+  <div id="app">
+    <header>
+      <div id="tabs" role="tablist">
+        <button class="tab" data-tab="browse" role="tab">📖 词本</button>
+        <button class="tab" data-tab="learn" role="tab">🌱 学习</button>
+        <button class="tab" data-tab="review" role="tab">🔁 复习</button>
+        <button class="tab" data-tab="stats" role="tab">📊 统计</button>
+      </div>
+    </header>
+    <main id="content">
+      <p class="loading">加载词库中…</p>
+    </main>
+  </div>
+  <script src="{{JS}}"></script>
+</body>
+</html>

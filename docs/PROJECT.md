@@ -36,7 +36,9 @@
 | 外部骨架 | CATTI 3 口译 5,000 词（GitHub 开源 CSV，含 12 类话题） |
 | 张培基 apkg | **2,212 中英对齐句** + 1,033 英文短句（明文可读） |
 | 双语句总量 | 白皮书 101 + ChinaDaily 410 + MFA 278 + 张培基 2,212 = **3,001**（去重后 **1,549**） |
-| 术语总量 | 本地 6,038 + ChinaDaily 580 + CATTI3 5,000 → 合并去重 **11,021** entries / **5,778 unique headword** |
+| 术语总量 | 合并去重后 **18,193** entries / **12,950 unique headword**（本地 + ChinaDaily + CATTI3 + Google 10k 补量）|
+| 音频库 | edge-tts 生成中：17,469 unique EN × 2 accents = 34,938 mp3（后台跑，预计 5-6h 完成）|
+| VS Code 扩展 | ✅ M0 骨架完成 `english-extension/`，F5 可跑，含 词本/学习/复习/统计 4 tab，接入 vscode.lm |
 | Git 备份 | ✅ `github.com/suki547-mimi/english-catti` 已 push；日常 `.\tools\backup.ps1` |
 | 发音库 | 方案定：edge-tts 主 + Free Dict API 补 + 有道兜底（未生成） |
 | 网页词本 | ❌ 未开工 |
@@ -54,7 +56,7 @@
 |---|---|---|---|
 | ~~Q1~~ | ~~**内容源方向**~~ | ~~B 方案~~ | ✅ **2026-07-29 定：B 方案**。三源并行：张培基散文 / 外交部记者会 / Economist 双语。词汇量按 CATTI 2 + ATA 标准 |
 | ~~Q1a~~ | ~~**词汇量目标**~~ | ~~15,000-18,000 独立英文 headword~~ | ✅ **2026-07-29 定**：目标 15-18k headword，每词 1-3 释义 + 1 真实例句 |
-| Q1b | **词汇骨架**：CATTI 2 大纲词表纯文本版 GitHub 上被限速搜索没找到；ATA 无公开词表 | 用 CATTI 3 五千词 + COCA 15k lemma 表兜底，找到 CATTI 2 官方随时补 | ⏳ |
+| ~~Q1b~~ | ~~**词汇骨架**~~ | ~~CATTI 3 + COCA 15k 兜底~~ | ✅ **2026-07-29 定**：Google 10k 补量，headword 从 5,778 → 12,950（[augment_google10k.py](../tools/augment_google10k.py)）；CATTI 2 官方词表若后续找到再合并 |
 | ~~Q2~~ | ~~**CATTI 目标时间线**~~ | ~~3 口先~~ | ✅ **2026-07-29 定**：不设截止日期，**每天 10 词，作长期基础** |
 | ~~Q3~~ | ~~**是否规划国际考试**~~ | ~~CATTI 2 笔过后再看~~ | ✅ **2026-07-29 定**：**暂不规划**，专注 CATTI |
 | ~~Q4~~ | ~~**关 3 近义词辨析**~~ | ~~改选修~~ | ✅ **2026-07-29 定**：关 3 **改成"搭配填空 collocation cloze"**（详见功能 4） |
@@ -62,7 +64,7 @@
 | ~~Q6~~ | ~~**前端技术栈**~~ | ~~VS Code Webview~~ | ✅ **2026-07-29 定**：Webview 内嵌 SPA（技术栈可选 Vanilla/React/Vue），完全支持交互（tab / 卡片 / 音频 / 拖拽） |
 | Q7 | **CATTI PDF OCR 补词** | 推迟 | ⏳ |
 | ~~Q8~~ | ~~**数据备份策略**~~ | ~~git 私仓~~ | ✅ **2026-07-29 完成**：初始 push 到 `github.com/suki547-mimi/english-catti`；日常用 `tools\backup.ps1` |
-| Q9 | **发音库** | edge-tts 主源 + Free Dict API 补 + 有道兜底（≈300-400 MB for 15-18k 词） | ⏳（等词表定型再一次跑） |
+| ~~Q9~~ | ~~**发音库**~~ | ~~edge-tts~~ | ✅ **2026-07-29 夜生成**：17,469 unique EN × 2 accents = 34,938 mp3，约 350 MB；[generate_audio.py](../tools/generate_audio.py) 支持增量恢复 |
 | Q10 | **词库合并/去重策略**：本地 6,038 + ChinaDaily 580 + CATTI3 5,000 + 张培基 headword 提取 后如何去重？优先级？| 建议合并 key = `(headword.lower(), zh.lower())`；同 key 保留最丰富的一条，合并 `sources[]` | ⏳ |
 | Q11 | **Economist 备选**：原源下线，怎么补？| 建议：抓 chinadaily 双语新闻栏 或 直接抓 fmprc 白皮书英/中版 | ⏳ |
 
@@ -439,4 +441,5 @@ git reset --hard <commit-hash>  # 危险！彻底回退到某天（会丢失之�
 | 2026-07-29 | **重大架构调整**：功能 1+3+4 改为 **VS Code 扩展 + Webview** 形态，以复用 Copilot 免费额度做 LLM 判分 |
 | 2026-07-29 | Git 私仓建立：MinGit 装到用户目录、初始 push 到 `github.com/suki547-mimi/english-catti`（70 文件 / 35 万行）；Q5+Q6+Q8 全部关掉 |
 | 2026-07-29 | **词库合并完成**：三源去重合并 → 11,021 entries / **5,778 unique headword** / 1,549 双语句；[merge_all.py](../tools/merge_all.py) |
+| 2026-07-29 夜 | **AFK 四合一开工**：<br>• A: Google 10k 补量 → 词库涨到 18,193 entries / **12,950 unique headword**（[augment_google10k.py](../tools/augment_google10k.py)）<br>• B: CATTI 2 词表再搜 GitHub 又限速，暂无结果<br>• C: [generate_audio.py](../tools/generate_audio.py) 启动，17,469 unique EN × 2 accents = 34,938 mp3 后台跑<br>• D: [english-extension/](../english-extension/) M0 骨架完成，4 tab + 关 1 演示 + vscode.lm 判分 |
 

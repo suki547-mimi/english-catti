@@ -1,0 +1,55 @@
+{
+  "name": "english-catti",
+  "displayName": "English CATTI",
+  "description": "Personal CATTI 2/3 vocabulary trainer with SRS + Copilot-graded assessments",
+  "version": "0.0.1",
+  "publisher": "suki547-mimi",
+  "private": true,
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": ["Education", "Other"],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "englishCatti.open",
+        "title": "English CATTI: Open Vocabulary Trainer",
+        "category": "English CATTI"
+      },
+      {
+        "command": "englishCatti.learn",
+        "title": "English CATTI: Start Learning Session (10 new words)",
+        "category": "English CATTI"
+      },
+      {
+        "command": "englishCatti.review",
+        "title": "English CATTI: Start Review Session",
+        "category": "English CATTI"
+      },
+      {
+        "command": "englishCatti.stats",
+        "title": "English CATTI: Show Statistics",
+        "category": "English CATTI"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "englishCatti.open",
+        "key": "ctrl+alt+e",
+        "when": "editorTextFocus || !editorTextFocus"
+      }
+    ]
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "vscode:prepublish": "npm run compile"
+  },
+  "devDependencies": {
+    "@types/node": "^18.19.0",
+    "@types/vscode": "^1.90.0",
+    "typescript": "^5.4.0"
+  }
+}
