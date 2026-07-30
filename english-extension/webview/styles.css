@@ -136,6 +136,23 @@ textarea { width: 100%; min-height: 60px; }
 }
 .audio-btn:hover { background: var(--vscode-toolbar-hoverBackground); }
 
+/* ---------- IPA ---------- */
+.ipa-line {
+  margin: 6px 0 2px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 14px;
+  color: var(--vscode-textLink-foreground);
+  font-family: "Charis SIL", "DejaVu Sans", "Segoe UI", serif;
+}
+.ipa { opacity: 0.9; }
+.quiz-card .ipa-line {
+  justify-content: center;
+  margin-top: -4px;
+  margin-bottom: 8px;
+}
+
 /* ---------- Quiz ---------- */
 .quiz-card { padding: 20px; text-align: center; }
 .quiz-target { font-size: 26px; font-weight: 600; margin-bottom: 12px; }
@@ -154,3 +171,33 @@ textarea { width: 100%; min-height: 60px; }
 /* ---------- Utility ---------- */
 .hidden { display: none !important; }
 .muted { color: var(--vscode-descriptionForeground); }
+
+/* ---------- Calendar ---------- */
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));
+  gap: 4px;
+}
+.cal-cell {
+  aspect-ratio: 1;
+  border-radius: 4px;
+  padding: 4px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid transparent;
+  transition: border-color 0.15s;
+}
+.cal-cell:hover { border-color: var(--vscode-focusBorder); }
+.cal-day {
+  font-size: 11px;
+  color: var(--vscode-descriptionForeground);
+  text-align: right;
+}
+.cal-count {
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+  color: var(--vscode-editor-foreground);
+}
