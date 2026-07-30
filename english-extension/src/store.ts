@@ -51,6 +51,14 @@ export interface Session {
   incorrect?: number;
 }
 
+export interface LearnSessionState {
+  wordIds: string[];
+  idx: number;
+  known: number;
+  unknown: number;
+  startedAt: string;
+}
+
 export interface UserState {
   version: number;
   created_at: string;
@@ -58,6 +66,7 @@ export interface UserState {
   words: Record<string, WordState>;
   daily: Record<string, DailyStats>;
   sessions: Session[];
+  currentLearnSession?: LearnSessionState | null;
 }
 
 const EMPTY_STATE = (): UserState => ({
@@ -67,6 +76,7 @@ const EMPTY_STATE = (): UserState => ({
   words: {},
   daily: {},
   sessions: [],
+  currentLearnSession: null,
 });
 
 function isoDate(d: Date = new Date()): string {
@@ -83,11 +93,37 @@ function addDays(base: string | Date, days: number): string {
 
 export class UserStore {
   private path: string;
+  private dataRoot: string;
   private state: UserState;
 
   constructor(dataRoot: string) {
+    this.dataRoot = dataRoot;
     this.path = path.join(dataRoot, 'user_state.json');
+    this.backupIfNeeded();
     this.state = this.load();
+  }
+
+  /** Snapshot user_state.json to a dated file if today's backup doesn't exist.
+   *  Keeps the most recent 30 dated backups. */
+  private backupIfNeeded() {
+    try {
+      if (!fs.existsSync(this.path)) { return; }
+      const today = isoDate();
+      const backupName = `user_state.backup-${today}.json`;
+      const backupPath = path.join(this.dataRoot, backupName);
+      if (fs.existsSync(backupPath)) { return; }   // already backed up today
+      fs.copyFileSync(this.path, backupPath);
+      // Prune old backups beyond 30
+      const files = fs.readdirSync(this.dataRoot)
+        .filter((f) => f.startsWith('user_state.backup-') && f.endsWith('.json'))
+        .sort();
+      const toDelete = files.slice(0, Math.max(0, files.length - 30));
+      for (const f of toDelete) {
+        try { fs.unlinkSync(path.join(this.dataRoot, f)); } catch { /* ignore */ }
+      }
+    } catch (e) {
+      console.error('backup failed', e);
+    }
   }
 
   private load(): UserState {
@@ -95,16 +131,30 @@ export class UserStore {
       if (fs.existsSync(this.path)) {
         const raw = fs.readFileSync(this.path, 'utf8');
         const parsed = JSON.parse(raw) as UserState;
-        if (parsed && (parsed.version === 1 || parsed.version === 2)) {
-          if (parsed.version === 1) {
-            // Old schema was simpler — drop word state, keep daily+sessions
-            return { ...EMPTY_STATE(), sessions: parsed.sessions || [], daily: parsed.daily || {} };
-          }
-          return parsed;
+        if (parsed && parsed.version === 2) { return parsed; }
+        if (parsed && parsed.version === 1) {
+          // v1 → v2 migration: keep daily + sessions, discard word states (v1 had a
+          // different word schema). Word states will just be rebuilt as user reviews.
+          return { ...EMPTY_STATE(), sessions: parsed.sessions || [], daily: parsed.daily || {} };
         }
       }
     } catch (e) {
       console.error('user_state load failed', e);
+      // Try to recover from the most recent backup
+      try {
+        const files = fs.readdirSync(this.dataRoot)
+          .filter((f) => f.startsWith('user_state.backup-') && f.endsWith('.json'))
+          .sort();
+        if (files.length > 0) {
+          const latest = path.join(this.dataRoot, files[files.length - 1]);
+          const raw = fs.readFileSync(latest, 'utf8');
+          const parsed = JSON.parse(raw) as UserState;
+          if (parsed && parsed.version === 2) {
+            console.warn(`Recovered from backup: ${files[files.length - 1]}`);
+            return parsed;
+          }
+        }
+      } catch { /* ignore recovery failure */ }
     }
     return EMPTY_STATE();
   }
@@ -164,6 +214,7 @@ export class UserStore {
     }
     const day = this.ensureDaily(today);
     if (known && wasNew) { day.new_words += 1; }
+    this.save();
   }
 
   finishLearnSession(wordIds: string[], known: number, unknown: number) {
@@ -193,7 +244,14 @@ export class UserStore {
         w.next_review_at = null;
         w.next_review_gate = 5;
       } else {
-        w.next_review_at = w.learned_at ? addDays(w.learned_at, EBBINGHAUS_INTERVALS[w.reviews_done]) : addDays(today, 1);
+        // Next review uses the ORIGINAL gap between adjacent Ebbinghaus intervals,
+        // anchored to TODAY (i.e. the actual pass day). This preserves the spacing
+        // effect even after delays from failed retests, and prevents the "cascade"
+        // where all delayed reviews collapse to a single day.
+        const prevInterval = w.reviews_done > 0 ? EBBINGHAUS_INTERVALS[w.reviews_done - 1] : 0;
+        const nextInterval = EBBINGHAUS_INTERVALS[w.reviews_done];
+        const gap = Math.max(1, nextInterval - prevInterval);
+        w.next_review_at = addDays(today, gap);
         w.next_review_gate = EBBINGHAUS_GATES[w.reviews_done];
       }
     } else {
@@ -207,6 +265,7 @@ export class UserStore {
     day.reviewed += 1;
     day.ebbinghaus_reviewed += 1;
     if (pass) { day.correct += 1; } else { day.incorrect += 1; }
+    this.save();
   }
 
   finishEbbinghausSession(wordIds: string[], correct: number, incorrect: number) {
@@ -234,6 +293,7 @@ export class UserStore {
     day.reviewed += 1;
     day.score_reviewed += 1;
     if (pass) { day.correct += 1; } else { day.incorrect += 1; }
+    this.save();
   }
 
   finishScoreSession(wordIds: string[], correct: number, incorrect: number) {
@@ -247,6 +307,16 @@ export class UserStore {
   /** All words IDs the user has learned (gate >= 1). Used by webview to skip in "new" pool. */
   learnedIds(): string[] {
     return Object.values(this.state.words).filter((w) => w.gate >= 1).map((w) => w.id);
+  }
+
+  /** Persist the in-progress learn session so a window reload can resume it. */
+  saveLearnSession(s: LearnSessionState | null): void {
+    this.state.currentLearnSession = s;
+    this.save();
+  }
+
+  getLearnSession(): LearnSessionState | null {
+    return this.state.currentLearnSession || null;
   }
 
   /** Ebbinghaus queue: due today or earlier, most overdue first. */

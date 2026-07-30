@@ -18,13 +18,15 @@ let sentences = [];
 let audioIndex = {};
 /** @type {Object<string, {ipa:string, us:string, uk:string}>} */
 let phonetics = {};
+/** @type {Object<string, {us?:string, uk?:string, zh?:string}>} */
+let sentenceAudioIndex = {};
 
 let state = {
   tab: 'browse',
   letter: 'A',
   search: '',
   topicFilter: '',
-  learnQueue: null,
+  learnSession: null,          // { wordIds:[], idx, known, unknown, startedAt }
   reviewQueue: null,
 };
 
@@ -38,11 +40,12 @@ async function loadJSON(name) {
 
 async function boot() {
   try {
-    const [v, s, a, p] = await Promise.all([
+    const [v, s, a, p, sa] = await Promise.all([
       loadJSON('unified_vocab.json'),
       loadJSON('unified_sentences.json').catch(() => []),
       loadJSON('audio_index.json').catch(() => ({})),
       loadJSON('phonetics.json').catch(() => ({})),
+      loadJSON('sentence_audio_index.json').catch(() => ({})),
     ]);
     // Filter: keep only word/phrase, drop sentence-like entries (long, or classified as sentence)
     vocab = v.filter(isWordOrPhrase).map(cleanEntry).filter(isCleanEntry);
@@ -50,6 +53,15 @@ async function boot() {
     sentences = s;
     audioIndex = a;
     phonetics = p;
+    sentenceAudioIndex = sa;
+
+    // Restore any in-progress learn session from disk (survives Reload Window).
+    try {
+      const m = await callHost('getLearnSession');
+      if (m && m.session && m.session.wordIds && m.session.idx < m.session.wordIds.length) {
+        state.learnSession = m.session;
+      }
+    } catch { /* ignore */ }
 
     // Wire tabs
     for (const btn of document.querySelectorAll('.tab')) {
@@ -146,16 +158,43 @@ function phoneticFor(en) {
   return null;
 }
 
-/** Render inline IPA badges for a word if data available. */
+/** Split a phrase into content tokens (drop stopwords). */
+const IPA_STOP = new Set(['a','an','the','to','of','in','on','for','with','by','at','and','or','not','no','as','be','is','are','was','were','this','that','these','those','from','into','upon','which','who','whom','what','when','where','how','why','its','his','her','their','our','my','your','him','them']);
+function contentTokens(en) {
+  const raw = String(en || '').match(/[a-zA-Z][a-zA-Z\-']+/g) || [];
+  return raw.map((t) => t.toLowerCase()).filter((t) => !IPA_STOP.has(t) && t.length >= 2);
+}
+
+/** Render inline IPA badges. For single word: US + UK line.
+ *  For phrase: one line per word showing that word's IPA. */
 function phoneticBadges(en) {
-  const p = phoneticFor(en);
-  if (!p) { return ''; }
-  const us = p.us || p.ipa;
-  const uk = p.uk || p.ipa;
-  const parts = [];
-  if (us) { parts.push(`<span class="ipa" title="美音音标">🇺🇸 ${escapeHtml(us)}</span>`); }
-  if (uk && uk !== us) { parts.push(`<span class="ipa" title="英音音标">🇬🇧 ${escapeHtml(uk)}</span>`); }
-  return parts.length ? `<div class="ipa-line">${parts.join('')}</div>` : '';
+  const tokens = contentTokens(en);
+  if (tokens.length === 0) { return ''; }
+  if (tokens.length === 1) {
+    const p = phonetics[tokens[0]];
+    if (!p || !p.ipa) { return ''; }
+    const us = p.us || p.ipa;
+    const uk = p.uk || p.ipa;
+    const parts = [];
+    if (us) { parts.push(`<span class="ipa" title="美音">🇺🇸 ${escapeHtml(us)}</span>`); }
+    if (uk && uk !== us) { parts.push(`<span class="ipa" title="英音">🇬🇧 ${escapeHtml(uk)}</span>`); }
+    return parts.length ? `<div class="ipa-line">${parts.join('')}</div>` : '';
+  }
+  // Multi-word phrase: per-word row
+  const rows = [];
+  for (const t of tokens) {
+    const p = phonetics[t];
+    if (!p || !p.ipa) { continue; }
+    const us = p.us || p.ipa;
+    const uk = p.uk || p.ipa;
+    const usPart = us ? `🇺🇸 ${escapeHtml(us)}` : '';
+    const ukPart = (uk && uk !== us) ? `🇬🇧 ${escapeHtml(uk)}` : '';
+    rows.push(`<div class="ipa-word">
+      <span class="ipa-w-en">${escapeHtml(t)}</span>
+      <span class="ipa-w-p">${usPart}${usPart && ukPart ? ' · ' : ''}${ukPart}</span>
+    </div>`);
+  }
+  return rows.length ? `<div class="ipa-phrase">${rows.join('')}</div>` : '';
 }
 
 function wireAudioButtons(root) {
@@ -178,6 +217,7 @@ function render() {
   if (state.tab === 'browse') { renderBrowse(); }
   else if (state.tab === 'learn') { renderLearn(); }
   else if (state.tab === 'review') { renderReview(); }
+  else if (state.tab === 'reading') { renderReading(); }
   else if (state.tab === 'stats') { renderStats(); }
 }
 
@@ -226,56 +266,112 @@ function renderList() {
 // ------------ Tab: Learn ------------
 async function renderLearn() {
   const content = document.getElementById('content');
-  content.innerHTML = `<p class="muted">正在过滤已学词…</p>`;
+
+  // If there's an unfinished session from today, offer to resume
+  const s = state.learnSession;
+  const today = new Date().toISOString().slice(0, 10);
+  const hasUnfinished = s && s.startedAt.slice(0, 10) === today && s.idx < s.wordIds.length;
+
+  content.innerHTML = `<p class="muted">加载中…</p>`;
   const learnedIds = await fetchLearnedIds();
+  const summary = await fetchUserSummary();
   const unseen = vocab.filter((v) => v.zh && v.en.split(' ').length <= 5 && !learnedIds.has(v.id));
+  const totalCandidates = vocab.filter((v) => v.zh && v.en.split(' ').length <= 5).length;
+  const knownTotal = learnedIds.size;
+  const dueToday = summary?.due_today || 0;
+  const todayNew = summary?.today_stats?.new_words || 0;
+  const DAILY_TARGET = 10;
+  const remaining = Math.max(0, DAILY_TARGET - todayNew);
+  const batchSize = remaining > 0 ? remaining : DAILY_TARGET;   // 补目标；已达标就再来一轮
+
   content.innerHTML = `
     <h2>🌱 新词学习</h2>
+    <div class="progress-strip">
+      <span class="chip-num chip-num-ok">🎯 今日新学 <b>${todayNew}</b> / ${DAILY_TARGET}</span>
+      <span class="chip-num chip-num-warn">🔁 今日待复习 <b>${dueToday}</b></span>
+      <span class="chip-num">📖 累计认识 <b>${knownTotal}</b></span>
+      <span class="chip-num">📚 词库 <b>${totalCandidates}</b></span>
+    </div>
     <p class="muted">
-      从 <b>${unseen.length}</b> 个未学词里抽 10 个。你选"认识"就进入艾宾浩斯队列（1/2/4/7/15/30 天复习），选"不熟"下次可能再抽到。
+      ${remaining > 0
+        ? `今日目标还剩 <b>${remaining}</b> 个。选"认识"进艾宾浩斯队列（1/2/4/7/15/30 天），选"不熟"下次可能再抽到。`
+        : `今日目标已完成 🎉 想加练也行，再抽 ${DAILY_TARGET} 个。`}
     </p>
     <p>
-      <button id="startLearn">开始学习 10 个新词</button>
+      ${hasUnfinished ? `
+        <button id="continueLearn">▶ 继续上次（${s.idx + 1} / ${s.wordIds.length}）</button>
+        <button class="secondary" id="abandonLearn">放弃这轮，重新抽</button>
+      ` : `
+        <button id="startLearn">${remaining > 0 ? `开始学习 ${batchSize} 个新词` : `再学 ${batchSize} 个（加练）`}</button>
+      `}
     </p>
     <div id="learnArea"></div>
   `;
-  content.querySelector('#startLearn').addEventListener('click', () => {
-    const draw = [...unseen].sort(() => Math.random() - 0.5).slice(0, 10);
-    if (draw.length === 0) {
-      document.getElementById('learnArea').innerHTML = '<div class="card"><p>已经没有未学词了 🎉 —— 词库全部有基础释义的都被学过一次。</p></div>';
-      return;
-    }
-    runLearnSession(draw);
-  });
+
+  if (hasUnfinished) {
+    document.getElementById('continueLearn').addEventListener('click', () => {
+      const words = s.wordIds.map((id) => vocabById.get(id)).filter(Boolean);
+      resumeLearnSession(words);
+    });
+    document.getElementById('abandonLearn').addEventListener('click', () => {
+      state.learnSession = null;
+      vscode.postMessage({ type: 'saveLearnSession', session: null });
+      renderLearn();
+    });
+  } else {
+    document.getElementById('startLearn').addEventListener('click', () => {
+      const draw = [...unseen].sort(() => Math.random() - 0.5).slice(0, batchSize);
+      if (draw.length === 0) {
+        document.getElementById('learnArea').innerHTML = '<div class="card"><p>已经没有未学词了 🎉</p></div>';
+        return;
+      }
+      state.learnSession = {
+        wordIds: draw.map((w) => w.id),
+        idx: 0, known: 0, unknown: 0,
+        startedAt: new Date().toISOString(),
+      };
+      vscode.postMessage({ type: 'saveLearnSession', session: state.learnSession });
+      runLearnSession(draw);
+    });
+  }
+}
+
+function resumeLearnSession(words) {
+  runLearnSession(words);
 }
 
 function runLearnSession(words) {
-  let idx = 0;
-  let known = 0, unknown = 0;
-  const wordIds = words.map((w) => w.id);
+  const session = state.learnSession;
   const area = document.getElementById('learnArea');
+  const wordIds = session.wordIds;
 
   function finish() {
-    vscode.postMessage({ type: 'finishLearnSession', wordIds, known, unknown });
+    vscode.postMessage({ type: 'finishLearnSession', wordIds, known: session.known, unknown: session.unknown });
+    vscode.postMessage({ type: 'saveLearnSession', session: null });
+    const doneKnown = session.known, doneUnknown = session.unknown, doneTotal = words.length;
+    state.learnSession = null;
     area.innerHTML = `
       <div class="card">
         <h3>本轮结束 ✅</h3>
-        <p>共学 ${words.length} 词，认识 ${known}，不熟 ${unknown}</p>
+        <p>共学 ${doneTotal} 词，认识 ${doneKnown}，不熟 ${doneUnknown}</p>
         <p class="muted">"认识"的词已进入艾宾浩斯队列（明天开始复习）。</p>
-        <p><button id="againBtn">再来一轮</button></p>
+        <p>
+          <button id="againBtn">再学 10 个（今日还有余力）</button>
+        </p>
       </div>
     `;
     document.getElementById('againBtn').addEventListener('click', () => renderLearn());
   }
 
-  function showCard() {
-    if (idx >= words.length) { finish(); return; }
-    const w = words[idx];
+  async function showCard() {
+    if (session.idx >= words.length) { finish(); return; }
+    const w = words[session.idx];
     area.innerHTML = `
       <div class="card quiz-card">
-        <div class="muted" style="margin-bottom:8px">${idx + 1} / ${words.length}</div>
+        <div class="muted" style="margin-bottom:8px">${session.idx + 1} / ${words.length}</div>
         <div class="quiz-target">${escapeHtml(w.en)} ${audioBtns(w.en)}</div>
         ${phoneticBadges(w.en)}
+        <div id="contextBox" class="context-box hidden"></div>
         <div class="quiz-hint">先想想意思，再揭示答案</div>
         <p><button id="reveal">揭示答案</button></p>
         <div id="revealed" class="hidden">
@@ -285,29 +381,409 @@ function runLearnSession(words) {
           </div>
           <p style="margin-top:12px">这个词你：</p>
           <p>
-            <button id="btnKnown" class="secondary" style="color:#4caf50; border-color:#4caf50">✓ 认识</button>
-            <button id="btnUnknown" class="secondary" style="color:#ff8b8b; border-color:#ff8b8b">✗ 不熟</button>
+            <button id="btnKnown" class="secondary chip-btn chip-ok" data-choice="known">✓ 认识</button>
+            <button id="btnUnknown" class="secondary chip-btn chip-bad" data-choice="unknown">✗ 不熟</button>
+            <button id="btnDeep" class="secondary chip-btn" style="margin-left:12px">🔍 深度学习</button>
           </p>
+          <div id="deepArea"></div>
+          <div class="advance-row">
+            <span id="advanceHint" class="muted advance-hint">
+              还需要：
+              <span id="hintAssess" class="hint-need">选择 认识/不熟</span>
+              <span class="muted">·</span>
+              <span id="hintDeep" class="hint-need">打开一次深度学习</span>
+            </span>
+            <button id="btnNext" disabled title="需要先做上面两件事">下一个 →</button>
+          </div>
         </div>
       </div>
     `;
     wireAudioButtons(area);
+    // Load context sentence in background
+    loadContextInto(document.getElementById('contextBox'), w);
+    // Kick off deep-study prefetch for the current word AND the next 1-2 words.
+    // By the time the user clicks 🔍 深度学习, the markdown is usually already cached.
+    prefetchDeepStudy(w);
+    if (words[session.idx + 1]) { prefetchDeepStudy(words[session.idx + 1]); }
+    if (words[session.idx + 2]) { prefetchDeepStudy(words[session.idx + 2]); }
+
+    // Local per-card state
+    const cardState = {
+      assessment: null,   // 'known' | 'unknown' | null
+      deepOpened: false,
+      recorded: false,    // whether we have posted to host yet
+    };
+
+    function updateNextButton() {
+      const btn = document.getElementById('btnNext');
+      const hintAssess = document.getElementById('hintAssess');
+      const hintDeep = document.getElementById('hintDeep');
+      if (cardState.assessment) { hintAssess.classList.add('done'); }
+      else { hintAssess.classList.remove('done'); }
+      if (cardState.deepOpened) { hintDeep.classList.add('done'); }
+      else { hintDeep.classList.remove('done'); }
+      const ready = !!cardState.assessment && cardState.deepOpened;
+      btn.disabled = !ready;
+      btn.title = ready ? '' : '需要先选择 认识/不熟，且至少打开一次深度学习';
+      document.getElementById('advanceHint').classList.toggle('hidden', ready);
+    }
+
+    function pickAssessment(choice) {
+      // Save immediately on first pick — records are persisted even if user
+      // reloads before clicking 下一个.
+      if (cardState.assessment === choice) { return; }
+      const wasFirstPick = cardState.assessment === null;
+      cardState.assessment = choice;
+      const known = choice === 'known';
+      if (wasFirstPick) {
+        if (known) { session.known++; } else { session.unknown++; }
+      }
+      vscode.postMessage({ type: 'recordLearnResult', wordId: w.id, en: w.en, zh: w.zh, known });
+      // Visual toggle
+      document.getElementById('btnKnown').classList.toggle('chip-active', choice === 'known');
+      document.getElementById('btnUnknown').classList.toggle('chip-active', choice === 'unknown');
+      updateNextButton();
+    }
+
     document.getElementById('reveal').addEventListener('click', () => {
       document.getElementById('revealed').classList.remove('hidden');
       document.getElementById('btnKnown').focus();
+      updateNextButton();
     });
-    document.getElementById('btnKnown').addEventListener('click', () => {
-      known++;
-      vscode.postMessage({ type: 'recordLearnResult', wordId: w.id, en: w.en, zh: w.zh, known: true });
-      idx++; showCard();
+    document.getElementById('btnKnown').addEventListener('click', () => pickAssessment('known'));
+    document.getElementById('btnUnknown').addEventListener('click', () => pickAssessment('unknown'));
+    document.getElementById('btnDeep').addEventListener('click', () => {
+      openDeepStudy(w);
+      cardState.deepOpened = true;
+      document.getElementById('btnDeep').classList.add('chip-active');
+      updateNextButton();
     });
-    document.getElementById('btnUnknown').addEventListener('click', () => {
-      unknown++;
-      vscode.postMessage({ type: 'recordLearnResult', wordId: w.id, en: w.en, zh: w.zh, known: false });
-      idx++; showCard();
+    document.getElementById('btnNext').addEventListener('click', () => {
+      if (!cardState.assessment) { return; }
+      // Record was already saved when assessment was picked.
+      session.idx++;
+      vscode.postMessage({ type: 'saveLearnSession', session: state.learnSession });
+      showCard();
     });
   }
   showCard();
+}
+
+// ------------ Deep study panel ------------
+const deepCache = new Map();   // wordId -> markdown
+const deepInFlight = new Map(); // wordId -> Promise<string|null> (dedupe)
+const chatHistories = new Map(); // wordId -> [{role, text}]
+
+/** Warm the deep-study cache in the background so 🔍 深度学习 opens instantly. */
+function prefetchDeepStudy(w) {
+  if (!w || !w.id) { return; }
+  if (deepCache.has(w.id) || deepInFlight.has(w.id)) { return; }
+  const p = callHost('deepStudy', { en: w.en, zh: w.zh })
+    .then((m) => {
+      const md = m && m.markdown;
+      if (md) { deepCache.set(w.id, md); }
+      return md || null;
+    })
+    .catch(() => null)
+    .finally(() => { deepInFlight.delete(w.id); });
+  deepInFlight.set(w.id, p);
+}
+
+async function openDeepStudy(w) {
+  const deep = document.getElementById('deepArea');
+  if (!deep) { return; }
+  deep.innerHTML = `
+    <div class="deep-card">
+      <div class="deep-header">
+        <h4>🔍 深度学习：${escapeHtml(w.en)}</h4>
+        <div class="deep-actions">
+          <button class="secondary" id="deepChatBtn">💬 在 Copilot Chat 里继续问</button>
+          <button class="secondary" id="deepClose">收起</button>
+        </div>
+      </div>
+      <div id="deepBody" class="deep-body">
+        <div class="deep-loading">⏳ 正在生成…（英英释义 / 常用度 / 近义词 / 影视名场面 / 高频搭配）</div>
+      </div>
+      <div class="deep-chat">
+        <div id="chatLog" class="chat-log"></div>
+        <div class="chat-input-row">
+          <input id="chatInput" placeholder="继续问一个关于这个词的问题（例：跟 X 有什么区别？）">
+          <button id="chatSend">发送</button>
+        </div>
+      </div>
+    </div>
+  `;
+  document.getElementById('deepClose').addEventListener('click', () => { deep.innerHTML = ''; });
+  document.getElementById('deepChatBtn').addEventListener('click', () => {
+    vscode.postMessage({
+      type: 'openInCopilotChat',
+      query: `请帮我深入讲解英语单词 "${w.en}"（中文意思：${w.zh}）。包括英英释义、常用度、近义词辨析、美剧/英剧中的经典用例、高频搭配。`
+    });
+  });
+
+  const body = document.getElementById('deepBody');
+  let md = deepCache.get(w.id);
+  if (!md) {
+    // If a background prefetch is already running, wait for it instead of starting a second call.
+    const inflight = deepInFlight.get(w.id);
+    if (inflight) {
+      md = await inflight;
+    } else {
+      const m = await callHost('deepStudy', { en: w.en, zh: w.zh });
+      md = m && m.markdown;
+      if (md) { deepCache.set(w.id, md); }
+    }
+  }
+  body.innerHTML = md ? renderMarkdown(md) : '<div class="result-bad">⚠️ 生成失败</div>';
+
+  // Wire chat
+  const chatLog = document.getElementById('chatLog');
+  const history = chatHistories.get(w.id) || [];
+  chatHistories.set(w.id, history);
+  renderChat(chatLog, history);
+  const chatInput = document.getElementById('chatInput');
+  const send = async () => {
+    const q = chatInput.value.trim();
+    if (!q) { return; }
+    chatInput.value = '';
+    history.push({ role: 'user', text: q });
+    renderChat(chatLog, history);
+    const placeholder = { role: 'assistant', text: '⏳ …' };
+    history.push(placeholder);
+    renderChat(chatLog, history);
+    const m = await callHost('chatWithWord', { en: w.en, zh: w.zh, history: history.slice(0, -2), question: q });
+    // replace placeholder
+    history[history.length - 1] = { role: 'assistant', text: (m && m.reply) || '⚠️ 无回复' };
+    renderChat(chatLog, history);
+  };
+  document.getElementById('chatSend').addEventListener('click', send);
+  chatInput.addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); } });
+}
+
+function renderChat(root, history) {
+  if (!history.length) { root.innerHTML = ''; return; }
+  root.innerHTML = history.map((t) => {
+    const cls = t.role === 'user' ? 'chat-turn-user' : 'chat-turn-ai';
+    return `<div class="${cls}">${renderMarkdown(t.text)}</div>`;
+  }).join('');
+  root.scrollTop = root.scrollHeight;
+}
+
+/** Tiny Markdown renderer: headings, bold, italic, code, lists, paragraphs, links.
+ *  Not a spec-compliant parser — enough for structured LLM output. */
+function renderMarkdown(md) {
+  if (!md) { return ''; }
+  // Escape HTML first
+  let s = String(md).replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+  // Code fences
+  s = s.replace(/```([\s\S]*?)```/g, (m, code) => `<pre><code>${code}</code></pre>`);
+  // Inline code
+  s = s.replace(/`([^`]+)`/g, '<code>$1</code>');
+  // Headings
+  s = s.replace(/^###### (.*)$/gm, '<h6>$1</h6>')
+       .replace(/^##### (.*)$/gm, '<h5>$1</h5>')
+       .replace(/^#### (.*)$/gm, '<h4>$1</h4>')
+       .replace(/^### (.*)$/gm, '<h3>$1</h3>')
+       .replace(/^## (.*)$/gm, '<h4 class="md-h2">$1</h4>')
+       .replace(/^# (.*)$/gm, '<h3 class="md-h1">$1</h3>');
+  // Bold + italic
+  s = s.replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>');
+  s = s.replace(/\*([^*]+)\*/g, '<i>$1</i>');
+  s = s.replace(/(?<!_)_([^_]+)_(?!_)/g, '<i>$1</i>');
+  // Links
+  s = s.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+  // Lists (basic — group consecutive `- ` lines into <ul>)
+  s = s.replace(/((?:^- .+\n?)+)/gm, (m) => {
+    const items = m.trim().split(/\n/).map(line => `<li>${line.replace(/^- /, '')}</li>`).join('');
+    return `<ul>${items}</ul>`;
+  });
+  // Numbered lists
+  s = s.replace(/((?:^\d+\. .+\n?)+)/gm, (m) => {
+    const items = m.trim().split(/\n/).map(line => `<li>${line.replace(/^\d+\. /, '')}</li>`).join('');
+    return `<ol>${items}</ol>`;
+  });
+  // Paragraphs from blank-line-separated blocks
+  s = s.split(/\n{2,}/).map(block => {
+    block = block.trim();
+    if (!block) { return ''; }
+    if (/^<(h[1-6]|ul|ol|pre|blockquote|table)/.test(block)) { return block; }
+    return `<p>${block.replace(/\n/g, '<br>')}</p>`;
+  }).join('\n');
+  return s;
+}
+
+// ------------ Context sentence lookup ------------
+const contextCache = new Map();  // wordId -> {en, zh, source}
+
+/** Find a bilingual example sentence containing the target word.
+ *  Try corpus first (fast, real usage); if none, request LLM to generate. */
+async function findContextForWord(w) {
+  if (contextCache.has(w.id)) { return contextCache.get(w.id); }
+  // 1. Corpus lookup: match the first meaningful English content word from the entry.
+  const tokens = contentTokens(w.en);
+  const primary = tokens[0] || w.en.toLowerCase();
+  const rx = new RegExp(`\\b${escapeRegex(primary)}\\b`, 'i');
+  const hit = sentences.find((s) => rx.test(s.en || ''));
+  if (hit) {
+    const ctx = {
+      en: hit.en, zh: hit.zh,
+      source: hit.source || (hit.sources && hit.sources.join(',')) || 'corpus',
+      target: primary,
+    };
+    contextCache.set(w.id, ctx);
+    return ctx;
+  }
+  // 2. LLM fallback
+  try {
+    const m = await callHost('generateContext', { en: w.en, zh: w.zh });
+    if (m && m.result && m.result.en && m.result.zh) {
+      const ctx = { ...m.result, source: 'llm', target: primary };
+      contextCache.set(w.id, ctx);
+      return ctx;
+    }
+  } catch (e) { /* ignore */ }
+  return null;
+}
+
+function escapeRegex(s) {
+  return String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+async function loadContextInto(box, w) {
+  if (!box) { return; }
+  box.classList.remove('hidden');
+  box.innerHTML = `<div class="context-loading">📖 加载例句…</div>`;
+  const ctx = await findContextForWord(w);
+  if (!ctx) {
+    box.classList.add('hidden');
+    return;
+  }
+  const highlighted = highlightWord(ctx.en, ctx.target || w.en);
+  // Always show all 3 audio buttons; click will fetch/generate as needed.
+  const enText = encodeURIComponent(ctx.en);
+  const zhText = encodeURIComponent(ctx.zh);
+  box.innerHTML = `
+    <div class="context-tag">📖 例句 · <span class="muted">${escapeHtml(ctx.source)}</span></div>
+    <div class="context-en">${highlighted}
+      <span class="sent-audio-group">
+        <button class="audio-btn sent-audio" data-text="${enText}" data-accent="us" title="美音">🇺🇸</button>
+        <button class="audio-btn sent-audio" data-text="${enText}" data-accent="uk" title="英音">🇬🇧</button>
+      </span>
+    </div>
+    <div class="context-zh">${escapeHtml(ctx.zh)}
+      <button class="audio-btn sent-audio" data-text="${zhText}" data-accent="zh" title="中文朗读">🔊</button>
+    </div>
+  `;
+  for (const b of box.querySelectorAll('.sent-audio')) {
+    b.addEventListener('click', () => playSentenceAudio(b));
+  }
+}
+
+async function playSentenceAudio(btn) {
+  const text = decodeURIComponent(btn.dataset.text || '');
+  const accent = btn.dataset.accent;
+  if (!text) { return; }
+  const hash = sentenceHash(text);
+  // 1. Try static index (batch-generated)
+  let relPath = findSentenceAudio(hash, accent);
+  // 2. Try dynamic cache location (predictable path)
+  if (!relPath) {
+    relPath = `audio/sentences/dynamic/${accent}/${hash}.mp3`;
+  }
+  const play = (p) => {
+    const a = new Audio(`${dataBase}/${p}`);
+    a.play().catch(() => {
+      // Not cached → request generation
+      requestSentenceGen(text, accent, btn);
+    });
+  };
+  // Optimistic play; onerror path triggers generation
+  const audio = new Audio(`${dataBase}/${relPath}`);
+  audio.play().catch(() => requestSentenceGen(text, accent, btn));
+}
+
+const sentenceGenCache = new Map(); // key `${accent}:${hash}` -> Promise<string|null>
+
+function requestSentenceGen(text, accent, btn) {
+  const hash = sentenceHash(text);
+  const key = `${accent}:${hash}`;
+  const original = btn.textContent;
+  btn.textContent = '🔄';
+  btn.disabled = true;
+  let p = sentenceGenCache.get(key);
+  if (!p) {
+    p = callHost('generateSentenceAudio', { text, accent }).then((m) => m && m.path);
+    sentenceGenCache.set(key, p);
+  }
+  p.then((relPath) => {
+    btn.textContent = original;
+    btn.disabled = false;
+    if (relPath) {
+      new Audio(`${dataBase}/${relPath}`).play().catch((e) => console.warn('gen play failed', e));
+    } else {
+      btn.textContent = '⚠️';
+      setTimeout(() => { btn.textContent = original; }, 1500);
+    }
+  });
+}
+
+/** Compute the same hash used by generate_sentence_audio.py. */
+function sentenceHash(text) {
+  const t = String(text || '').trim().toLowerCase();
+  if (!t) { return ''; }
+  return sha1(t).slice(0, 16);
+}
+
+/** Find the audio path for a sentence hash. Also matches by full-index scan. */
+function findSentenceAudio(hash, kind) {
+  if (!hash) { return null; }
+  // Direct scan through index for matching kind path containing hash
+  for (const entry of Object.values(sentenceAudioIndex)) {
+    if (entry[kind] && entry[kind].includes(hash)) { return entry[kind]; }
+  }
+  return null;
+}
+
+/** Minimal SHA1 implementation for WebView (no crypto module). */
+function sha1(str) {
+  function rotl(n, s) { return (n << s) | (n >>> (32 - s)); }
+  function toHex(n) {
+    let s = '';
+    for (let i = 7; i >= 0; i--) { s += ((n >>> (i * 4)) & 0xf).toString(16); }
+    return s;
+  }
+  const utf8 = new TextEncoder().encode(str);
+  const msg = new Uint8Array(Math.ceil((utf8.length + 9) / 64) * 64);
+  msg.set(utf8);
+  msg[utf8.length] = 0x80;
+  const bitLen = utf8.length * 8;
+  const view = new DataView(msg.buffer);
+  view.setUint32(msg.length - 4, bitLen);
+  let h0 = 0x67452301, h1 = 0xEFCDAB89, h2 = 0x98BADCFE, h3 = 0x10325476, h4 = 0xC3D2E1F0;
+  for (let chunk = 0; chunk < msg.length; chunk += 64) {
+    const w = new Array(80);
+    for (let i = 0; i < 16; i++) { w[i] = view.getUint32(chunk + i * 4); }
+    for (let i = 16; i < 80; i++) { w[i] = rotl(w[i-3] ^ w[i-8] ^ w[i-14] ^ w[i-16], 1); }
+    let a = h0, b = h1, c = h2, d = h3, e = h4;
+    for (let i = 0; i < 80; i++) {
+      let f, k;
+      if (i < 20) { f = (b & c) | (~b & d); k = 0x5A827999; }
+      else if (i < 40) { f = b ^ c ^ d; k = 0x6ED9EBA1; }
+      else if (i < 60) { f = (b & c) | (b & d) | (c & d); k = 0x8F1BBCDC; }
+      else { f = b ^ c ^ d; k = 0xCA62C1D6; }
+      const t = (rotl(a, 5) + f + e + k + w[i]) | 0;
+      e = d; d = c; c = rotl(b, 30); b = a; a = t;
+    }
+    h0 = (h0 + a) | 0; h1 = (h1 + b) | 0; h2 = (h2 + c) | 0; h3 = (h3 + d) | 0; h4 = (h4 + e) | 0;
+  }
+  return toHex(h0 >>> 0) + toHex(h1 >>> 0) + toHex(h2 >>> 0) + toHex(h3 >>> 0) + toHex(h4 >>> 0);
+}
+
+function highlightWord(text, target) {
+  if (!target) { return escapeHtml(text); }
+  const safe = escapeHtml(text);
+  const rx = new RegExp(`\\b(${escapeRegex(target)}\\w*)`, 'gi');
+  return safe.replace(rx, '<mark>$1</mark>');
 }
 
 // ------------ Tab: Review (two sub-modes) ------------
@@ -536,6 +1012,261 @@ async function fetchCalendar(pastDays = 30, futureDays = 7) {
 async function fetchDayDetail(date) {
   const m = await callHost('getDayDetail', { date });
   return m.detail;
+}
+
+// ============ Tab: Reading Corner ============
+let readingState = {
+  view: 'list',       // 'list' | 'article'
+  sub: 'today',       // 'today' | 'favorites'
+  articles: [],       // current list
+  current: null,      // current article obj
+  favoriteIds: new Set(),
+};
+
+async function renderReading() {
+  const content = document.getElementById('content');
+  content.innerHTML = `
+    <h2>📚 读书角</h2>
+    <p class="muted">每天基于你要复习的词，为你生成 3-5 篇 4-6 分钟的短文。第一眼只有英文；点击句子随时和 Copilot 聊。</p>
+    <div class="letter-tabs" style="border-bottom:none; margin-bottom:12px">
+      <button data-sub="today" class="${readingState.sub === 'today' ? 'active' : ''}">📰 今日推送</button>
+      <button data-sub="favorites" class="${readingState.sub === 'favorites' ? 'active' : ''}">⭐ 收藏夹</button>
+    </div>
+    <div id="readingBody"><p class="muted">加载中…</p></div>
+  `;
+  for (const b of content.querySelectorAll('[data-sub]')) {
+    b.addEventListener('click', () => {
+      readingState.sub = b.dataset.sub;
+      readingState.view = 'list';
+      readingState.current = null;
+      renderReading();
+    });
+  }
+  // Refresh favorite ids
+  const favResp = await callHost('getFavoriteArticles');
+  readingState.favoriteIds = new Set((favResp.items || []).map((a) => a.id));
+
+  if (readingState.sub === 'today') { await renderReadingToday(); }
+  else { await renderReadingFavorites(favResp.items || []); }
+}
+
+async function renderReadingToday() {
+  const box = document.getElementById('readingBody');
+  const resp = await callHost('getTodayArticles');
+  const items = resp.items || [];
+  if (items.length === 0) {
+    box.innerHTML = `
+      <div class="card">
+        <p>今天还没有生成文章。基于你复习队列里的词生成一批？</p>
+        <p><button id="genArticles">✨ 生成 4 篇短文</button>
+           <span class="muted" style="margin-left:8px">用 Copilot LLM，30-60 秒</span></p>
+      </div>
+    `;
+    document.getElementById('genArticles').addEventListener('click', () => generateReading());
+    return;
+  }
+  renderArticleList(items);
+}
+
+async function renderReadingFavorites(items) {
+  const box = document.getElementById('readingBody');
+  if (!items || items.length === 0) {
+    box.innerHTML = `<div class="card"><p class="muted">还没有收藏。文章顶部的 ☆ 按钮可以收藏。</p></div>`;
+    return;
+  }
+  renderArticleList(items);
+}
+
+function renderArticleList(items) {
+  readingState.articles = items;
+  const box = document.getElementById('readingBody');
+  const cards = items.map((a) => {
+    const isFav = readingState.favoriteIds.has(a.id);
+    return `
+      <div class="reading-card" data-id="${a.id}">
+        <div class="reading-card-head">
+          <button class="fav-btn" data-fav="${a.id}" title="${isFav ? '取消收藏' : '收藏'}">${isFav ? '★' : '☆'}</button>
+          <span class="theme-tag theme-${escapeHtml(a.theme)}">${escapeHtml(a.theme)}</span>
+          <span class="muted"> · ${a.minutes} min · ${a.sentences.length} 句</span>
+        </div>
+        <h3 class="reading-title">${escapeHtml(a.title)}</h3>
+        <p class="muted reading-preview">${escapeHtml((a.sentences[0]?.en) || '')}…</p>
+        <p><button class="read-btn" data-read="${a.id}">▶ 阅读</button></p>
+      </div>
+    `;
+  }).join('');
+  box.innerHTML = `
+    <div class="reading-list">${cards}</div>
+    ${readingState.sub === 'today' ? '<p style="margin-top:12px"><button class="secondary" id="regenArticles">🔄 换一批</button></p>' : ''}
+  `;
+  for (const b of box.querySelectorAll('[data-read]')) {
+    b.addEventListener('click', () => {
+      const a = items.find((x) => x.id === b.dataset.read);
+      if (a) { openArticle(a); }
+    });
+  }
+  for (const b of box.querySelectorAll('[data-fav]')) {
+    b.addEventListener('click', async () => {
+      const a = items.find((x) => x.id === b.dataset.fav);
+      if (!a) { return; }
+      const resp = await callHost('toggleFavoriteArticle', { article: a });
+      if (resp.favorited) { readingState.favoriteIds.add(a.id); b.textContent = '★'; }
+      else { readingState.favoriteIds.delete(a.id); b.textContent = '☆'; }
+    });
+  }
+  const regen = document.getElementById('regenArticles');
+  if (regen) { regen.addEventListener('click', () => generateReading()); }
+}
+
+async function generateReading() {
+  const box = document.getElementById('readingBody');
+  box.innerHTML = `<div class="card"><p>🌀 正在为你生成…（约 30-60 秒）</p></div>`;
+  // Gather review words (from due queue) as primary vocab targets
+  const due = await callHost('getEbbinghausDue', { limit: 30 });
+  const dueIds = (due.due || []).map((d) => d.wordId);
+  const reviewWords = dueIds.map((id) => vocabById.get(id)).filter(Boolean)
+    .filter((w) => w.zh && /^[a-zA-Z\s\-']+$/.test(w.en))
+    .slice(0, 15)
+    .map((w) => ({ en: w.en, zh: w.zh }));
+  // Extra: some recently learned words to keep articles readable
+  const learnedIds = await fetchLearnedIds();
+  const extraWords = [...learnedIds].slice(0, 10)
+    .map((id) => vocabById.get(id))
+    .filter((w) => w && w.zh && /^[a-zA-Z\s\-']+$/.test(w.en))
+    .map((w) => ({ en: w.en, zh: w.zh }));
+  const resp = await callHost('generateTodayArticles', { reviewWords, extraWords, count: 4 });
+  const items = resp.items || [];
+  if (items.length === 0) {
+    box.innerHTML = `<div class="card"><p class="result-bad">生成失败。请检查 Copilot 是否可用。</p>
+      <p><button id="retryGen">重试</button></p></div>`;
+    document.getElementById('retryGen').addEventListener('click', () => generateReading());
+    return;
+  }
+  renderArticleList(items);
+}
+
+function openArticle(a) {
+  readingState.view = 'article';
+  readingState.current = a;
+  const box = document.getElementById('readingBody');
+  const isFav = readingState.favoriteIds.has(a.id);
+  // Each sentence: EN, clickable, with tiny 🔊 and 💬 buttons. ZH hidden by default.
+  const sentHtml = a.sentences.map((s, i) => `
+    <div class="reading-sentence" data-i="${i}">
+      <span class="sent-en" data-en="${encodeURIComponent(s.en)}" data-zh="${encodeURIComponent(s.zh)}" title="点击→与 Copilot 讨论 · Alt+点击→显示翻译">${escapeHtml(s.en)}</span>
+      <span class="sent-actions">
+        <button class="mini-btn sent-audio" data-text="${encodeURIComponent(s.en)}" data-accent="us" title="美音">🇺🇸</button>
+        <button class="mini-btn sent-audio" data-text="${encodeURIComponent(s.en)}" data-accent="uk" title="英音">🇬🇧</button>
+        <button class="mini-btn toggle-zh" data-i="${i}" title="显示/隐藏翻译">🇨🇳</button>
+        <button class="mini-btn ask-copilot" data-en="${encodeURIComponent(s.en)}" title="Copilot 讲解">💬</button>
+      </span>
+      <div class="sent-zh hidden" id="szh-${i}">${escapeHtml(s.zh)}</div>
+    </div>
+  `).join('');
+  box.innerHTML = `
+    <div class="reading-article">
+      <p><button class="secondary" id="backList">← 返回列表</button></p>
+      <div class="reading-card-head">
+        <button class="fav-btn" id="artFav" title="${isFav ? '取消收藏' : '收藏'}">${isFav ? '★' : '☆'}</button>
+        <span class="theme-tag theme-${escapeHtml(a.theme)}">${escapeHtml(a.theme)}</span>
+        <span class="muted"> · ${a.minutes} min · ${a.sentences.length} 句</span>
+      </div>
+      <h2 class="article-title">${escapeHtml(a.title)}</h2>
+      <div class="article-toolbar">
+        <button id="playAll">▶ 逐句播放（US）</button>
+        <button class="secondary" id="playAllUk">▶ 逐句播放（UK）</button>
+        <button class="secondary" id="toggleAllZh">🇨🇳 全部翻译</button>
+        <button class="secondary" id="askWhole">💬 让 Copilot 讲解全文</button>
+      </div>
+      <div class="article-body">${sentHtml}</div>
+    </div>
+  `;
+  document.getElementById('backList').addEventListener('click', () => {
+    readingState.view = 'list';
+    readingState.current = null;
+    renderReading();
+  });
+  document.getElementById('artFav').addEventListener('click', async () => {
+    const resp = await callHost('toggleFavoriteArticle', { article: a });
+    if (resp.favorited) { readingState.favoriteIds.add(a.id); document.getElementById('artFav').textContent = '★'; }
+    else { readingState.favoriteIds.delete(a.id); document.getElementById('artFav').textContent = '☆'; }
+  });
+  // Per-sentence buttons
+  for (const b of box.querySelectorAll('.sent-audio')) {
+    b.addEventListener('click', (e) => { e.stopPropagation(); playSentenceAudio(b); });
+  }
+  for (const b of box.querySelectorAll('.toggle-zh')) {
+    b.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const el = document.getElementById(`szh-${b.dataset.i}`);
+      if (el) { el.classList.toggle('hidden'); }
+    });
+  }
+  for (const b of box.querySelectorAll('.ask-copilot')) {
+    b.addEventListener('click', (e) => {
+      e.stopPropagation();
+      askCopilotAboutSentence(decodeURIComponent(b.dataset.en));
+    });
+  }
+  // Sentence click: default → open Copilot; Alt+click → reveal translation
+  for (const s of box.querySelectorAll('.sent-en')) {
+    s.addEventListener('click', (e) => {
+      if (e.altKey) {
+        const i = s.parentElement.dataset.i;
+        document.getElementById(`szh-${i}`).classList.toggle('hidden');
+      } else {
+        askCopilotAboutSentence(decodeURIComponent(s.dataset.en));
+      }
+    });
+  }
+  // Toolbar
+  document.getElementById('playAll').addEventListener('click', () => playArticleSequentially(a.sentences, 'us'));
+  document.getElementById('playAllUk').addEventListener('click', () => playArticleSequentially(a.sentences, 'uk'));
+  document.getElementById('toggleAllZh').addEventListener('click', () => {
+    const els = box.querySelectorAll('.sent-zh');
+    const shouldShow = [...els].some((e) => e.classList.contains('hidden'));
+    for (const el of els) { el.classList.toggle('hidden', !shouldShow); }
+  });
+  document.getElementById('askWhole').addEventListener('click', () => {
+    const excerpt = a.sentences.map((s) => s.en).join(' ');
+    const query = `请帮我讲解这篇英语短文的精妙之处、语言点、值得学习的表达，用中文：\n\n**${a.title}**\n\n${excerpt}`;
+    vscode.postMessage({ type: 'openInCopilotChat', query });
+  });
+}
+
+function askCopilotAboutSentence(en) {
+  const query = `请用中文帮我：\n1. 翻译这句英文\n2. 讲一下里面值得学习的表达/搭配/语法点\n3. 如果有文化背景或修辞技巧，也说一下\n\n原句："${en}"`;
+  vscode.postMessage({ type: 'openInCopilotChat', query });
+}
+
+async function playArticleSequentially(sentences, accent) {
+  for (const s of sentences) {
+    await playOne(s.en, accent);
+    await new Promise((r) => setTimeout(r, 250));
+  }
+}
+
+function playOne(text, accent) {
+  return new Promise((resolve) => {
+    const hash = sentenceHash(text);
+    let relPath = findSentenceAudio(hash, accent);
+    if (!relPath) { relPath = `audio/sentences/dynamic/${accent}/${hash}.mp3`; }
+    const audio = new Audio(`${dataBase}/${relPath}`);
+    audio.onended = () => resolve();
+    audio.onerror = async () => {
+      // Try on-demand generation
+      const m = await callHost('generateSentenceAudio', { text, accent });
+      if (m && m.path) {
+        const a2 = new Audio(`${dataBase}/${m.path}`);
+        a2.onended = () => resolve();
+        a2.onerror = () => resolve();
+        a2.play().catch(() => resolve());
+      } else {
+        resolve();
+      }
+    };
+    audio.play().catch(() => { /* onerror will trigger */ });
+  });
 }
 
 // ------------ Tab: Stats ------------

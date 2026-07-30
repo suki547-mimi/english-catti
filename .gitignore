@@ -24,6 +24,11 @@ venv/
 # Temp / debug logs
 tools/_*.txt
 tools/_*.log
+tools/_*.err
+tools/_test_*.py
+
+# Daily state backups (kept locally by extension)
+data/user_state.backup-*.json
 
 # OS junk
 Thumbs.db

@@ -1,0 +1,357 @@
+{
+  "version": 2,
+  "created_at": "2026-07-30T07:46:20.217Z",
+  "updated_at": "2026-07-30T09:12:39.800Z",
+  "words": {
+    "1815da7d5abcad3e": {
+      "id": "1815da7d5abcad3e",
+      "en": "Systems Engineer",
+      "zh": "系统工程师",
+      "gate": 1,
+      "learned_at": "2026-07-30",
+      "reviews_done": 0,
+      "next_review_at": "2026-07-31",
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 30,
+      "seen_count": 4,
+      "last_reviewed_at": "2026-07-30T07:50:02.832Z",
+      "last_result": "unknown",
+      "history": [
+        {
+          "at": "2026-07-30T07:49:41.719Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "known"
+        },
+        {
+          "at": "2026-07-30T07:50:00.820Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "unknown"
+        },
+        {
+          "at": "2026-07-30T07:50:01.535Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "known"
+        },
+        {
+          "at": "2026-07-30T07:50:02.832Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "unknown"
+        }
+      ]
+    },
+    "0f684a0f885e5e56": {
+      "id": "0f684a0f885e5e56",
+      "en": "floating wages; fluctuating wages",
+      "zh": "浮动工资",
+      "gate": 0,
+      "learned_at": null,
+      "reviews_done": 0,
+      "next_review_at": null,
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 0,
+      "seen_count": 1,
+      "last_reviewed_at": "2026-07-30T07:53:24.557Z",
+      "last_result": "unknown",
+      "history": [
+        {
+          "at": "2026-07-30T07:53:24.557Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "unknown"
+        }
+      ]
+    },
+    "905e5387b67c2cf4": {
+      "id": "905e5387b67c2cf4",
+      "en": "the fundamentals",
+      "zh": "基础科学",
+      "gate": 1,
+      "learned_at": "2026-07-30",
+      "reviews_done": 0,
+      "next_review_at": "2026-07-31",
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 15,
+      "seen_count": 2,
+      "last_reviewed_at": "2026-07-30T07:57:00.017Z",
+      "last_result": "unknown",
+      "history": [
+        {
+          "at": "2026-07-30T07:55:53.324Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "known"
+        },
+        {
+          "at": "2026-07-30T07:57:00.017Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "unknown"
+        }
+      ]
+    },
+    "ce2bbabc893653d6": {
+      "id": "ce2bbabc893653d6",
+      "en": "INTERNATIONAL CHILDREN'S DAY",
+      "zh": "国际儿童节",
+      "gate": 1,
+      "learned_at": "2026-07-30",
+      "reviews_done": 0,
+      "next_review_at": "2026-07-31",
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 35,
+      "seen_count": 3,
+      "last_reviewed_at": "2026-07-30T08:12:10.615Z",
+      "last_result": "known",
+      "history": [
+        {
+          "at": "2026-07-30T08:12:03.145Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "known"
+        },
+        {
+          "at": "2026-07-30T08:12:09.752Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "unknown"
+        },
+        {
+          "at": "2026-07-30T08:12:10.615Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "known"
+        }
+      ]
+    },
+    "3cf2493fcb8dea7a": {
+      "id": "3cf2493fcb8dea7a",
+      "en": "glittering，sparkling, winkling",
+      "zh": "闪闪发光",
+      "gate": 0,
+      "learned_at": null,
+      "reviews_done": 0,
+      "next_review_at": null,
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 0,
+      "seen_count": 2,
+      "last_reviewed_at": "2026-07-30T08:21:06.276Z",
+      "last_result": "unknown",
+      "history": [
+        {
+          "at": "2026-07-30T08:20:10.936Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "unknown"
+        },
+        {
+          "at": "2026-07-30T08:21:06.276Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "unknown"
+        }
+      ]
+    },
+    "877c74cb25872046": {
+      "id": "877c74cb25872046",
+      "en": "a historic leap",
+      "zh": "历史性跨越",
+      "gate": 1,
+      "learned_at": "2026-07-30",
+      "reviews_done": 0,
+      "next_review_at": "2026-07-31",
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 20,
+      "seen_count": 1,
+      "last_reviewed_at": "2026-07-30T08:55:24.567Z",
+      "last_result": "known",
+      "history": [
+        {
+          "at": "2026-07-30T08:55:24.567Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "known"
+        }
+      ]
+    },
+    "b2fc0701191c6d5b": {
+      "id": "b2fc0701191c6d5b",
+      "en": "Love is full of trouble",
+      "zh": "爱情充满烦恼",
+      "gate": 1,
+      "learned_at": "2026-07-30",
+      "reviews_done": 0,
+      "next_review_at": "2026-07-31",
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 20,
+      "seen_count": 1,
+      "last_reviewed_at": "2026-07-30T09:03:06.821Z",
+      "last_result": "known",
+      "history": [
+        {
+          "at": "2026-07-30T09:03:06.821Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "known"
+        }
+      ]
+    },
+    "48a05c0b9e91f6a3": {
+      "id": "48a05c0b9e91f6a3",
+      "en": "Heavy snow",
+      "zh": "大雪",
+      "gate": 1,
+      "learned_at": "2026-07-30",
+      "reviews_done": 0,
+      "next_review_at": "2026-07-31",
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 20,
+      "seen_count": 1,
+      "last_reviewed_at": "2026-07-30T09:06:30.989Z",
+      "last_result": "known",
+      "history": [
+        {
+          "at": "2026-07-30T09:06:30.989Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "known"
+        }
+      ]
+    },
+    "e5a01ec3a2f5c21e": {
+      "id": "e5a01ec3a2f5c21e",
+      "en": "economic regulation",
+      "zh": "经济调节",
+      "gate": 1,
+      "learned_at": "2026-07-30",
+      "reviews_done": 0,
+      "next_review_at": "2026-07-31",
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 20,
+      "seen_count": 1,
+      "last_reviewed_at": "2026-07-30T09:06:42.501Z",
+      "last_result": "known",
+      "history": [
+        {
+          "at": "2026-07-30T09:06:42.501Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "known"
+        }
+      ]
+    },
+    "28694b5d6e175207": {
+      "id": "28694b5d6e175207",
+      "en": "cod",
+      "zh": "鳕鱼",
+      "gate": 0,
+      "learned_at": null,
+      "reviews_done": 0,
+      "next_review_at": null,
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 0,
+      "seen_count": 1,
+      "last_reviewed_at": "2026-07-30T09:08:17.661Z",
+      "last_result": "unknown",
+      "history": [
+        {
+          "at": "2026-07-30T09:08:17.661Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "unknown"
+        }
+      ]
+    },
+    "beede44e864b82ef": {
+      "id": "beede44e864b82ef",
+      "en": "flexible retirement system",
+      "zh": "弹性退休制度",
+      "gate": 1,
+      "learned_at": "2026-07-30",
+      "reviews_done": 0,
+      "next_review_at": "2026-07-31",
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 40,
+      "seen_count": 2,
+      "last_reviewed_at": "2026-07-30T09:12:04.031Z",
+      "last_result": "known",
+      "history": [
+        {
+          "at": "2026-07-30T09:09:38.413Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "known"
+        },
+        {
+          "at": "2026-07-30T09:12:04.031Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "known"
+        }
+      ]
+    },
+    "084ad69de91bdd44": {
+      "id": "084ad69de91bdd44",
+      "en": "external blockade",
+      "zh": "外部封锁",
+      "gate": 0,
+      "learned_at": null,
+      "reviews_done": 0,
+      "next_review_at": null,
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 0,
+      "seen_count": 1,
+      "last_reviewed_at": "2026-07-30T09:12:39.800Z",
+      "last_result": "unknown",
+      "history": [
+        {
+          "at": "2026-07-30T09:12:39.800Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "unknown"
+        }
+      ]
+    }
+  },
+  "daily": {
+    "2026-07-30": {
+      "new_words": 8,
+      "reviewed": 0,
+      "correct": 0,
+      "incorrect": 0,
+      "ebbinghaus_reviewed": 0,
+      "score_reviewed": 0
+    }
+  },
+  "sessions": [],
+  "currentLearnSession": {
+    "wordIds": [
+      "877c74cb25872046",
+      "b2fc0701191c6d5b",
+      "48a05c0b9e91f6a3",
+      "e5a01ec3a2f5c21e",
+      "28694b5d6e175207",
+      "beede44e864b82ef",
+      "084ad69de91bdd44"
+    ],
+    "idx": 6,
+    "known": 5,
+    "unknown": 1,
+    "startedAt": "2026-07-30T08:49:34.991Z"
+  }
+}

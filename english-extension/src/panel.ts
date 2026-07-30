@@ -1,11 +1,125 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
-import { gradeSemantic, gradeSentence } from './lm';
+import * as crypto from 'crypto';
+import { spawn } from 'child_process';
+import { gradeSemantic, gradeSentence, generateContext, deepStudy, chatWithWord, generateReadingArticles, ReadingArticle } from './lm';
 import { UserStore } from './store';
 
 let panel: vscode.WebviewPanel | undefined;
 let store: UserStore | undefined;
+let currentDataRoot: string | undefined;
+
+const VOICE_MAP: Record<string, string> = {
+  us: 'en-US-AriaNeural',
+  uk: 'en-GB-SoniaNeural',
+  zh: 'zh-CN-XiaoxiaoNeural',
+};
+
+/** In-flight generation dedupe (key: `${accent}:${hash}`). */
+const genPromises: Map<string, Promise<string | null>> = new Map();
+
+function sentenceHash(text: string): string {
+  return crypto.createHash('sha1').update(text.trim().toLowerCase()).digest('hex').slice(0, 16);
+}
+
+/** Locate a Python executable that can run edge-tts. */
+function findPython(): string {
+  // Prefer the known install location; fall back to PATH.
+  const known = 'C:\\Python314\\python.exe';
+  if (fs.existsSync(known)) { return known; }
+  return 'python';
+}
+
+// ---------- Reading Corner storage ----------
+function readingRoot(): string | null {
+  if (!currentDataRoot) { return null; }
+  const dir = path.join(currentDataRoot, 'data', 'reading_corner');
+  fs.mkdirSync(dir, { recursive: true });
+  fs.mkdirSync(path.join(dir, 'daily'), { recursive: true });
+  return dir;
+}
+
+function todayKey(): string {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+
+function loadTodayArticles(): ReadingArticle[] {
+  const root = readingRoot();
+  if (!root) { return []; }
+  const p = path.join(root, 'daily', `${todayKey()}.json`);
+  if (!fs.existsSync(p)) { return []; }
+  try { return JSON.parse(fs.readFileSync(p, 'utf8')); } catch { return []; }
+}
+
+function saveTodayArticles(items: ReadingArticle[]) {
+  const root = readingRoot();
+  if (!root) { return; }
+  const p = path.join(root, 'daily', `${todayKey()}.json`);
+  fs.writeFileSync(p, JSON.stringify(items, null, 2), 'utf8');
+}
+
+function loadFavorites(): ReadingArticle[] {
+  const root = readingRoot();
+  if (!root) { return []; }
+  const p = path.join(root, 'favorites.json');
+  if (!fs.existsSync(p)) { return []; }
+  try { return JSON.parse(fs.readFileSync(p, 'utf8')); } catch { return []; }
+}
+
+function saveFavorites(items: ReadingArticle[]) {
+  const root = readingRoot();
+  if (!root) { return; }
+  const p = path.join(root, 'favorites.json');
+  fs.writeFileSync(p, JSON.stringify(items, null, 2), 'utf8');
+}
+
+/** Generate one sentence mp3 with edge-tts and cache under
+ *  data/audio/sentences/dynamic/<accent>/<hash>.mp3.
+ *  Returns the relative path (posix-style) that the webview can join with dataBase. */
+async function generateSentenceAudio(text: string, accent: string): Promise<string | null> {
+  const voice = VOICE_MAP[accent];
+  if (!voice || !currentDataRoot) { return null; }
+  const clean = String(text || '').trim();
+  if (!clean || clean.length > 500) { return null; }
+  const hash = sentenceHash(clean);
+  const relDir = `audio/sentences/dynamic/${accent}`;
+  const relPath = `${relDir}/${hash}.mp3`;
+  const absDir = path.join(currentDataRoot, 'data', relDir);
+  const absPath = path.join(absDir, `${hash}.mp3`);
+  if (fs.existsSync(absPath) && fs.statSync(absPath).size > 500) {
+    return relPath;
+  }
+  const key = `${accent}:${hash}`;
+  const existing = genPromises.get(key);
+  if (existing) { return existing; }
+  fs.mkdirSync(absDir, { recursive: true });
+  const python = findPython();
+  const promise = new Promise<string | null>((resolve) => {
+    const proc = spawn(python, ['-m', 'edge_tts', '-t', clean, '-v', voice, '--write-media', absPath], {
+      windowsHide: true,
+    });
+    let stderr = '';
+    proc.stderr.on('data', (d) => { stderr += d.toString(); });
+    proc.on('error', (e) => {
+      console.warn('[edge-tts] spawn error', e);
+      resolve(null);
+    });
+    proc.on('close', (code) => {
+      if (code === 0 && fs.existsSync(absPath) && fs.statSync(absPath).size > 500) {
+        resolve(relPath);
+      } else {
+        if (fs.existsSync(absPath)) { try { fs.unlinkSync(absPath); } catch { /* ignore */ } }
+        console.warn('[edge-tts] failed', code, stderr.slice(0, 200));
+        resolve(null);
+      }
+    });
+    setTimeout(() => { try { proc.kill(); } catch { /* ignore */ } resolve(null); }, 20000);
+  }).finally(() => { genPromises.delete(key); });
+  genPromises.set(key, promise);
+  return promise;
+}
 
 /** Locate the folder that contains `data/unified_vocab.json`.
  *  Priority:
@@ -42,6 +156,7 @@ export async function openMainPanel(context: vscode.ExtensionContext, mode: stri
   }
   // Init user store rooted at the same data folder
   store = new UserStore(path.join(wsRoot, 'data'));
+  currentDataRoot = wsRoot;
 
   if (panel) {
     panel.reveal();
@@ -95,6 +210,33 @@ export async function openMainPanel(context: vscode.ExtensionContext, mode: stri
         panel.webview.postMessage({ type: 'sentenceResult', requestId: msg.requestId, result });
         break;
       }
+      case 'generateContext': {
+        const result = await generateContext(msg.en, msg.zh);
+        panel.webview.postMessage({ type: 'contextResult', requestId: msg.requestId, result });
+        break;
+      }
+      case 'deepStudy': {
+        const markdown = await deepStudy(msg.en, msg.zh);
+        panel.webview.postMessage({ type: 'deepStudyResult', requestId: msg.requestId, markdown });
+        break;
+      }
+      case 'chatWithWord': {
+        const reply = await chatWithWord(msg.en, msg.zh, msg.history || [], msg.question || '');
+        panel.webview.postMessage({ type: 'chatReply', requestId: msg.requestId, reply });
+        break;
+      }
+      case 'openInCopilotChat': {
+        try {
+          await vscode.commands.executeCommand('workbench.action.chat.open', { query: msg.query });
+        } catch (e) {
+          try {
+            await vscode.commands.executeCommand('workbench.action.chat.newChat');
+          } catch { /* ignore */ }
+          vscode.env.clipboard.writeText(msg.query || '');
+          vscode.window.showInformationMessage('已复制提问到剪贴板，请粘贴到 Copilot Chat。');
+        }
+        break;
+      }
       // ---------- User store ----------
       case 'recordLearnResult': {
         if (store) { store.recordLearn(msg.wordId, msg.en, msg.zh, !!msg.known); }
@@ -102,6 +244,15 @@ export async function openMainPanel(context: vscode.ExtensionContext, mode: stri
       }
       case 'finishLearnSession': {
         if (store) { store.finishLearnSession(msg.wordIds || [], msg.known || 0, msg.unknown || 0); }
+        break;
+      }
+      case 'saveLearnSession': {
+        if (store) { store.saveLearnSession(msg.session || null); }
+        break;
+      }
+      case 'getLearnSession': {
+        const s = store ? store.getLearnSession() : null;
+        panel.webview.postMessage({ type: 'learnSession', requestId: msg.requestId, session: s });
         break;
       }
       case 'recordEbbinghausReview': {
@@ -156,6 +307,39 @@ export async function openMainPanel(context: vscode.ExtensionContext, mode: stri
       }
       case 'showInfo': {
         vscode.window.showInformationMessage(msg.message);
+        break;
+      }
+      case 'generateSentenceAudio': {
+        const rel = await generateSentenceAudio(msg.text || '', msg.accent || 'us');
+        panel.webview.postMessage({ type: 'sentenceAudioReady', requestId: msg.requestId, path: rel, accent: msg.accent });
+        break;
+      }
+      // ---------- Reading Corner ----------
+      case 'getTodayArticles': {
+        const items = loadTodayArticles();
+        panel.webview.postMessage({ type: 'todayArticles', requestId: msg.requestId, items });
+        break;
+      }
+      case 'generateTodayArticles': {
+        // reviewWords + extraWords come from webview (it knows what's due)
+        const items = await generateReadingArticles(msg.reviewWords || [], msg.extraWords || [], msg.count || 4);
+        if (items.length > 0) { saveTodayArticles(items); }
+        panel.webview.postMessage({ type: 'todayArticles', requestId: msg.requestId, items });
+        break;
+      }
+      case 'getFavoriteArticles': {
+        const items = loadFavorites();
+        panel.webview.postMessage({ type: 'favoriteArticles', requestId: msg.requestId, items });
+        break;
+      }
+      case 'toggleFavoriteArticle': {
+        const favs = loadFavorites();
+        const idx = favs.findIndex((a) => a.id === msg.article.id);
+        let favorited: boolean;
+        if (idx >= 0) { favs.splice(idx, 1); favorited = false; }
+        else { favs.unshift(msg.article); favorited = true; }
+        saveFavorites(favs);
+        panel.webview.postMessage({ type: 'favoriteToggled', requestId: msg.requestId, favorited, id: msg.article.id });
         break;
       }
     }
