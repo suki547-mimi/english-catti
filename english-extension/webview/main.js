@@ -443,13 +443,24 @@ function runLearnSession(words) {
       </div>
     `;
     wireAudioButtons(area);
-    // Load context sentence in background
+    // Load context sentence in background (default: 短句 mode)
     loadContextInto(document.getElementById('contextBox'), w);
-    // Kick off deep-study prefetch for the current word AND the next 1-2 words.
-    // By the time the user clicks 🔍 深度学习, the markdown is usually already cached.
+    // Kick off prefetches for current + next 2 words in background:
+    //   - Deep-study (LLM markdown)
+    //   - Story mode context (LLM narrative)
+    //   - Fun mode context (LLM social-media style)
+    // By the time the user clicks the button / switches tab, results are cached.
     prefetchDeepStudy(w);
-    if (words[session.idx + 1]) { prefetchDeepStudy(words[session.idx + 1]); }
-    if (words[session.idx + 2]) { prefetchDeepStudy(words[session.idx + 2]); }
+    prefetchContextMode(w, 'story');
+    prefetchContextMode(w, 'fun');
+    if (words[session.idx + 1]) {
+      prefetchDeepStudy(words[session.idx + 1]);
+      prefetchContextMode(words[session.idx + 1], 'story');
+      prefetchContextMode(words[session.idx + 1], 'fun');
+    }
+    if (words[session.idx + 2]) {
+      prefetchDeepStudy(words[session.idx + 2]);
+    }
 
     // Local per-card state
     const cardState = {
@@ -716,6 +727,7 @@ function escapeRegex(s) {
 
 // Cache LLM-generated modes separately: contextModeCache[wordId][mode] = {en, zh}
 const contextModeCache = new Map();
+const contextModeInFlight = new Map();  // key `${wordId}:${mode}` -> Promise
 function getCachedMode(wordId, mode) {
   const m = contextModeCache.get(wordId);
   return m ? m[mode] : null;
@@ -724,6 +736,30 @@ function setCachedMode(wordId, mode, ctx) {
   let m = contextModeCache.get(wordId);
   if (!m) { m = {}; contextModeCache.set(wordId, m); }
   m[mode] = ctx;
+}
+
+/** Warm the story/fun context cache in background — called from showCard()
+ *  so switching to 📖 故事 / 🌸 小红书 is instant. */
+function prefetchContextMode(w, mode) {
+  if (!w || !w.id || (mode !== 'story' && mode !== 'fun')) { return; }
+  if (getCachedMode(w.id, mode)) { return; }
+  const key = `${w.id}:${mode}`;
+  if (contextModeInFlight.has(key)) { return; }
+  const msgType = mode === 'story' ? 'generateStoryContext' : 'generateFunContext';
+  const p = callHost(msgType, { en: w.en, zh: w.zh })
+    .then((resp) => {
+      if (resp && resp.result && resp.result.en) {
+        setCachedMode(w.id, mode, {
+          en: resp.result.en,
+          zh: resp.result.zh,
+          source: mode === 'story' ? 'llm-story' : 'llm-fun',
+          target: w.en,
+        });
+      }
+    })
+    .catch(() => { /* ignore */ })
+    .finally(() => { contextModeInFlight.delete(key); });
+  contextModeInFlight.set(key, p);
 }
 
 /** Load context box with mode selector: 短句 / 故事 / 小红书. Chinese is hidden by default; click 👁 to reveal. */
@@ -750,11 +786,20 @@ async function loadContextInto(box, w, mode = 'short') {
     // Check cache first
     ctx = getCachedMode(w.id, mode);
     if (!ctx) {
-      const msgType = mode === 'story' ? 'generateStoryContext' : 'generateFunContext';
-      const resp = await callHost(msgType, { en: w.en, zh: w.zh });
-      if (resp && resp.result && resp.result.en) {
-        ctx = { en: resp.result.en, zh: resp.result.zh, source: mode === 'story' ? 'llm-story' : 'llm-fun', target: w.en };
-        setCachedMode(w.id, mode, ctx);
+      // If a background prefetch is already running, wait for it (don't spawn duplicate)
+      const key = `${w.id}:${mode}`;
+      const inflight = contextModeInFlight.get(key);
+      if (inflight) {
+        await inflight;
+        ctx = getCachedMode(w.id, mode);
+      }
+      if (!ctx) {
+        const msgType = mode === 'story' ? 'generateStoryContext' : 'generateFunContext';
+        const resp = await callHost(msgType, { en: w.en, zh: w.zh });
+        if (resp && resp.result && resp.result.en) {
+          ctx = { en: resp.result.en, zh: resp.result.zh, source: mode === 'story' ? 'llm-story' : 'llm-fun', target: w.en };
+          setCachedMode(w.id, mode, ctx);
+        }
       }
     }
   }
