@@ -44,7 +44,9 @@
 | Git 备份 | ✅ `github.com/suki547-mimi/english-catti` 已同步；日常 `.\tools\backup.ps1` |
 | 学习进度存储 | ✅ `user_state.json` + 每日备份 30 份轮换；`state.currentLearnSession` 落盘（reload 可续 4/10） |
 | 艾宾浩斯 SRS | ✅ 已就绪：`[1, 2, 4, 7, 15, 30]` 天间隔 · gap-preservation 逻辑 · 分数驱动大池辅助 |
-| 5 关判定 | ⏳ 仅关 1 上线（EN→ZH LLM 语义判分）；关 2/3/4/5 UI 未做 |
+| 5 关判定 | ✅ **v0.4.0 全部上线**：关 1 (EN→ZH) · 关 2 (ZH→EN) · 关 3 (搭配填空 LLM 生成) · 关 4 (造句 LLM 判分) · 关 5 (语境填空，语料库 fallback LLM) |
+| 收藏词 | ✅ v0.4.0：词本每张卡片右上有 ☆ 按钮，`user_state.json` 里 `favoriteWords[]` 持久化；词本顶栏"⭐ 只看收藏"过滤 |
+| AI 助教 | ✅ v0.4.0 新 tab：自由问答 · 记忆对话历史 · 一键导出到 Copilot Chat · Ctrl+Enter 发送 |
 | 读书角 | ✅ v0.3.0 首发：LLM 生成《青年文摘》风格短文 · 开机后台自动生成 · 逐句 Copilot 讲解 · 收藏夹 · 单句/逐句音频 |
 | 深度学习卡 | ✅ 英英/常用度/近义辨析/影视名场面/高频搭配 · 后台预取 3 个词（点击瞬发） |
 | 闹钟 | ✅ v0.3.0 上线：VS Code 内每日提醒（默认 10:00 / 15:00 / 20:00）· 通知内 3 选 1 快捷入口 · Windows Task Scheduler 系统级提醒（VS Code 关着也响）· 智能跳过（今日目标已达 → 不打扰） |
@@ -451,4 +453,6 @@ git reset --hard <commit-hash>  # 危险！彻底回退到某天（会丢失之�
 | 2026-07-30 | **读书角 tab 上线**：LLM 生成 3-5 篇《青年文摘》风格短文（复习词织入）；纯英文默认；点句 → Copilot Chat 讲解；🇨🇳 按钮切翻译；🇺🇸🇬🇧 单句/逐句播放；⭐ 收藏夹；数据存 `data/reading_corner/`（daily/`{date}.json` + `favorites.json`） |
 | 2026-07-30 | **v0.3.0 发布**：<br>• 版本号从 0.0.1 → **0.3.0**（读书角+闹钟大特性）<br>• 读书角 **开机后台自动生成**（`maybeAutoGenerateReading` 在 activate 后 3s 触发）<br>• LLM prompt 重写：**质量 > 词汇覆盖**，词汇变"可选调味料"，句数 ≥ 5 才收<br>• 读书角**生成后立刻预取音频**（US+UK 并发 3，全部句子）→ 点播放瞬发<br>• 生成失败时展示原始错误消息 + Output 日志入口<br>• 空态提示改善：复习 tab 明确"艾宾浩斯要等明天""今天已过一遍" |
 | 2026-07-30 | **闹钟功能开工**（v0.3.0 内）：<br>• VS Code 内提醒：`englishCatti.alarms.times`（默认 10:00 / 15:00 / 20:00）· 每次到点通知内含 学习/复习/读书角/再等 10 分钟 4 个按钮<br>• 智能跳过：如果今日已学 ≥10 词 且 待复习=0，静默跳过<br>• 命令 `English CATTI: Configure Daily Alarms` 交互设置时间<br>• 命令 `English CATTI: Install Windows System Alarms` 用 `schtasks.exe` 创建 Windows 任务计划（VS Code 关着也响）→ 生成 `data/notify_alarm.ps1` |
+| 2026-07-31 | **v0.3.1 闹钟修复**：<br>• `data/alarm_state.json` 落盘"今日已响"状态，Reload Window 不重置<br>• `catchUpMissed` 机制：activate 时如今日错过的时间点未响，立刻补一次<br>• 状态栏 `🔔 HH:MM` 显示下次响的时间（每分钟刷新）<br>• 命令 `Test Alarm Now` 立刻弹一次验证管道<br>• 专用 Output Channel `English CATTI · Alarms` 调试用 |
+| 2026-07-31 | **v0.4.0 三大新特性**：<br>• **5 关判定全上线**（关 2 ZH→EN / 关 3 搭配填空 / 关 4 造句 / 关 5 语料库语境填空，LLM 判分）<br>• **收藏词**：词本 ☆ 按钮 · `favoriteWords[]` 持久化 · "只看收藏"过滤 chip<br>• **AI 助教 tab**：自由问答 + 对话历史 + Ctrl+Enter · 一键导出到 Copilot Chat |
 

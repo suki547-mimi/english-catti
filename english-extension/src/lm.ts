@@ -325,3 +325,156 @@ function extractJsonArray(text: string): any[] | null {
   }
   return null;
 }
+
+// ============ Gates 2-5 support ============
+
+/** Gate 2: ZH → EN. User was shown the Chinese meaning and typed English.
+ *  Grade whether their answer semantically matches the target English word/phrase.
+ *  Accepts synonyms, minor form differences (walk/walking/walked), etc. */
+export async function gradeReverseSemantic(userEn: string, targetEn: string, zhHint: string): Promise<GradeResult> {
+  try {
+    const model = await getModel();
+    if (!model) { return { correct: false, feedback: '未找到可用的语言模型。' }; }
+    const prompt =
+      `你是一位英语学习助手。学习者看到中文意思"${zhHint}"，被要求写出对应的英文表达。\n` +
+      `目标英文（参考）："${targetEn}"\n` +
+      `学习者的答案："${userEn}"\n\n` +
+      `判分规则：\n` +
+      `- 同义词、近义词都算对（例：happy / glad / joyful 都对）\n` +
+      `- 词形变化算对（例：walk / walked / walking）\n` +
+      `- 拼写错误 1-2 个字母也可以算对但要提示\n` +
+      `- 只输出一行 JSON：{"correct": true 或 false, "feedback": "中文简短点评一句，如果和参考不同但对，说明"}`;
+    const messages = [vscode.LanguageModelChatMessage.User(prompt)];
+    const cts = new vscode.CancellationTokenSource();
+    const response = await model.sendRequest(messages, {}, cts.token);
+    const text = await collectResponse(response);
+    const parsed = parseJson(text);
+    if (!parsed) { return { correct: false, feedback: `LLM 返回异常: ${text.slice(0, 80)}` }; }
+    return { correct: !!parsed.correct, feedback: String(parsed.feedback || '') };
+  } catch (e: any) {
+    return { correct: false, feedback: `LM 错误: ${e.message || e}` };
+  }
+}
+
+/** Gate 3: Generate a collocation cloze — a short phrase with the target word
+ *  blanked out, and the correct answer. */
+export async function generateCollocationCloze(en: string, zh: string): Promise<{ stem: string; answer: string; hint: string } | null> {
+  try {
+    const model = await getModel();
+    if (!model) { return null; }
+    const prompt =
+      `为学习者生成关于英文词 "${en}"（意思："${zh}"）的一个高频搭配填空题。\n\n` +
+      `要求：\n` +
+      `- 选一个真实、高频的英语搭配（例：如果词是 "make"，可选 "make a decision"）\n` +
+      `- 把目标词挖空，用 \`___\` 表示空格\n` +
+      `- 挖空后剩下的部分要足够长以提供语境（至少 3 个词）\n` +
+      `- hint 是一句提示（中文），不要直接说答案\n\n` +
+      `只输出一行 JSON：{"stem": "带 ___ 的短语", "answer": "被挖掉的词（原形）", "hint": "中文提示一句"}`;
+    const messages = [vscode.LanguageModelChatMessage.User(prompt)];
+    const cts = new vscode.CancellationTokenSource();
+    const response = await model.sendRequest(messages, {}, cts.token);
+    const text = await collectResponse(response);
+    const parsed = parseJson(text);
+    if (!parsed || !parsed.stem || !parsed.answer) { return null; }
+    return {
+      stem: String(parsed.stem).trim(),
+      answer: String(parsed.answer).trim(),
+      hint: String(parsed.hint || '').trim(),
+    };
+  } catch (e: any) {
+    log(`[collocationCloze] ${e.message || e}`);
+    return null;
+  }
+}
+
+/** Gate 3 grade: check whether the filled word matches the expected answer (or a valid variant). */
+export async function gradeCollocation(userAnswer: string, expected: string, stem: string): Promise<GradeResult> {
+  const norm = (s: string) => s.trim().toLowerCase().replace(/[^a-z]/g, '');
+  if (norm(userAnswer) === norm(expected)) {
+    return { correct: true, feedback: '✓ 完全一致' };
+  }
+  // For lexical variants (walk vs walking) let LLM decide
+  try {
+    const model = await getModel();
+    if (!model) { return { correct: false, feedback: `期待: ${expected}` }; }
+    const prompt =
+      `搭配填空题：\n"${stem}"\n\n` +
+      `期待答案："${expected}"\n学习者填的是："${userAnswer}"\n\n` +
+      `是否算对？考虑：单复数变形、时态、大小写、拼写小错。只输出一行 JSON：\n` +
+      `{"correct": true 或 false, "feedback": "中文简短点评"}`;
+    const messages = [vscode.LanguageModelChatMessage.User(prompt)];
+    const cts = new vscode.CancellationTokenSource();
+    const response = await model.sendRequest(messages, {}, cts.token);
+    const text = await collectResponse(response);
+    const parsed = parseJson(text);
+    if (!parsed) { return { correct: false, feedback: `期待: ${expected}` }; }
+    return { correct: !!parsed.correct, feedback: String(parsed.feedback || `期待: ${expected}`) };
+  } catch (e: any) {
+    return { correct: false, feedback: `LM 错误: ${e.message || e}` };
+  }
+}
+
+/** Gate 5 (context cloze) grade — usually deterministic string match with variants. */
+export async function gradeContextCloze(userAnswer: string, expected: string, sentence: string): Promise<GradeResult> {
+  const norm = (s: string) => s.trim().toLowerCase().replace(/[^a-z]/g, '');
+  if (norm(userAnswer) === norm(expected)) {
+    return { correct: true, feedback: '✓ 完全一致' };
+  }
+  try {
+    const model = await getModel();
+    if (!model) { return { correct: false, feedback: `期待: ${expected}` }; }
+    const prompt =
+      `语境填空题（原句括号里是被挖掉的目标词）：\n"${sentence}"\n\n` +
+      `期待答案："${expected}"\n学习者填的是："${userAnswer}"\n\n` +
+      `是否算对？可接受词形变化，但要求语义完全一致。只输出一行 JSON：\n` +
+      `{"correct": true 或 false, "feedback": "中文简短点评"}`;
+    const messages = [vscode.LanguageModelChatMessage.User(prompt)];
+    const cts = new vscode.CancellationTokenSource();
+    const response = await model.sendRequest(messages, {}, cts.token);
+    const text = await collectResponse(response);
+    const parsed = parseJson(text);
+    if (!parsed) { return { correct: false, feedback: `期待: ${expected}` }; }
+    return { correct: !!parsed.correct, feedback: String(parsed.feedback || '') };
+  } catch (e: any) {
+    return { correct: false, feedback: `LM 错误: ${e.message || e}` };
+  }
+}
+
+/** Free-form AI tutor chat — no specific target word.
+ *  Uses full history so the tutor remembers prior questions in the same session. */
+export async function chatFreeform(
+  history: Array<{ role: 'user' | 'assistant'; text: string }>,
+  question: string,
+): Promise<string> {
+  try {
+    const model = await getModel();
+    if (!model) { return '⚠️ 未找到可用的语言模型。'; }
+    const systemNote =
+      `你是一位英语学习助手，专为准备 CATTI 2 笔译 / 3 口译考试的中国学习者服务。` +
+      `你可以：\n` +
+      `- 解释单词/短语/习语的含义、词源、语域、使用场景\n` +
+      `- 辨析近义词、翻译难点\n` +
+      `- 提供高质量例句（尽量地道，标准中文翻译）\n` +
+      `- 讨论英美文化背景、成语典故、影视名场面里的用法\n` +
+      `- 帮忙润色英文写作、找到更好的表达\n\n` +
+      `回答简洁、准确、地道。中文为主，可以夹带英文示例。避免闲聊和过度铺垫。`;
+    const messages: vscode.LanguageModelChatMessage[] = [
+      vscode.LanguageModelChatMessage.User(systemNote),
+      vscode.LanguageModelChatMessage.Assistant('好的，请开始提问。'),
+    ];
+    for (const turn of history) {
+      if (turn.role === 'user') { messages.push(vscode.LanguageModelChatMessage.User(turn.text)); }
+      else { messages.push(vscode.LanguageModelChatMessage.Assistant(turn.text)); }
+    }
+    messages.push(vscode.LanguageModelChatMessage.User(question));
+    const cts = new vscode.CancellationTokenSource();
+    const response = await model.sendRequest(messages, {}, cts.token);
+    const text = await collectResponse(response);
+    log(`[chatFreeform] Q="${question.slice(0, 50)}" -> ${text.length} chars`);
+    return text.trim();
+  } catch (e: any) {
+    log(`[chatFreeform] error: ${e.message || e}`);
+    return `⚠️ 出错: ${e.message || e}`;
+  }
+}
+

@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as crypto from 'crypto';
 import { spawn } from 'child_process';
-import { gradeSemantic, gradeSentence, generateContext, deepStudy, chatWithWord, generateReadingArticles, ReadingArticle } from './lm';
+import { gradeSemantic, gradeSentence, generateContext, deepStudy, chatWithWord, generateReadingArticles, ReadingArticle, gradeReverseSemantic, generateCollocationCloze, gradeCollocation, gradeContextCloze, chatFreeform } from './lm';
 import { UserStore } from './store';
 
 let panel: vscode.WebviewPanel | undefined;
@@ -294,6 +294,41 @@ export async function openMainPanel(context: vscode.ExtensionContext, mode: stri
       case 'gradeSentence': {
         const result = await gradeSentence(msg.sentence, msg.targetWord, msg.chineseMeaning);
         panel.webview.postMessage({ type: 'sentenceResult', requestId: msg.requestId, result });
+        break;
+      }
+      case 'gradeReverseSemantic': {
+        const result = await gradeReverseSemantic(msg.userEn, msg.targetEn, msg.zhHint);
+        panel.webview.postMessage({ type: 'gradeResult', requestId: msg.requestId, result });
+        break;
+      }
+      case 'generateCollocationCloze': {
+        const result = await generateCollocationCloze(msg.en, msg.zh);
+        panel.webview.postMessage({ type: 'collocationCloze', requestId: msg.requestId, result });
+        break;
+      }
+      case 'gradeCollocation': {
+        const result = await gradeCollocation(msg.userAnswer, msg.expected, msg.stem);
+        panel.webview.postMessage({ type: 'gradeResult', requestId: msg.requestId, result });
+        break;
+      }
+      case 'gradeContextCloze': {
+        const result = await gradeContextCloze(msg.userAnswer, msg.expected, msg.sentence);
+        panel.webview.postMessage({ type: 'gradeResult', requestId: msg.requestId, result });
+        break;
+      }
+      case 'chatFreeform': {
+        const reply = await chatFreeform(msg.history || [], msg.question || '');
+        panel.webview.postMessage({ type: 'chatReply', requestId: msg.requestId, reply });
+        break;
+      }
+      case 'toggleFavoriteWord': {
+        const favorited = store ? store.toggleFavoriteWord(msg.wordId) : false;
+        panel.webview.postMessage({ type: 'favoriteWordToggled', requestId: msg.requestId, favorited, wordId: msg.wordId });
+        break;
+      }
+      case 'getFavoriteWords': {
+        const ids = store ? store.getFavoriteWords() : [];
+        panel.webview.postMessage({ type: 'favoriteWords', requestId: msg.requestId, ids });
         break;
       }
       case 'generateContext': {

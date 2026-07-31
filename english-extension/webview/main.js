@@ -20,12 +20,15 @@ let audioIndex = {};
 let phonetics = {};
 /** @type {Object<string, {us?:string, uk?:string, zh?:string}>} */
 let sentenceAudioIndex = {};
+/** Set of wordIds the user has starred as favorite. */
+let favoriteWordIds = new Set();
 
 let state = {
   tab: 'browse',
   letter: 'A',
   search: '',
   topicFilter: '',
+  favOnly: false,
   learnSession: null,          // { wordIds:[], idx, known, unknown, startedAt }
   reviewQueue: null,
 };
@@ -61,6 +64,12 @@ async function boot() {
       if (m && m.session && m.session.wordIds && m.session.idx < m.session.wordIds.length) {
         state.learnSession = m.session;
       }
+    } catch { /* ignore */ }
+
+    // Load favorite words
+    try {
+      const fm = await callHost('getFavoriteWords');
+      favoriteWordIds = new Set(fm.ids || []);
     } catch { /* ignore */ }
 
     // Wire tabs
@@ -204,8 +213,11 @@ function wireAudioButtons(root) {
 }
 
 function cardHtml(v) {
-  return `<div class="card">
-    <div class="en">${escapeHtml(v.en)} ${audioBtns(v.en)}</div>
+  const isFav = favoriteWordIds.has(v.id);
+  return `<div class="card" data-word-id="${v.id}">
+    <div class="en">${escapeHtml(v.en)} ${audioBtns(v.en)}
+      <button class="word-fav-btn" data-word-fav="${v.id}" title="${isFav ? '取消收藏' : '收藏'}">${isFav ? '★' : '☆'}</button>
+    </div>
     ${phoneticBadges(v.en)}
     <div class="zh">${escapeHtml(v.zh) || '<em class="muted">暂无中文释义</em>'}</div>
     <div class="meta">${escapeHtml(v.topic || 'misc')} · ${escapeHtml(v.kind || '')} · ${escapeHtml((v.sources || []).join(', '))}</div>
@@ -218,6 +230,7 @@ function render() {
   else if (state.tab === 'learn') { renderLearn(); }
   else if (state.tab === 'review') { renderReview(); }
   else if (state.tab === 'reading') { renderReading(); }
+  else if (state.tab === 'tutor') { renderTutor(); }
   else if (state.tab === 'stats') { renderStats(); }
 }
 
@@ -227,6 +240,11 @@ function renderBrowse() {
   const letters = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','#'];
   content.innerHTML = `
     <input class="search" placeholder="搜索英文或中文…（回车过滤）" value="${escapeHtml(state.search)}">
+    <div class="browse-filters">
+      <button class="filter-chip ${state.favOnly ? 'active' : ''}" id="favToggle">
+        ★ 只看收藏 (<b>${favoriteWordIds.size}</b>)
+      </button>
+    </div>
     <div class="letter-tabs">${letters.map(L => `<button data-letter="${L}" class="${L === state.letter ? 'active' : ''}">${L}</button>`).join('')}</div>
     <p class="muted" id="listMeta"></p>
     <div id="list"></div>
@@ -234,6 +252,10 @@ function renderBrowse() {
   content.querySelector('.search').addEventListener('input', (e) => {
     state.search = e.target.value.trim().toLowerCase();
     renderList();
+  });
+  document.getElementById('favToggle').addEventListener('click', () => {
+    state.favOnly = !state.favOnly;
+    renderBrowse();
   });
   for (const b of content.querySelectorAll('.letter-tabs button')) {
     b.addEventListener('click', () => {
@@ -250,10 +272,14 @@ function renderList() {
   const list = document.getElementById('list');
   const meta = document.getElementById('listMeta');
   let items;
+  const favFilter = state.favOnly ? (v) => favoriteWordIds.has(v.id) : () => true;
   if (state.search) {
-    items = vocab.filter((v) => v.en.toLowerCase().includes(state.search) || (v.zh || '').includes(state.search));
-    meta.textContent = `匹配 ${items.length} 条（最多显示 200）`;
+    items = vocab.filter((v) => favFilter(v) && (v.en.toLowerCase().includes(state.search) || (v.zh || '').includes(state.search)));
+    meta.textContent = `${state.favOnly ? '收藏中 ' : ''}匹配 ${items.length} 条（最多显示 200）`;
     items = items.slice(0, 200);
+  } else if (state.favOnly) {
+    items = vocab.filter((v) => favoriteWordIds.has(v.id));
+    meta.textContent = `已收藏 ${items.length} 个词`;
   } else {
     items = vocab.filter((v) => v.letter === state.letter);
     meta.textContent = `字母 ${state.letter} 共 ${items.length} 条（最多显示 500）`;
@@ -261,6 +287,22 @@ function renderList() {
   }
   list.innerHTML = items.map(cardHtml).join('');
   wireAudioButtons(list);
+  wireFavoriteButtons(list);
+}
+
+function wireFavoriteButtons(root) {
+  for (const b of root.querySelectorAll('[data-word-fav]')) {
+    b.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      const id = b.dataset.wordFav;
+      const resp = await callHost('toggleFavoriteWord', { wordId: id });
+      if (resp.favorited) {
+        favoriteWordIds.add(id); b.textContent = '★'; b.title = '取消收藏';
+      } else {
+        favoriteWordIds.delete(id); b.textContent = '☆'; b.title = '收藏';
+      }
+    });
+  }
 }
 
 // ------------ Tab: Learn ------------
@@ -906,8 +948,12 @@ async function runScoreSession(poolItems) {
 }
 
 /**
- * Generic quiz runner. For M1 all gates route to Gate-1 style EN→ZH quiz
- * with LLM grading. Gates 2-5 will be implemented in a future pass.
+ * Generic quiz runner. Dispatches to a gate-specific renderer based on w._dueGate.
+ *   Gate 1: EN → ZH (semantic LLM grade)                             — done
+ *   Gate 2: ZH → EN (semantic LLM grade)                             — done
+ *   Gate 3: Collocation cloze (LLM-generated fill-in-the-blank)      — done
+ *   Gate 4: Sentence writing (grammar + usage LLM grade)             — done
+ *   Gate 5: Context cloze from corpus sentence (fallback: LLM-gen)   — done
  */
 function runQuizSession(mode, words) {
   let idx = 0;
@@ -926,22 +972,47 @@ function runQuizSession(mode, words) {
     document.getElementById('againBtn').addEventListener('click', () => renderReview());
   }
 
+  function submitResult(w, gate, pass, feedback) {
+    if (pass) { correct++; } else { incorrect++; }
+    const recordMsg = mode === 'ebbinghaus' ? 'recordEbbinghausReview' : 'recordScoreReview';
+    vscode.postMessage({ type: recordMsg, wordId: w.id, en: w.en, zh: w.zh, gate, pass });
+    document.getElementById('res').innerHTML = `
+      <div class="result-box">
+        <p class="${pass ? 'result-ok' : 'result-bad'}"><b>${pass ? '✓ 正确' : '✗ 需改进'}</b>：${escapeHtml(feedback || '')}</p>
+        <p class="muted">参考：${escapeHtml(w.en)} — ${escapeHtml(w.zh)}</p>
+        <p><button id="next">下一个</button></p>
+      </div>
+    `;
+    document.getElementById('next').addEventListener('click', () => { idx++; show(); });
+  }
+
   function show() {
     if (idx >= words.length) { finish(); return; }
     const w = words[idx];
     const gate = w._dueGate || 1;
-    // For M1: all gates use the EN→ZH quiz style
+    switch (gate) {
+      case 2: renderGate2(w, gate); break;
+      case 3: renderGate3(w, gate); break;
+      case 4: renderGate4(w, gate); break;
+      case 5: renderGate5(w, gate); break;
+      default: renderGate1(w, gate);
+    }
+  }
+
+  function gateHeader(w, gate, label) {
+    return `<div class="muted" style="margin-bottom:8px">${idx + 1} / ${words.length}　·　<span class="gate-badge gate-${gate}">关 ${gate}</span> · ${label}</div>`;
+  }
+
+  // ---------- Gate 1: EN → ZH ----------
+  function renderGate1(w, gate) {
     area.innerHTML = `
       <div class="card quiz-card">
-        <div class="muted" style="margin-bottom:8px">${idx + 1} / ${words.length}　·　关 ${gate}</div>
+        ${gateHeader(w, gate, '看英文，说中文')}
         <div class="quiz-target">${escapeHtml(w.en)} ${audioBtns(w.en)}</div>
         ${phoneticBadges(w.en)}
         <div class="quiz-hint">请输入中文意思</div>
         <input class="quiz-input" id="ans" placeholder="任何合理的中文意思都算对（LLM 判分）">
-        <p>
-          <button id="go">提交</button>
-          <button class="secondary" id="skip">跳过</button>
-        </p>
+        <p><button id="go">提交</button> <button class="secondary" id="skip">跳过</button></p>
         <div id="res"></div>
       </div>
     `;
@@ -953,21 +1024,162 @@ function runQuizSession(mode, words) {
       if (!val) { return; }
       document.getElementById('res').innerHTML = '<p class="muted">LLM 判分中…</p>';
       const r = await callLM('gradeSemantic', { userAnswer: val, reference: w.zh });
-      if (r.correct) { correct++; } else { incorrect++; }
-      const recordMsg = mode === 'ebbinghaus' ? 'recordEbbinghausReview' : 'recordScoreReview';
-      vscode.postMessage({ type: recordMsg, wordId: w.id, en: w.en, zh: w.zh, gate, pass: r.correct });
-      document.getElementById('res').innerHTML = `
-        <div class="result-box">
-          <p class="${r.correct ? 'result-ok' : 'result-bad'}"><b>${r.correct ? '✓ 正确' : '✗ 需改进'}</b>：${escapeHtml(r.feedback)}</p>
-          <p class="muted">参考：${escapeHtml(w.zh)}</p>
-          <p><button id="next">下一个</button></p>
-        </div>
-      `;
-      document.getElementById('next').addEventListener('click', () => { idx++; show(); });
+      submitResult(w, gate, r.correct, r.feedback);
     };
     document.getElementById('go').addEventListener('click', submit);
     document.getElementById('ans').addEventListener('keydown', (e) => { if (e.key === 'Enter') { submit(); } });
   }
+
+  // ---------- Gate 2: ZH → EN ----------
+  function renderGate2(w, gate) {
+    area.innerHTML = `
+      <div class="card quiz-card">
+        ${gateHeader(w, gate, '看中文，写英文')}
+        <div class="quiz-target" style="font-size:20px">${escapeHtml(w.zh)}</div>
+        <div class="quiz-hint">请写出对应的英文单词/短语</div>
+        <input class="quiz-input" id="ans" placeholder="同义词、词形变化也算对">
+        <p><button id="go">提交</button> <button class="secondary" id="skip">跳过</button></p>
+        <div id="res"></div>
+      </div>
+    `;
+    document.getElementById('ans').focus();
+    document.getElementById('skip').addEventListener('click', () => { idx++; show(); });
+    const submit = async () => {
+      const val = document.getElementById('ans').value.trim();
+      if (!val) { return; }
+      document.getElementById('res').innerHTML = '<p class="muted">LLM 判分中…</p>';
+      const r = await callLM('gradeReverseSemantic', { userEn: val, targetEn: w.en, zhHint: w.zh });
+      submitResult(w, gate, r.correct, r.feedback);
+    };
+    document.getElementById('go').addEventListener('click', submit);
+    document.getElementById('ans').addEventListener('keydown', (e) => { if (e.key === 'Enter') { submit(); } });
+  }
+
+  // ---------- Gate 3: Collocation cloze ----------
+  async function renderGate3(w, gate) {
+    area.innerHTML = `
+      <div class="card quiz-card">
+        ${gateHeader(w, gate, '搭配填空')}
+        <div class="muted">目标词：<b>${escapeHtml(w.en)}</b> — ${escapeHtml(w.zh)}</div>
+        <div id="clozeArea"><p class="muted" style="margin-top:12px">🌀 生成题目中…</p></div>
+      </div>
+    `;
+    const cloze = await callHost('generateCollocationCloze', { en: w.en, zh: w.zh });
+    const c = cloze.result;
+    if (!c) {
+      // Fallback: skip gracefully
+      document.getElementById('clozeArea').innerHTML = `<p class="result-bad">⚠️ 生成失败，跳过此题</p>
+        <p><button id="skipG3">下一个</button></p>`;
+      document.getElementById('skipG3').addEventListener('click', () => { idx++; show(); });
+      return;
+    }
+    document.getElementById('clozeArea').innerHTML = `
+      <div class="cloze-stem">${escapeHtml(c.stem)}</div>
+      <div class="quiz-hint">${escapeHtml(c.hint || '填入合适的词')}</div>
+      <input class="quiz-input" id="ans" placeholder="填空">
+      <p><button id="go">提交</button> <button class="secondary" id="skip">跳过</button></p>
+      <div id="res"></div>
+    `;
+    document.getElementById('ans').focus();
+    document.getElementById('skip').addEventListener('click', () => { idx++; show(); });
+    const submit = async () => {
+      const val = document.getElementById('ans').value.trim();
+      if (!val) { return; }
+      document.getElementById('res').innerHTML = '<p class="muted">LLM 判分中…</p>';
+      const r = await callLM('gradeCollocation', { userAnswer: val, expected: c.answer, stem: c.stem });
+      submitResult(w, gate, r.correct, `${r.feedback} · 期待: ${c.answer}`);
+    };
+    document.getElementById('go').addEventListener('click', submit);
+    document.getElementById('ans').addEventListener('keydown', (e) => { if (e.key === 'Enter') { submit(); } });
+  }
+
+  // ---------- Gate 4: Sentence writing ----------
+  function renderGate4(w, gate) {
+    area.innerHTML = `
+      <div class="card quiz-card">
+        ${gateHeader(w, gate, '用这个词造句')}
+        <div class="quiz-target">${escapeHtml(w.en)} ${audioBtns(w.en)}</div>
+        ${phoneticBadges(w.en)}
+        <div class="muted">意思：${escapeHtml(w.zh)}</div>
+        <div class="quiz-hint">写一个英文句子，用到这个词，考察语法和用词是否地道</div>
+        <textarea class="quiz-input" id="ans" rows="3" placeholder="例如：After the meeting, we decided to..."></textarea>
+        <p><button id="go">提交</button> <button class="secondary" id="skip">跳过</button></p>
+        <div id="res"></div>
+      </div>
+    `;
+    wireAudioButtons(area);
+    document.getElementById('ans').focus();
+    document.getElementById('skip').addEventListener('click', () => { idx++; show(); });
+    const submit = async () => {
+      const val = document.getElementById('ans').value.trim();
+      if (!val) { return; }
+      document.getElementById('res').innerHTML = '<p class="muted">LLM 判分中…</p>';
+      const r = await callLM('gradeSentence', { sentence: val, targetWord: w.en, chineseMeaning: w.zh });
+      submitResult(w, gate, r.correct, r.feedback);
+    };
+    document.getElementById('go').addEventListener('click', submit);
+  }
+
+  // ---------- Gate 5: Context cloze from real corpus sentence ----------
+  function renderGate5(w, gate) {
+    // Try to find a corpus sentence containing the target word
+    const tokens = contentTokens(w.en);
+    const primary = tokens[0] || w.en.toLowerCase();
+    const rx = new RegExp(`\\b(${escapeRegex(primary)}[a-z]*)`, 'i');
+    const hit = sentences.find((s) => rx.test(s.en || ''));
+    if (!hit) {
+      // Fallback: use LLM-generated context (via generateContext) then blank the word
+      area.innerHTML = `
+        <div class="card quiz-card">
+          ${gateHeader(w, gate, '语境填空')}
+          <div class="muted">目标词：<b>${escapeHtml(w.en)}</b> — ${escapeHtml(w.zh)}</div>
+          <p class="muted" style="margin-top:12px">🌀 从语料库找不到，用 LLM 现场生成…</p>
+        </div>
+      `;
+      (async () => {
+        const m = await callHost('generateContext', { en: w.en, zh: w.zh });
+        const ctx = m && m.result;
+        if (!ctx || !ctx.en) {
+          area.innerHTML = `<div class="card"><p class="result-bad">⚠️ 无法生成语境题</p>
+            <p><button id="skipG5">下一个</button></p></div>`;
+          document.getElementById('skipG5').addEventListener('click', () => { idx++; show(); });
+          return;
+        }
+        showClozeSentence(w, gate, ctx.en, primary);
+      })();
+      return;
+    }
+    showClozeSentence(w, gate, hit.en, primary);
+  }
+
+  function showClozeSentence(w, gate, enSentence, primary) {
+    const match = enSentence.match(new RegExp(`\\b(${escapeRegex(primary)}[a-z]*)`, 'i'));
+    const actualWord = match ? match[1] : primary;
+    const blanked = enSentence.replace(new RegExp(`\\b${escapeRegex(actualWord)}\\b`, 'i'), '_____');
+    area.innerHTML = `
+      <div class="card quiz-card">
+        ${gateHeader(w, gate, '语境填空')}
+        <div class="muted">意思：${escapeHtml(w.zh)}</div>
+        <div class="cloze-sentence">${escapeHtml(blanked)}</div>
+        <div class="quiz-hint">填入原句里被挖掉的目标词（可含时态/单复数变化）</div>
+        <input class="quiz-input" id="ans" placeholder="填空">
+        <p><button id="go">提交</button> <button class="secondary" id="skip">跳过</button></p>
+        <div id="res"></div>
+      </div>
+    `;
+    document.getElementById('ans').focus();
+    document.getElementById('skip').addEventListener('click', () => { idx++; show(); });
+    const submit = async () => {
+      const val = document.getElementById('ans').value.trim();
+      if (!val) { return; }
+      document.getElementById('res').innerHTML = '<p class="muted">LLM 判分中…</p>';
+      const r = await callLM('gradeContextCloze', { userAnswer: val, expected: actualWord, sentence: enSentence });
+      submitResult(w, gate, r.correct, r.feedback);
+    };
+    document.getElementById('go').addEventListener('click', submit);
+    document.getElementById('ans').addEventListener('keydown', (e) => { if (e.key === 'Enter') { submit(); } });
+  }
+
   show();
 }
 
@@ -1026,6 +1238,75 @@ async function fetchCalendar(pastDays = 30, futureDays = 7) {
 async function fetchDayDetail(date) {
   const m = await callHost('getDayDetail', { date });
   return m.detail;
+}
+
+// ============ Tab: AI Tutor (free-form chat) ============
+const tutorHistory = [];   // [{role: 'user'|'assistant', text}]
+
+async function renderTutor() {
+  const content = document.getElementById('content');
+  content.innerHTML = `
+    <h2>💬 AI 助教</h2>
+    <p class="muted">和 Copilot 深度聊英语——释义、辨析、翻译难点、文化背景、写作润色都行。历史保留在这次对话里。</p>
+    <div class="tutor-container">
+      <div id="tutorLog" class="tutor-log"></div>
+      <div class="tutor-input-row">
+        <textarea id="tutorInput" class="tutor-input" rows="3"
+          placeholder="例：辨析 forgive vs pardon vs excuse 的差别 / 翻译"绵绵不绝的思念" / 讲下 The Wire 里 pearl-clutching 的用法"></textarea>
+        <div class="tutor-actions">
+          <button id="tutorSend">发送 (Ctrl+Enter)</button>
+          <button class="secondary" id="tutorClear">清空对话</button>
+          <button class="secondary" id="tutorExport">复制到 Copilot Chat</button>
+        </div>
+      </div>
+    </div>
+  `;
+  renderTutorLog();
+  const inputEl = document.getElementById('tutorInput');
+  inputEl.focus();
+  const send = async () => {
+    const q = inputEl.value.trim();
+    if (!q) { return; }
+    tutorHistory.push({ role: 'user', text: q });
+    renderTutorLog(true);
+    inputEl.value = '';
+    inputEl.disabled = true;
+    const m = await callHost('chatFreeform', { history: tutorHistory.slice(0, -1), question: q });
+    tutorHistory.push({ role: 'assistant', text: m.reply || '⚠️ 无响应' });
+    inputEl.disabled = false;
+    renderTutorLog(true);
+    inputEl.focus();
+  };
+  document.getElementById('tutorSend').addEventListener('click', send);
+  inputEl.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); send(); }
+  });
+  document.getElementById('tutorClear').addEventListener('click', () => {
+    if (tutorHistory.length === 0) { return; }
+    if (confirm('清空全部对话历史？')) { tutorHistory.length = 0; renderTutorLog(); }
+  });
+  document.getElementById('tutorExport').addEventListener('click', () => {
+    if (tutorHistory.length === 0) { return; }
+    const query = tutorHistory.map((t) => (t.role === 'user' ? '**我**：' : '**助教**：') + t.text).join('\n\n')
+      + '\n\n---\n请继续这段对话。';
+    vscode.postMessage({ type: 'openInCopilotChat', query });
+  });
+}
+
+function renderTutorLog(scrollBottom = false) {
+  const log = document.getElementById('tutorLog');
+  if (!log) { return; }
+  if (tutorHistory.length === 0) {
+    log.innerHTML = `<div class="muted" style="padding:24px; text-align:center">还没有对话。上面输入框问点什么吧 👇</div>`;
+    return;
+  }
+  log.innerHTML = tutorHistory.map((t, i) => `
+    <div class="tutor-msg tutor-msg-${t.role}">
+      <div class="tutor-msg-label">${t.role === 'user' ? '你' : '💬 助教'}</div>
+      <div class="tutor-msg-body">${renderMarkdown(t.text)}</div>
+    </div>
+  `).join('');
+  if (scrollBottom) { log.scrollTop = log.scrollHeight; }
 }
 
 // ============ Tab: Reading Corner ============

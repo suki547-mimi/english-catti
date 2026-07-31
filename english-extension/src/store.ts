@@ -67,6 +67,7 @@ export interface UserState {
   daily: Record<string, DailyStats>;
   sessions: Session[];
   currentLearnSession?: LearnSessionState | null;
+  favoriteWords?: string[];   // wordIds the user has starred
 }
 
 const EMPTY_STATE = (): UserState => ({
@@ -77,6 +78,7 @@ const EMPTY_STATE = (): UserState => ({
   daily: {},
   sessions: [],
   currentLearnSession: null,
+  favoriteWords: [],
 });
 
 function isoDate(d: Date = new Date()): string {
@@ -317,6 +319,20 @@ export class UserStore {
 
   getLearnSession(): LearnSessionState | null {
     return this.state.currentLearnSession || null;
+  }
+
+  /** Toggle favorite status for a word. Returns new state (true = favorited). */
+  toggleFavoriteWord(wordId: string): boolean {
+    if (!this.state.favoriteWords) { this.state.favoriteWords = []; }
+    const idx = this.state.favoriteWords.indexOf(wordId);
+    if (idx >= 0) { this.state.favoriteWords.splice(idx, 1); this.save(); return false; }
+    this.state.favoriteWords.unshift(wordId);
+    this.save();
+    return true;
+  }
+
+  getFavoriteWords(): string[] {
+    return this.state.favoriteWords || [];
   }
 
   /** Ebbinghaus queue: due today or earlier, most overdue first. */
