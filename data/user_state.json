@@ -1,7 +1,7 @@
 {
   "version": 2,
   "created_at": "2026-07-30T07:46:20.217Z",
-  "updated_at": "2026-07-30T09:26:59.573Z",
+  "updated_at": "2026-07-31T06:01:19.289Z",
   "words": {
     "1815da7d5abcad3e": {
       "id": "1815da7d5abcad3e",
@@ -326,11 +326,88 @@
           "result": "unknown"
         }
       ]
+    },
+    "a7458fa3fc26d2f1": {
+      "id": "a7458fa3fc26d2f1",
+      "en": "after-sale services",
+      "zh": "售后服务",
+      "gate": 1,
+      "learned_at": "2026-07-30",
+      "reviews_done": 0,
+      "next_review_at": "2026-07-31",
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 20,
+      "seen_count": 1,
+      "last_reviewed_at": "2026-07-30T10:01:43.512Z",
+      "last_result": "known",
+      "history": [
+        {
+          "at": "2026-07-30T10:01:43.512Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "known"
+        }
+      ]
+    },
+    "6059c93a5c46a108": {
+      "id": "6059c93a5c46a108",
+      "en": "geographer",
+      "zh": "地理学家",
+      "gate": 1,
+      "learned_at": "2026-07-30",
+      "reviews_done": 0,
+      "next_review_at": "2026-07-31",
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 20,
+      "seen_count": 1,
+      "last_reviewed_at": "2026-07-30T10:01:48.490Z",
+      "last_result": "known",
+      "history": [
+        {
+          "at": "2026-07-30T10:01:48.490Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "known"
+        }
+      ]
+    },
+    "124f65a1d3295dae": {
+      "id": "124f65a1d3295dae",
+      "en": "Cross retaliation",
+      "zh": "交叉报复",
+      "gate": 0,
+      "learned_at": null,
+      "reviews_done": 0,
+      "next_review_at": null,
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 0,
+      "seen_count": 1,
+      "last_reviewed_at": "2026-07-31T06:01:19.289Z",
+      "last_result": "unknown",
+      "history": [
+        {
+          "at": "2026-07-31T06:01:19.289Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "unknown"
+        }
+      ]
     }
   },
   "daily": {
     "2026-07-30": {
-      "new_words": 8,
+      "new_words": 10,
+      "reviewed": 0,
+      "correct": 0,
+      "incorrect": 0,
+      "ebbinghaus_reviewed": 0,
+      "score_reviewed": 0
+    },
+    "2026-07-31": {
+      "new_words": 0,
       "reviewed": 0,
       "correct": 0,
       "incorrect": 0,
@@ -354,7 +431,35 @@
       ],
       "correct": 5,
       "incorrect": 2
+    },
+    {
+      "at": "2026-07-30T10:01:54.351Z",
+      "mode": "learn",
+      "gate": 1,
+      "word_ids": [
+        "a7458fa3fc26d2f1",
+        "6059c93a5c46a108"
+      ],
+      "correct": 2,
+      "incorrect": 0
     }
   ],
-  "currentLearnSession": null
+  "currentLearnSession": {
+    "wordIds": [
+      "124f65a1d3295dae",
+      "7e593a6105f60036",
+      "3ef7d11502ab359d",
+      "6edad03e3554e824",
+      "a9ffee354c8f6d0d",
+      "707b48f186f19772",
+      "35ce573238e7101a",
+      "633ab5db67936562",
+      "ba76a6183dc6aa82",
+      "c6d75c5c50286d1c"
+    ],
+    "idx": 0,
+    "known": 0,
+    "unknown": 0,
+    "startedAt": "2026-07-31T06:00:53.344Z"
+  }
 }

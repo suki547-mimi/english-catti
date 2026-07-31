@@ -47,6 +47,11 @@
         "command": "englishCatti.installOSAlarms",
         "title": "English CATTI: Install Windows System Alarms",
         "category": "English CATTI"
+      },
+      {
+        "command": "englishCatti.testAlarm",
+        "title": "English CATTI: Test Alarm Now (fire immediately)",
+        "category": "English CATTI"
       }
     ],
     "keybindings": [

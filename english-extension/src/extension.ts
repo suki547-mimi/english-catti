@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
 import { openMainPanel, maybeAutoGenerateReading } from './panel';
-import { refreshAlarms, configureAlarmsInteractive, installOSAlarms } from './alarms';
+import { refreshAlarms, configureAlarmsInteractive, installOSAlarms, testAlarmNow } from './alarms';
 
 export function activate(context: vscode.ExtensionContext) {
   const ws = vscode.workspace.workspaceFolders?.[0];
@@ -29,6 +29,9 @@ export function activate(context: vscode.ExtensionContext) {
     }),
     vscode.commands.registerCommand('englishCatti.installOSAlarms', () => {
       installOSAlarms(dataRoot);
+    }),
+    vscode.commands.registerCommand('englishCatti.testAlarm', () => {
+      testAlarmNow(dataRoot);
     }),
   );
 

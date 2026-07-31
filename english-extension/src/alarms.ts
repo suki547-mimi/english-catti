@@ -6,8 +6,18 @@ import { UserStore } from './store';
 
 /** One in-memory timer per alarm time so we don't fire twice. */
 const scheduledTimers: NodeJS.Timeout[] = [];
-/** Track dates already fired per HH:MM slot so a reschedule doesn't double-fire. */
-const firedToday = new Map<string, string>();   // key `HH:MM` -> YYYY-MM-DD
+/** Persistent "already fired today" state, mirrored to disk so
+ *  Reload Window doesn't cause double fires or missed catch-ups. */
+let firedState: Record<string, string> = {};   // { "HH:MM": "YYYY-MM-DD" }
+let firedStatePath: string | undefined;
+let alarmsChannel: vscode.OutputChannel | undefined;
+let alarmStatusBar: vscode.StatusBarItem | undefined;
+
+function log(msg: string) {
+  if (!alarmsChannel) { alarmsChannel = vscode.window.createOutputChannel('English CATTI · Alarms'); }
+  const ts = new Date().toISOString().slice(11, 19);
+  alarmsChannel.appendLine(`[${ts}] ${msg}`);
+}
 
 interface AlarmConfig {
   enabled: boolean;
@@ -28,6 +38,28 @@ function todayKey(d: Date = new Date()): string {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 }
 
+function loadFiredState(dataRoot: string | undefined) {
+  if (!dataRoot) { return; }
+  firedStatePath = path.join(dataRoot, 'data', 'alarm_state.json');
+  try {
+    if (fs.existsSync(firedStatePath)) {
+      const raw = fs.readFileSync(firedStatePath, 'utf8');
+      const parsed = JSON.parse(raw);
+      firedState = (parsed && typeof parsed.lastFired === 'object') ? parsed.lastFired : {};
+    }
+  } catch { firedState = {}; }
+}
+
+function saveFiredState() {
+  if (!firedStatePath) { return; }
+  try {
+    fs.mkdirSync(path.dirname(firedStatePath), { recursive: true });
+    fs.writeFileSync(firedStatePath, JSON.stringify({ lastFired: firedState }, null, 2), 'utf8');
+  } catch (e: any) {
+    log(`saveFiredState failed: ${e?.message || e}`);
+  }
+}
+
 /** Compute ms until the next occurrence of HH:MM from `now`. */
 function msUntilNext(hhmm: string, now: Date = new Date()): number | null {
   const m = /^(\d{1,2}):(\d{2})$/.exec(hhmm);
@@ -39,26 +71,34 @@ function msUntilNext(hhmm: string, now: Date = new Date()): number | null {
 }
 
 /** Fire the notification for a specific time slot. */
-async function fireAlarm(hhmm: string, dataRoot: string | undefined) {
+async function fireAlarm(hhmm: string, dataRoot: string | undefined, force = false) {
   const cfg = readConfig();
-  // De-dup: don't re-fire same slot on same day
-  const key = todayKey();
-  if (firedToday.get(hhmm) === key) { return; }
-  firedToday.set(hhmm, key);
+  const today = todayKey();
+  // De-dup: don't re-fire same slot on same day (unless forced)
+  if (!force && firedState[hhmm] === today) {
+    log(`fireAlarm ${hhmm} skipped (already fired today)`);
+    return;
+  }
 
   // Optionally skip if today's targets are all done
-  if (cfg.skipIfDone && dataRoot) {
+  if (!force && cfg.skipIfDone && dataRoot) {
     try {
       const store = new UserStore(path.join(dataRoot, 'data'));
       const summary = store.summary();
       const newDoneToday = summary.today_stats.new_words || 0;
       const dueToday = summary.due_today || 0;
       if (newDoneToday >= 10 && dueToday === 0) {
-        console.log(`[alarm] ${hhmm} skipped (today's targets already done)`);
+        log(`fireAlarm ${hhmm} skipped (today's targets already done: new=${newDoneToday}, due=${dueToday})`);
+        firedState[hhmm] = today;
+        saveFiredState();
         return;
       }
     } catch { /* ignore */ }
   }
+
+  log(`fireAlarm ${hhmm} FIRING`);
+  firedState[hhmm] = today;
+  saveFiredState();
 
   // Show a rich notification with 3 quick actions
   const pickLearn = '🌱 学习';
@@ -72,8 +112,9 @@ async function fireAlarm(hhmm: string, dataRoot: string | undefined) {
   if (!choice) { return; }
   if (choice === pickSnooze) {
     setTimeout(() => {
-      // Clear firedToday so we can re-notify
-      firedToday.delete(hhmm);
+      // Clear firedState for this slot so we can re-notify
+      delete firedState[hhmm];
+      saveFiredState();
       fireAlarm(hhmm, dataRoot);
     }, 10 * 60 * 1000);
     return;
@@ -101,17 +142,82 @@ function scheduleOne(hhmm: string, dataRoot: string | undefined) {
   scheduledTimers.push(timer);
 }
 
+/** Check if any of today's alarms were "missed" — i.e. VS Code wasn't open
+ *  when they were supposed to fire. Show a single catch-up notification. */
+async function catchUpMissed(cfg: AlarmConfig, dataRoot: string | undefined) {
+  const now = new Date();
+  const today = todayKey(now);
+  const missed: string[] = [];
+  for (const t of cfg.times) {
+    const m = /^(\d{1,2}):(\d{2})$/.exec(t);
+    if (!m) { continue; }
+    const slotToday = new Date(now);
+    slotToday.setHours(Number(m[1]), Number(m[2]), 0, 0);
+    if (slotToday.getTime() <= now.getTime() && firedState[t] !== today) {
+      missed.push(t);
+    }
+  }
+  if (missed.length === 0) { return; }
+  log(`catch-up: found ${missed.length} missed alarm(s) today: ${missed.join(', ')}`);
+  // Fire the most recent one immediately (rather than spamming N notifications)
+  const mostRecent = missed[missed.length - 1];
+  // Mark the earlier ones as "handled" so they don't fire tomorrow's first thing
+  for (const t of missed.slice(0, -1)) { firedState[t] = today; }
+  saveFiredState();
+  await fireAlarm(mostRecent, dataRoot);
+}
+
+function updateStatusBar(cfg: AlarmConfig) {
+  if (!alarmStatusBar) {
+    alarmStatusBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 99);
+    alarmStatusBar.command = 'englishCatti.configureAlarms';
+    alarmStatusBar.tooltip = '点击配置每日提醒时间';
+  }
+  if (!cfg.enabled || cfg.times.length === 0) {
+    alarmStatusBar.hide();
+    return;
+  }
+  const now = new Date();
+  const today = todayKey(now);
+  let nextTime = '';
+  let nextDelayMs = Infinity;
+  for (const t of cfg.times) {
+    const d = msUntilNext(t, now);
+    if (d !== null && d < nextDelayMs) { nextDelayMs = d; nextTime = t; }
+  }
+  const nextIsTomorrow = nextDelayMs > (24 * 60 * 60 * 1000 - 60 * 1000);
+  const doneMark = firedState[nextTime] === today ? ' ✓' : '';
+  alarmStatusBar.text = `$(bell) ${nextTime}${doneMark}${nextIsTomorrow ? ' (明日)' : ''}`;
+  alarmStatusBar.show();
+}
+
 /** Clear all scheduled alarms and reschedule based on current config. */
 export function refreshAlarms(context: vscode.ExtensionContext, dataRoot: string | undefined) {
+  loadFiredState(dataRoot);
   for (const t of scheduledTimers) { clearTimeout(t); }
   scheduledTimers.length = 0;
   const cfg = readConfig();
   if (!cfg.enabled) {
-    console.log('[alarm] disabled by config');
+    log('alarms disabled by config');
+    if (alarmStatusBar) { alarmStatusBar.hide(); }
     return;
   }
   for (const t of cfg.times) { scheduleOne(t, dataRoot); }
-  console.log(`[alarm] scheduled: ${cfg.times.join(', ')}`);
+  log(`scheduled ${cfg.times.length} alarm(s): ${cfg.times.join(', ')}`);
+  updateStatusBar(cfg);
+  // Refresh status bar every minute so "next" time stays accurate
+  const barTimer = setInterval(() => updateStatusBar(cfg), 60 * 1000);
+  context.subscriptions.push({ dispose: () => clearInterval(barTimer) });
+  // Catch up missed alarms (VS Code was closed when they should have fired)
+  catchUpMissed(cfg, dataRoot).catch((e) => log(`catchUpMissed error: ${e?.message || e}`));
+}
+
+/** Test command — fire an alarm right now to verify the pipeline works. */
+export async function testAlarmNow(dataRoot: string | undefined) {
+  log('testAlarmNow triggered by user');
+  const now = new Date();
+  const label = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+  await fireAlarm(label, dataRoot, true);
 }
 
 /** Interactive: let the user pick times via QuickPick and save to settings. */
@@ -151,7 +257,6 @@ export async function installOSAlarms(dataRoot: string | undefined) {
     { modal: true }, '继续', '取消',
   );
   if (confirm !== '继续') { return; }
-  // Compose a PowerShell one-liner that shows a Windows toast
   const scriptDir = dataRoot ? path.join(dataRoot, 'data') : path.join(process.env.LOCALAPPDATA || 'C:\\', 'EnglishCATTI');
   fs.mkdirSync(scriptDir, { recursive: true });
   const psScript = path.join(scriptDir, 'notify_alarm.ps1');
@@ -171,7 +276,6 @@ $notify.Dispose()
   const errors: string[] = [];
   for (const t of cfg.times) {
     const taskName = `EnglishCATTI_Alarm_${t.replace(':', '')}`;
-    // Delete existing task with same name silently
     try {
       await runProcess('schtasks.exe', ['/Delete', '/TN', taskName, '/F']);
     } catch { /* ignore */ }
