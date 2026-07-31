@@ -23,14 +23,16 @@ interface AlarmConfig {
   enabled: boolean;
   times: string[];
   skipIfDone: boolean;
+  modal: boolean;
 }
 
 function readConfig(): AlarmConfig {
   const cfg = vscode.workspace.getConfiguration('englishCatti.alarms');
   return {
     enabled: cfg.get<boolean>('enabled', true),
-    times: cfg.get<string[]>('times', ['10:00', '15:00', '20:00']),
+    times: cfg.get<string[]>('times', ['10:00', '15:00']),
     skipIfDone: cfg.get<boolean>('skipIfDone', true),
+    modal: cfg.get<boolean>('modal', true),
   };
 }
 
@@ -100,15 +102,29 @@ async function fireAlarm(hhmm: string, dataRoot: string | undefined, force = fal
   firedState[hhmm] = today;
   saveFiredState();
 
+  // Highlight status bar so user notices even if they blink through the toast
+  if (alarmStatusBar) {
+    alarmStatusBar.text = `$(alert) CATTI 提醒！`;
+    alarmStatusBar.backgroundColor = new vscode.ThemeColor('statusBarItem.warningBackground');
+  }
+
   // Show a rich notification with 3 quick actions
   const pickLearn = '🌱 学习';
   const pickReview = '🔁 复习';
   const pickReading = '📚 读书角';
   const pickSnooze = '再等 10 分钟';
+  const message = `⏰ ${hhmm} — CATTI 学习时间到了！今天目标：10 词 + 已到期复习。`;
+  const options = cfg.modal ? { modal: true } : {};
   const choice = await vscode.window.showInformationMessage(
-    `⏰ ${hhmm} — CATTI 学习时间到！今天目标：10 词 + 已到期复习。`,
+    message,
+    options,
     pickLearn, pickReview, pickReading, pickSnooze,
   );
+  // Reset status bar to normal after user responds (or dismisses)
+  if (alarmStatusBar) {
+    alarmStatusBar.backgroundColor = undefined;
+    updateStatusBar(cfg);
+  }
   if (!choice) { return; }
   if (choice === pickSnooze) {
     setTimeout(() => {

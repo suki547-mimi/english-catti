@@ -2,7 +2,7 @@
   "name": "english-catti",
   "displayName": "English CATTI",
   "description": "Personal CATTI 2/3 vocabulary trainer with SRS + Copilot-graded assessments",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "publisher": "suki547-mimi",
   "private": true,
   "engines": {
@@ -71,14 +71,19 @@
         },
         "englishCatti.alarms.times": {
           "type": "array",
-          "default": ["10:00", "15:00", "20:00"],
+          "default": ["10:00", "15:00"],
           "items": { "type": "string", "pattern": "^([01]?\\d|2[0-3]):[0-5]\\d$" },
-          "description": "每日提醒时间（24 小时制，HH:MM）。默认 10:00 / 15:00 / 20:00"
+          "description": "每日提醒时间（24 小时制，HH:MM）。默认 10:00 / 15:00"
         },
         "englishCatti.alarms.skipIfDone": {
           "type": "boolean",
           "default": true,
           "description": "如果当日新学目标已达成（10 词）并且待复习清空，跳过该次提醒"
+        },
+        "englishCatti.alarms.modal": {
+          "type": "boolean",
+          "default": true,
+          "description": "用模态对话框弹提醒（不容易错过，但会打断当前操作）。关掉则用普通通知（可能一闪而过）"
         }
       }
     }
