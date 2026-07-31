@@ -156,6 +156,76 @@ export async function generateContext(en: string, zh: string): Promise<{ en: str
   }
 }
 
+/** Story mode: Generate a short vivid English narrative (100-180 words) that
+ *  makes the target word/phrase concrete. Real scenarios, characters, tension. */
+export async function generateStoryContext(en: string, zh: string): Promise<{ en: string; zh: string } | null> {
+  try {
+    const model = await getModel();
+    if (!model) { return null; }
+    const isPhrase = en.trim().split(/\s+/).length >= 2;
+    const strictNote = isPhrase
+      ? `**关键**：这是一个多词短语。故事里必须**完整地、原封不动地**用到 "${en}"（允许词形变化如复数/时态）。不能拆开。`
+      : `**关键**：故事里必须用到目标词 "${en}"（允许词形变化）。`;
+    const prompt =
+      `你是一位擅长写英语学习故事的作者。请围绕英文词 "${en}"（中文意思：${zh}）写一个 100-180 词的英文短故事。\n\n` +
+      `故事要求：\n` +
+      `- 有具体场景（国家、公司、家庭、法庭、街头等——挑最贴合这个词的语境）\n` +
+      `- 有真实的角色和冲突/情节（比如 "cross retaliation" 可以写两个国家贸易战里 A 国对 B 国不同领域的报复）\n` +
+      `- 让读者读完立刻理解这个词在真实世界里怎么用、什么感觉\n` +
+      `- 语言地道，句子长短结合，避免堆砌\n` +
+      `- 故事完整，不要写成一个片段\n\n` +
+      `${strictNote}\n\n` +
+      `严格只输出 JSON（无 markdown 围栏，无额外文字）：\n` +
+      `{"en": "英文故事", "zh": "对应的地道中文翻译"}`;
+    const messages = [vscode.LanguageModelChatMessage.User(prompt)];
+    const cts = new vscode.CancellationTokenSource();
+    const response = await model.sendRequest(messages, {}, cts.token);
+    const text = await collectResponse(response);
+    log(`[generateStoryContext] "${en}" raw len=${text.length}`);
+    const parsed = parseJson(text);
+    if (!parsed || !parsed.en || !parsed.zh) { return null; }
+    return { en: String(parsed.en), zh: String(parsed.zh) };
+  } catch (e: any) {
+    log(`[generateStoryContext] error: ${e.message || e}`);
+    return null;
+  }
+}
+
+/** Fun mode: 小红书 / social-media style English post (80-140 words). Lively,
+ *  emoji-friendly, hooks, life-scenario. Target word woven in naturally. */
+export async function generateFunContext(en: string, zh: string): Promise<{ en: string; zh: string } | null> {
+  try {
+    const model = await getModel();
+    if (!model) { return null; }
+    const isPhrase = en.trim().split(/\s+/).length >= 2;
+    const strictNote = isPhrase
+      ? `**关键**：这个多词短语必须原封不动地出现在文中（可词形变化，不能拆开）。`
+      : `**关键**：目标词必须原封不动地出现（可词形变化）。`;
+    const prompt =
+      `你是一位活泼的英语博主，风格类似 Instagram Reels / 小红书笔记。围绕英文词 "${en}"（意思：${zh}）` +
+      `写一段 80-140 词的英文短帖。\n\n` +
+      `风格要求：\n` +
+      `- 有钩子（第一句抓人眼球，像刷到笔记的感觉）\n` +
+      `- 生活化场景（约会、职场、旅行、看剧、小八卦……）\n` +
+      `- 短句多、语气活泼、可以用 emoji（1-3 个即可，不要泛滥）\n` +
+      `- 结尾可以有小反转或俏皮话\n\n` +
+      `${strictNote}\n\n` +
+      `严格只输出 JSON（无 markdown 围栏，无额外文字）：\n` +
+      `{"en": "英文短帖", "zh": "对应的活泼中文翻译"}`;
+    const messages = [vscode.LanguageModelChatMessage.User(prompt)];
+    const cts = new vscode.CancellationTokenSource();
+    const response = await model.sendRequest(messages, {}, cts.token);
+    const text = await collectResponse(response);
+    log(`[generateFunContext] "${en}" raw len=${text.length}`);
+    const parsed = parseJson(text);
+    if (!parsed || !parsed.en || !parsed.zh) { return null; }
+    return { en: String(parsed.en), zh: String(parsed.zh) };
+  } catch (e: any) {
+    log(`[generateFunContext] error: ${e.message || e}`);
+    return null;
+  }
+}
+
 /** Generate an in-depth Markdown study card for a word: EN-EN, register,
  *  synonyms, TV/film quotes, collocations. */
 export async function deepStudy(en: string, zh: string): Promise<string> {

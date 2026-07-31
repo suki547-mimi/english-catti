@@ -714,31 +714,94 @@ function escapeRegex(s) {
   return String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
-async function loadContextInto(box, w) {
+// Cache LLM-generated modes separately: contextModeCache[wordId][mode] = {en, zh}
+const contextModeCache = new Map();
+function getCachedMode(wordId, mode) {
+  const m = contextModeCache.get(wordId);
+  return m ? m[mode] : null;
+}
+function setCachedMode(wordId, mode, ctx) {
+  let m = contextModeCache.get(wordId);
+  if (!m) { m = {}; contextModeCache.set(wordId, m); }
+  m[mode] = ctx;
+}
+
+/** Load context box with mode selector: 短句 / 故事 / 小红书. Chinese is hidden by default; click 👁 to reveal. */
+async function loadContextInto(box, w, mode = 'short') {
   if (!box) { return; }
   box.classList.remove('hidden');
-  box.innerHTML = `<div class="context-loading">📖 加载例句…</div>`;
-  const ctx = await findContextForWord(w);
+  const tabsHtml = `
+    <div class="context-mode-tabs">
+      <button class="ctx-mode ${mode === 'short' ? 'active' : ''}" data-mode="short">📝 短句</button>
+      <button class="ctx-mode ${mode === 'story' ? 'active' : ''}" data-mode="story">📖 故事</button>
+      <button class="ctx-mode ${mode === 'fun' ? 'active' : ''}" data-mode="fun">🌸 小红书</button>
+    </div>
+  `;
+  box.innerHTML = `${tabsHtml}<div class="context-loading">🌀 加载${mode === 'short' ? '短句' : mode === 'story' ? '故事' : '小红书笔记'}中…</div>`;
+  // Wire mode-switching tabs immediately (so user can click even while loading)
+  for (const b of box.querySelectorAll('.ctx-mode')) {
+    b.addEventListener('click', () => loadContextInto(box, w, b.dataset.mode));
+  }
+
+  let ctx;
+  if (mode === 'short') {
+    ctx = await findContextForWord(w);
+  } else {
+    // Check cache first
+    ctx = getCachedMode(w.id, mode);
+    if (!ctx) {
+      const msgType = mode === 'story' ? 'generateStoryContext' : 'generateFunContext';
+      const resp = await callHost(msgType, { en: w.en, zh: w.zh });
+      if (resp && resp.result && resp.result.en) {
+        ctx = { en: resp.result.en, zh: resp.result.zh, source: mode === 'story' ? 'llm-story' : 'llm-fun', target: w.en };
+        setCachedMode(w.id, mode, ctx);
+      }
+    }
+  }
+
   if (!ctx) {
-    box.classList.add('hidden');
+    box.innerHTML = `${tabsHtml}<div class="result-bad" style="padding:12px">⚠️ 生成失败，请重试或切别的模式</div>`;
+    for (const b of box.querySelectorAll('.ctx-mode')) {
+      b.addEventListener('click', () => loadContextInto(box, w, b.dataset.mode));
+    }
     return;
   }
+
   const highlighted = highlightWord(ctx.en, ctx.target || w.en);
-  // Always show all 3 audio buttons; click will fetch/generate as needed.
   const enText = encodeURIComponent(ctx.en);
   const zhText = encodeURIComponent(ctx.zh);
+  const sourceLabel = ctx.source === 'llm-story' ? '故事 · LLM'
+                    : ctx.source === 'llm-fun' ? '小红书 · LLM'
+                    : ctx.source === 'llm' ? '短句 · LLM'
+                    : `短句 · ${ctx.source}`;
   box.innerHTML = `
-    <div class="context-tag">📖 例句 · <span class="muted">${escapeHtml(ctx.source)}</span></div>
+    ${tabsHtml}
+    <div class="context-tag">📖 ${escapeHtml(sourceLabel)}</div>
     <div class="context-en">${highlighted}
       <span class="sent-audio-group">
         <button class="audio-btn sent-audio" data-text="${enText}" data-accent="us" title="美音">🇺🇸</button>
         <button class="audio-btn sent-audio" data-text="${enText}" data-accent="uk" title="英音">🇬🇧</button>
       </span>
     </div>
-    <div class="context-zh">${escapeHtml(ctx.zh)}
-      <button class="audio-btn sent-audio" data-text="${zhText}" data-accent="zh" title="中文朗读">🔊</button>
+    <div class="context-zh-wrapper">
+      <button class="ctx-reveal-zh" id="ctxRevealZh">👁 显示中文翻译</button>
+      <div class="context-zh hidden" id="ctxZh">${escapeHtml(ctx.zh)}
+        <button class="audio-btn sent-audio" data-text="${zhText}" data-accent="zh" title="中文朗读">🔊</button>
+      </div>
     </div>
   `;
+  // Re-wire mode tabs (they were replaced by innerHTML)
+  for (const b of box.querySelectorAll('.ctx-mode')) {
+    b.addEventListener('click', () => loadContextInto(box, w, b.dataset.mode));
+  }
+  // Reveal-Chinese toggle
+  const revealBtn = document.getElementById('ctxRevealZh');
+  const zhEl = document.getElementById('ctxZh');
+  revealBtn.addEventListener('click', () => {
+    zhEl.classList.toggle('hidden');
+    revealBtn.classList.toggle('hidden');
+  });
+  // Audio buttons
   for (const b of box.querySelectorAll('.sent-audio')) {
     b.addEventListener('click', () => playSentenceAudio(b));
   }

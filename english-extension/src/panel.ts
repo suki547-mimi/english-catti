@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as crypto from 'crypto';
 import { spawn } from 'child_process';
-import { gradeSemantic, gradeSentence, generateContext, deepStudy, chatWithWord, generateReadingArticles, ReadingArticle, gradeReverseSemantic, generateCollocationCloze, gradeCollocation, gradeContextCloze, chatFreeform } from './lm';
+import { gradeSemantic, gradeSentence, generateContext, deepStudy, chatWithWord, generateReadingArticles, ReadingArticle, gradeReverseSemantic, generateCollocationCloze, gradeCollocation, gradeContextCloze, chatFreeform, generateStoryContext, generateFunContext } from './lm';
 import { UserStore } from './store';
 
 let panel: vscode.WebviewPanel | undefined;
@@ -333,6 +333,16 @@ export async function openMainPanel(context: vscode.ExtensionContext, mode: stri
       }
       case 'generateContext': {
         const result = await generateContext(msg.en, msg.zh);
+        panel.webview.postMessage({ type: 'contextResult', requestId: msg.requestId, result });
+        break;
+      }
+      case 'generateStoryContext': {
+        const result = await generateStoryContext(msg.en, msg.zh);
+        panel.webview.postMessage({ type: 'contextResult', requestId: msg.requestId, result });
+        break;
+      }
+      case 'generateFunContext': {
+        const result = await generateFunContext(msg.en, msg.zh);
         panel.webview.postMessage({ type: 'contextResult', requestId: msg.requestId, result });
         break;
       }
