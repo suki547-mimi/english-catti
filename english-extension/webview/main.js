@@ -659,29 +659,50 @@ function renderMarkdown(md) {
 // ------------ Context sentence lookup ------------
 const contextCache = new Map();  // wordId -> {en, zh, source}
 
-/** Find a bilingual example sentence containing the target word.
- *  Try corpus first (fast, real usage); if none, request LLM to generate. */
+/** Find a bilingual example sentence that ACTUALLY contains the target word/phrase.
+ *  Strategy:
+ *    1. For phrases (≥ 2 tokens): require the FULL phrase in the sentence
+ *       (allow hyphen ↔ space, optional inflection tail). If not found, go LLM.
+ *    2. For single words: require exact word (word-boundary match). If not found, go LLM.
+ *  This avoids the old bug where "Cross retaliation" matched any sentence with "cross". */
 async function findContextForWord(w) {
   if (contextCache.has(w.id)) { return contextCache.get(w.id); }
-  // 1. Corpus lookup: match the first meaningful English content word from the entry.
   const tokens = contentTokens(w.en);
   const primary = tokens[0] || w.en.toLowerCase();
-  const rx = new RegExp(`\\b${escapeRegex(primary)}\\b`, 'i');
-  const hit = sentences.find((s) => rx.test(s.en || ''));
+  const isPhrase = tokens.length >= 2;
+
+  let hit = null;
+  let target = w.en;
+
+  if (isPhrase) {
+    // Build a flexible regex: words separated by whitespace OR hyphen, optional inflection tail
+    // e.g. "Cross retaliation" → /\bcross[-\s]+retaliation[a-z]*\b/i
+    const escapedTokens = tokens.map((t) => escapeRegex(t));
+    const phrasePattern = new RegExp(`\\b${escapedTokens.join('[-\\s]+')}[a-z]*\\b`, 'i');
+    hit = sentences.find((s) => phrasePattern.test(s.en || ''));
+    target = w.en;
+  } else {
+    // Single word: strict word-boundary match with allowed inflection tail
+    const singlePattern = new RegExp(`\\b${escapeRegex(primary)}[a-z]*\\b`, 'i');
+    hit = sentences.find((s) => singlePattern.test(s.en || ''));
+    target = primary;
+  }
+
   if (hit) {
     const ctx = {
       en: hit.en, zh: hit.zh,
       source: hit.source || (hit.sources && hit.sources.join(',')) || 'corpus',
-      target: primary,
+      target,
     };
     contextCache.set(w.id, ctx);
     return ctx;
   }
-  // 2. LLM fallback
+
+  // LLM fallback — for a phrase, tell the LLM explicitly it's a phrase
   try {
     const m = await callHost('generateContext', { en: w.en, zh: w.zh });
     if (m && m.result && m.result.en && m.result.zh) {
-      const ctx = { ...m.result, source: 'llm', target: primary };
+      const ctx = { ...m.result, source: 'llm', target };
       contextCache.set(w.id, ctx);
       return ctx;
     }
@@ -826,8 +847,15 @@ function sha1(str) {
 function highlightWord(text, target) {
   if (!target) { return escapeHtml(text); }
   const safe = escapeHtml(text);
-  const rx = new RegExp(`\\b(${escapeRegex(target)}\\w*)`, 'gi');
-  return safe.replace(rx, '<mark>$1</mark>');
+  const tokens = String(target).trim().split(/\s+/).filter(Boolean);
+  if (tokens.length === 0) { return safe; }
+  // Build a pattern matching the full phrase (allow hyphen or whitespace between tokens)
+  // and optional inflection tail on each end token.
+  const escapedTokens = tokens.map((t) => escapeRegex(t));
+  const pattern = escapedTokens.length === 1
+    ? new RegExp(`\\b(${escapedTokens[0]}[a-z]*)`, 'gi')
+    : new RegExp(`\\b(${escapedTokens.join('[-\\s]+')}[a-z]*)\\b`, 'gi');
+  return safe.replace(pattern, '<mark>$1</mark>');
 }
 
 // ------------ Tab: Review (two sub-modes) ------------

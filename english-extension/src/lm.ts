@@ -133,11 +133,15 @@ export async function generateContext(en: string, zh: string): Promise<{ en: str
   try {
     const model = await getModel();
     if (!model) { return null; }
+    const isPhrase = en.trim().split(/\s+/).length >= 2;
+    const strictNote = isPhrase
+      ? `\n**关键要求**：这是一个多词的短语/搭配。例句里必须**完整地、原封不动地**用到 "${en}"（可以是词形变化如复数/时态，但不能拆开）。禁止只用其中某一个词。`
+      : `\n**关键要求**：例句必须包含目标词 "${en}"（允许词形变化如 -s / -ed / -ing）。`;
     const prompt =
       `请围绕英文词 "${en}"（中文意思：${zh}）写一个 1-2 句自然地道的例句。\n` +
-      `场景优先选政治、经济、文化、时政类（CATTI 常见话题）。\n` +
+      `场景优先选政治、经济、文化、时政类（CATTI 常见话题）。${strictNote}\n\n` +
       `严格只输出 JSON（无 markdown 围栏，无额外文字）：\n` +
-      `{"en": "英文原文（含目标词）", "zh": "对应中文翻译"}`;
+      `{"en": "英文原文（必须真实包含目标词）", "zh": "对应中文翻译"}`;
     const messages = [vscode.LanguageModelChatMessage.User(prompt)];
     const cts = new vscode.CancellationTokenSource();
     const response = await model.sendRequest(messages, {}, cts.token);
