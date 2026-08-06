@@ -545,6 +545,11 @@ export async function openMainPanel(context: vscode.ExtensionContext, mode: stri
         panel.webview.postMessage({ type: 'scorePool', requestId: msg.requestId, pool });
         break;
       }
+      case 'getWordScoresMap': {
+        const map = store ? store.getWordScoresMap() : {};
+        panel.webview.postMessage({ type: 'wordScoresMap', requestId: msg.requestId, map });
+        break;
+      }
       case 'getCalendar': {
         const cal = store ? store.calendarSummary(msg.pastDays || 30, msg.futureDays || 7) : { past: [], upcoming: [] };
         panel.webview.postMessage({ type: 'calendar', requestId: msg.requestId, ...cal });

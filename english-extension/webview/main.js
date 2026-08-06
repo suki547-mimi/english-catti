@@ -1076,7 +1076,7 @@ async function renderReview() {
     <h2>🔁 复习</h2>
     <div class="letter-tabs" style="border-bottom:none; margin-bottom:16px">
       <button data-mode="ebbinghaus" class="${reviewMode === 'ebbinghaus' ? 'active' : ''}">📅 艾宾浩斯（按记忆曲线）</button>
-      <button data-mode="score" class="${reviewMode === 'score' ? 'active' : ''}">🎲 分数驱动（自适应大池）</button>
+      <button data-mode="score" class="${reviewMode === 'score' ? 'active' : ''}">🎲 自由练习（全词库·不算分）</button>
     </div>
     <div id="reviewBody"><p class="muted">加载中…</p></div>
   `;
@@ -1133,22 +1133,19 @@ async function renderEbbinghausOverview() {
 
 async function renderScoreOverview() {
   const body = document.getElementById('reviewBody');
-  const pool = await fetchScorePool();
-  const summary = await fetchUserSummary();
-  const totalLearned = summary?.total_learned || 0;
-  const avgScore = pool.length ? (pool.reduce((s, p) => s + p.score, 0) / pool.length) : 0;
-  const emptyHint = totalLearned === 0
-    ? '还没有已学的词。请先去"学习" tab 学几个新词。'
-    : `你已学 <b>${totalLearned}</b> 个词，但今天已经全部接触过一遍了 ✨ 明天回来可以接着练。`;
+  const pool = await fetchScorePool();       // all-vocab, weighted by score if known
+  const knownCount = pool.filter((p) => p.score > 0 || p.gate > 0).length;
   body.innerHTML = `
     <div class="card">
-      <b>可复习池：${pool.length} 词</b>（已学过的词，今天未复习过的）
-      <p class="muted" style="margin-top:6px">越低分/低 gate 的词权重越高；每次随机抽 10 个练关 1。</p>
-      <p style="margin-top:8px">平均分：<b>${avgScore.toFixed(1)}</b>/100</p>
-      ${pool.length === 0 ? `<p class="muted" style="margin-top:10px">${emptyHint}</p>` : ''}
+      <b>🎲 自由练习</b>
+      <p class="muted" style="margin-top:6px">
+        从全词库（${pool.length.toLocaleString()} 词）随机抽 10 个。<b>不影响分数、不进每日统计</b>，想练多少回练多少回。
+      </p>
+      <p class="muted" style="margin-top:6px">已接触过的硬词（分低）权重更高；未接触的新词也会混进来。</p>
+      <p style="margin-top:8px" class="muted">已接触过：<b>${knownCount}</b> 词 · 新词：<b>${pool.length - knownCount}</b> 词</p>
       <p style="margin-top:14px">
         <button id="startScore" ${pool.length === 0 ? 'disabled' : ''}>
-          ${pool.length === 0 ? '今日没可练的' : '开始复习 10 个'}
+          ${pool.length === 0 ? '词库为空' : '抽 10 个练一轮'}
         </button>
       </p>
     </div>
@@ -1205,11 +1202,13 @@ function runQuizSession(mode, words) {
   const area = document.getElementById('reviewArea');
 
   function finish() {
-    const finishMsg = mode === 'ebbinghaus' ? 'finishEbbinghausSession' : 'finishScoreSession';
-    vscode.postMessage({ type: finishMsg, wordIds, correct, incorrect });
+    // Ebbinghaus persists session stats; 🎲 自由练习 does not.
+    if (mode === 'ebbinghaus') {
+      vscode.postMessage({ type: 'finishEbbinghausSession', wordIds, correct, incorrect });
+    }
     area.innerHTML = `<div class="card">
       <h3>本轮结束 ✅</h3>
-      <p>正确 ${correct} / 错 ${incorrect}</p>
+      <p>正确 ${correct} / 错 ${incorrect}${mode === 'score' ? '（未计入分数）' : ''}</p>
       <p><button id="againBtn">再来一轮</button></p>
     </div>`;
     document.getElementById('againBtn').addEventListener('click', () => renderReview());
@@ -1217,8 +1216,12 @@ function runQuizSession(mode, words) {
 
   function submitResult(w, gate, pass, feedback) {
     if (pass) { correct++; } else { incorrect++; }
-    const recordMsg = mode === 'ebbinghaus' ? 'recordEbbinghausReview' : 'recordScoreReview';
-    vscode.postMessage({ type: recordMsg, wordId: w.id, en: w.en, zh: w.zh, gate, pass });
+    // Only 📅 艾宾浩斯 updates persistent word scores; 🎲 自由练习 is
+    // intentionally read-only so the user can drill freely without
+    // trashing their score history.
+    if (mode === 'ebbinghaus') {
+      vscode.postMessage({ type: 'recordEbbinghausReview', wordId: w.id, en: w.en, zh: w.zh, gate, pass });
+    }
     document.getElementById('res').innerHTML = `
       <div class="result-box">
         <p class="${pass ? 'result-ok' : 'result-bad'}"><b>${pass ? '✓ 正确' : '✗ 需改进'}</b>：${escapeHtml(feedback || '')}</p>
@@ -1505,9 +1508,36 @@ async function fetchEbbinghausDue(limit = 200, capped = false) {
   const m = await callHost('getEbbinghausDue', { limit, capped });
   return m.due || [];
 }
+/** Build the 🎲 自由练习 pool from the entire vocab. Words the user has
+ *  already touched (state.words) are weighted higher when their score is low.
+ *  Never-seen words are included with a moderate default weight so they mix
+ *  in. Never returns 0 for known-vocab words so nothing is unreachable. */
 async function fetchScorePool() {
-  const m = await callHost('getScorePool');
-  return m.pool || [];
+  let scoresMap = {};
+  try {
+    const m = await callHost('getWordScoresMap');
+    scoresMap = (m && m.map) || {};
+  } catch { /* fall back to uniform weighting */ }
+  const pool = [];
+  for (const v of vocab) {
+    if (!v || !v.id || !v.zh) { continue; }
+    if (v.en.split(/\s+/).length > 5) { continue; }
+    const s = scoresMap[v.id];
+    let weight;
+    let score = 0;
+    let gate = 0;
+    if (s) {
+      score = s.score || 0;
+      gate = s.gate || 0;
+      const gapFromMastery = (5 - gate) * 5;
+      const scoreDeficit = (100 - score);
+      weight = Math.max(1, gapFromMastery + scoreDeficit);
+    } else {
+      weight = 40; // moderate; mixes new words in without dominating
+    }
+    pool.push({ wordId: v.id, weight, gate: gate || 1, score });
+  }
+  return pool;
 }
 async function fetchCalendar(pastDays = 30, futureDays = 7) {
   const m = await callHost('getCalendar', { pastDays, futureDays });

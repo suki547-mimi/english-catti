@@ -604,6 +604,19 @@ export class UserStore {
     return pool;
   }
 
+  /** Score / gate lookup for every word the user has ever touched — used by
+   *  the webview's 🎲 自由练习 mode to weight sampling toward harder words
+   *  without imposing the "learned + not-reviewed-today" filter of the
+   *  Ebbinghaus queue. Words the user has never seen are absent (webview
+   *  assigns them a default weight). */
+  getWordScoresMap(): Record<string, { score: number; gate: number }> {
+    const out: Record<string, { score: number; gate: number }> = {};
+    for (const w of Object.values(this.state.words)) {
+      out[w.id] = { score: w.score, gate: w.gate };
+    }
+    return out;
+  }
+
   /** Calendar summary: past N days activity + upcoming M days due count. */
   calendarSummary(pastDays = 30, futureDays = 7) {
     const today = new Date();
