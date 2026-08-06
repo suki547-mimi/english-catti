@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as crypto from 'crypto';
 import { spawn } from 'child_process';
-import { gradeSemantic, gradeSentence, generateContext, deepStudy, chatWithWord, generateReadingArticles, ReadingArticle, gradeReverseSemantic, generateCollocationCloze, gradeCollocation, gradeContextCloze, chatFreeform, generateStoryContext, generateFunContext } from './lm';
+import { gradeSemantic, gradeSentence, generateContext, deepStudy, chatWithWord, generateReadingArticles, ReadingArticle, gradeReverseSemantic, generateCollocationCloze, gradeCollocation, gradeContextCloze, chatFreeform, generateStoryContext, generateFunContext, explainWordFromTutor } from './lm';
 import { UserStore } from './store';
 
 let panel: vscode.WebviewPanel | undefined;
@@ -25,6 +25,23 @@ const genPromises: Map<string, Promise<string | null>> = new Map();
 function sentenceHash(text: string): string {
   return crypto.createHash('sha1').update(text.trim().toLowerCase()).digest('hex').slice(0, 16);
 }
+
+/** Remove emoji / pictographic characters that edge-tts cannot voice and
+ *  that occasionally crash the underlying websockets stream. Also collapse
+ *  runs of whitespace so multi-line 小红书 posts become a single voiced line. */
+function cleanForTts(text: string): string {
+  return String(text || '')
+    // Strip extended pictographs, dingbats, misc symbols, variation selectors.
+    .replace(/[\p{Extended_Pictographic}\u2600-\u27BF\uFE0F]/gu, '')
+    // Strip leftover surrogate halves just in case.
+    .replace(/[\uD800-\uDFFF]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+/** Max characters edge-tts will accept per call in one request. edge-tts itself
+ *  handles a few thousand fine; keep a safety cap to avoid pathological blobs. */
+const TTS_MAX_CHARS = 3000;
 
 /** Locate a Python executable that can run edge-tts. */
 function findPython(): string {
@@ -86,8 +103,8 @@ function prefetchArticleAudio(items: ReadingArticle[]) {
   const jobs: Array<{ text: string; accent: 'us' | 'uk' }> = [];
   for (const a of items) {
     for (const s of a.sentences || []) {
-      const t = String(s.en || '').trim();
-      if (t && t.length <= 500) {
+      const t = cleanForTts(s.en || '');
+      if (t && t.length <= TTS_MAX_CHARS) {
         jobs.push({ text: t, accent: 'us' });
         jobs.push({ text: t, accent: 'uk' });
       }
@@ -166,9 +183,19 @@ export async function maybeAutoGenerateReading(context: vscode.ExtensionContext,
  *  Returns the relative path (posix-style) that the webview can join with dataBase. */
 async function generateSentenceAudio(text: string, accent: string): Promise<string | null> {
   const voice = VOICE_MAP[accent];
-  if (!voice || !currentDataRoot) { return null; }
-  const clean = String(text || '').trim();
-  if (!clean || clean.length > 500) { return null; }
+  if (!voice || !currentDataRoot) {
+    console.warn('[edge-tts] skip: voice/root missing', { accent, hasRoot: !!currentDataRoot });
+    return null;
+  }
+  const clean = cleanForTts(text);
+  if (!clean) {
+    console.warn('[edge-tts] skip: empty text after clean');
+    return null;
+  }
+  if (clean.length > TTS_MAX_CHARS) {
+    console.warn('[edge-tts] skip: text too long', clean.length);
+    return null;
+  }
   const hash = sentenceHash(clean);
   const relDir = `audio/sentences/dynamic/${accent}`;
   const relPath = `${relDir}/${hash}.mp3`;
@@ -182,11 +209,16 @@ async function generateSentenceAudio(text: string, accent: string): Promise<stri
   if (existing) { return existing; }
   fs.mkdirSync(absDir, { recursive: true });
   const python = findPython();
+  // Scale timeout with text length: ~50 chars/sec synthesis + 10s network overhead,
+  // capped so a stuck request eventually gives up. Long 小红书 posts (~700 chars)
+  // legitimately need 25-30s.
+  const timeoutMs = Math.min(90000, 10000 + Math.ceil(clean.length / 50) * 1000);
   const promise = new Promise<string | null>((resolve) => {
     const proc = spawn(python, ['-m', 'edge_tts', '-t', clean, '-v', voice, '--write-media', absPath], {
       windowsHide: true,
     });
     let stderr = '';
+    let killed = false;
     proc.stderr.on('data', (d) => { stderr += d.toString(); });
     proc.on('error', (e) => {
       console.warn('[edge-tts] spawn error', e);
@@ -197,11 +229,11 @@ async function generateSentenceAudio(text: string, accent: string): Promise<stri
         resolve(relPath);
       } else {
         if (fs.existsSync(absPath)) { try { fs.unlinkSync(absPath); } catch { /* ignore */ } }
-        console.warn('[edge-tts] failed', code, stderr.slice(0, 200));
+        console.warn('[edge-tts] failed', { code, killed, len: clean.length, stderr: stderr.slice(0, 400) });
         resolve(null);
       }
     });
-    setTimeout(() => { try { proc.kill(); } catch { /* ignore */ } resolve(null); }, 20000);
+    setTimeout(() => { killed = true; try { proc.kill(); } catch { /* ignore */ } resolve(null); }, timeoutMs);
   }).finally(() => { genPromises.delete(key); });
   genPromises.set(key, promise);
   return promise;
@@ -317,8 +349,21 @@ export async function openMainPanel(context: vscode.ExtensionContext, mode: stri
         break;
       }
       case 'chatFreeform': {
-        const reply = await chatFreeform(msg.history || [], msg.question || '');
-        panel.webview.postMessage({ type: 'chatReply', requestId: msg.requestId, reply });
+        const sessionId: string | undefined = msg.sessionId;
+        const question: string = msg.question || '';
+        // Ensure a tutor-mode session exists so words the user later adds via
+        // “➕ 加入词本” can link back to this conversation.
+        if (store && sessionId && !store.getAiSession(sessionId)) {
+          store.startAiSession({ id: sessionId, mode: 'tutor' });
+        }
+        if (store && sessionId && question) {
+          store.appendAiMessage(sessionId, 'user', question);
+        }
+        const reply = await chatFreeform(msg.history || [], question);
+        if (store && sessionId && reply) {
+          store.appendAiMessage(sessionId, 'assistant', reply);
+        }
+        panel.webview.postMessage({ type: 'chatReply', requestId: msg.requestId, reply, sessionId });
         break;
       }
       case 'toggleFavoriteWord': {
@@ -347,13 +392,91 @@ export async function openMainPanel(context: vscode.ExtensionContext, mode: stri
         break;
       }
       case 'deepStudy': {
-        const markdown = await deepStudy(msg.en, msg.zh);
-        panel.webview.postMessage({ type: 'deepStudyResult', requestId: msg.requestId, markdown });
+        const en: string = msg.en || '';
+        const zh: string = msg.zh || '';
+        const wordId: string | undefined = msg.wordId;
+        const sessionId: string | undefined = msg.sessionId;
+        // If a wordId + sessionId are supplied, this is a fresh deep-study session
+        // (the webview generated the id). Register it before generating so the
+        // markdown gets stored as the first assistant message.
+        if (store && wordId && sessionId && !store.getAiSession(sessionId)) {
+          store.startAiSession({ id: sessionId, mode: 'deepStudy', wordId, en, zh });
+        }
+        const markdown = await deepStudy(en, zh);
+        if (store && sessionId && store.getAiSession(sessionId) && markdown) {
+          store.appendAiMessage(sessionId, 'assistant', markdown);
+        }
+        panel.webview.postMessage({ type: 'deepStudyResult', requestId: msg.requestId, markdown, sessionId });
         break;
       }
       case 'chatWithWord': {
-        const reply = await chatWithWord(msg.en, msg.zh, msg.history || [], msg.question || '');
-        panel.webview.postMessage({ type: 'chatReply', requestId: msg.requestId, reply });
+        const sessionId: string | undefined = msg.sessionId;
+        const question: string = msg.question || '';
+        if (store && sessionId && store.getAiSession(sessionId) && question) {
+          store.appendAiMessage(sessionId, 'user', question);
+        }
+        const reply = await chatWithWord(msg.en, msg.zh, msg.history || [], question);
+        if (store && sessionId && store.getAiSession(sessionId) && reply) {
+          store.appendAiMessage(sessionId, 'assistant', reply);
+        }
+        panel.webview.postMessage({ type: 'chatReply', requestId: msg.requestId, reply, sessionId });
+        break;
+      }
+      case 'getQueriedWords': {
+        const items = store ? store.getQueriedWords() : [];
+        panel.webview.postMessage({ type: 'queriedWords', requestId: msg.requestId, items });
+        break;
+      }
+      case 'getAiSession': {
+        const session = store && msg.sessionId ? store.getAiSession(msg.sessionId) : null;
+        panel.webview.postMessage({ type: 'aiSession', requestId: msg.requestId, session });
+        break;
+      }
+      case 'registerAiSession': {
+        // Used when the webview already has the deep-study markdown cached from
+        // a background prefetch — no need to spend another LLM call, just
+        // persist the session so it shows up in 🤖 AI 查询过.
+        if (store && msg.sessionId && msg.wordId && !store.getAiSession(msg.sessionId)) {
+          store.startAiSession({
+            id: msg.sessionId,
+            mode: msg.mode || 'deepStudy',
+            wordId: msg.wordId,
+            en: msg.en,
+            zh: msg.zh,
+          });
+          if (msg.markdown) {
+            store.appendAiMessage(msg.sessionId, 'assistant', String(msg.markdown));
+          }
+        }
+        panel.webview.postMessage({ type: 'aiSessionRegistered', requestId: msg.requestId, sessionId: msg.sessionId });
+        break;
+      }
+      case 'addUserVocab': {
+        const en = String(msg.en || '').trim();
+        if (!store || !en) {
+          panel.webview.postMessage({ type: 'userVocabAdded', requestId: msg.requestId, entry: null, error: 'invalid input' });
+          break;
+        }
+        // Ask the LM for a short zh + note, falling back to whatever the caller
+        // supplied if the LM is unavailable.
+        let zh = String(msg.zh || '').trim();
+        let note: string | undefined = msg.note ? String(msg.note).trim() : undefined;
+        if (!zh) {
+          const guess = await explainWordFromTutor(en, msg.contextText);
+          if (guess) { zh = guess.zh; if (!note) { note = guess.note; } }
+        }
+        if (!zh) { zh = ''; }
+        const entry = store.addCustomWord({
+          en, zh, note,
+          source: msg.source === 'manual' ? 'manual' : 'tutor',
+          tutorSessionId: msg.tutorSessionId,
+        });
+        panel.webview.postMessage({ type: 'userVocabAdded', requestId: msg.requestId, entry });
+        break;
+      }
+      case 'getUserVocab': {
+        const items = store ? store.getCustomWords() : [];
+        panel.webview.postMessage({ type: 'userVocab', requestId: msg.requestId, items });
         break;
       }
       case 'openInCopilotChat': {
@@ -413,7 +536,7 @@ export async function openMainPanel(context: vscode.ExtensionContext, mode: stri
         break;
       }
       case 'getEbbinghausDue': {
-        const due = store ? store.getEbbinghausDue(msg.limit || 200) : [];
+        const due = store ? store.getEbbinghausDue(msg.limit || 200, !!msg.capped) : [];
         panel.webview.postMessage({ type: 'ebbinghausDue', requestId: msg.requestId, due });
         break;
       }

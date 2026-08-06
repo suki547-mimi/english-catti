@@ -381,6 +381,17 @@ textarea { width: 100%; min-height: 60px; }
 .result-bad { color: #ff8b8b; }
 .result-box { margin-top: 12px; padding: 12px; border-radius: 4px; background: var(--vscode-editor-inactiveSelectionBackground); }
 
+/* Review-tab post-result learning actions (deep study + context modes). */
+.review-post-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin: 12px 0 4px;
+}
+.review-post-actions .chip-btn { margin: 0; }
+.review-post-actions #next { margin-left: auto; }
+
 /* ---------- Stats ---------- */
 .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-bottom: 16px; }
 .stat-cell { padding: 14px; border: 1px solid var(--vscode-panel-border); border-radius: 6px; }
@@ -731,3 +742,95 @@ textarea.quiz-input {
   border-color: var(--vscode-focusBorder);
 }
 .ctx-reveal-zh.hidden { display: none; }
+
+/* ---------- 🤖 AI 查询过 tab ---------- */
+.queried-card {
+  border-left: 3px solid var(--vscode-charts-purple, #b180d7);
+}
+.queried-count-badge {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 1px 8px;
+  border-radius: 10px;
+  background: var(--vscode-badge-background);
+  color: var(--vscode-badge-foreground);
+  font-size: 12px;
+  vertical-align: middle;
+}
+.queried-meta {
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.queried-sessions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.queried-session-btn {
+  background: var(--vscode-button-secondaryBackground);
+  color: var(--vscode-button-secondaryForeground);
+  border: 1px solid var(--vscode-panel-border);
+  border-radius: 12px;
+  padding: 2px 10px;
+  font-size: 12px;
+  cursor: pointer;
+}
+.queried-session-btn:hover {
+  background: var(--vscode-button-secondaryHoverBackground);
+  border-color: var(--vscode-focusBorder);
+}
+
+/* ---------- Tutor: ➕ 加入词本 pill next to bolded English ---------- */
+.tutor-add-pill {
+  display: inline-block;
+  margin: 0 4px;
+  padding: 1px 8px;
+  border-radius: 10px;
+  border: 1px solid var(--vscode-focusBorder, #007acc);
+  background: transparent;
+  color: var(--vscode-textLink-foreground, #4ec9ff);
+  font-size: 11px;
+  line-height: 1.6;
+  cursor: pointer;
+  vertical-align: baseline;
+}
+.tutor-add-pill:hover {
+  background: var(--vscode-textLink-activeForeground, #4ec9ff);
+  color: var(--vscode-editor-background);
+}
+.tutor-add-pill.done {
+  border-color: var(--vscode-charts-green, #4caf50);
+  color: var(--vscode-charts-green, #4caf50);
+  background: transparent;
+  cursor: default;
+}
+.tutor-add-pill:disabled { opacity: 0.75; cursor: default; }
+
+/* ---------- Toast (bottom-right) ---------- */
+#toastHost {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 9999;
+  pointer-events: none;
+}
+.toast {
+  background: var(--vscode-notifications-background, #252526);
+  color: var(--vscode-notifications-foreground, #ddd);
+  border: 1px solid var(--vscode-notifications-border, #333);
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.toast-hide { opacity: 0; transform: translateY(6px); }
+

@@ -1,22 +1,22 @@
 {
   "version": 2,
   "created_at": "2026-07-30T07:46:20.217Z",
-  "updated_at": "2026-07-31T06:01:19.289Z",
+  "updated_at": "2026-08-06T07:41:34.534Z",
   "words": {
     "1815da7d5abcad3e": {
       "id": "1815da7d5abcad3e",
       "en": "Systems Engineer",
       "zh": "系统工程师",
-      "gate": 1,
+      "gate": 2,
       "learned_at": "2026-07-30",
-      "reviews_done": 0,
-      "next_review_at": "2026-07-31",
-      "next_review_gate": 1,
+      "reviews_done": 2,
+      "next_review_at": "2026-08-08",
+      "next_review_gate": 3,
       "mastered": false,
-      "score": 30,
-      "seen_count": 4,
-      "last_reviewed_at": "2026-07-30T07:50:02.832Z",
-      "last_result": "unknown",
+      "score": 60,
+      "seen_count": 6,
+      "last_reviewed_at": "2026-08-06T07:38:58.299Z",
+      "last_result": "correct",
       "history": [
         {
           "at": "2026-07-30T07:49:41.719Z",
@@ -41,6 +41,22 @@
           "mode": "learn",
           "gate": 1,
           "result": "unknown"
+        },
+        {
+          "at": "2026-07-31T09:51:30.447Z",
+          "mode": "ebbinghaus",
+          "gate": 1,
+          "result": "correct",
+          "score_before": 30,
+          "score_after": 45
+        },
+        {
+          "at": "2026-08-06T07:38:58.299Z",
+          "mode": "ebbinghaus",
+          "gate": 2,
+          "result": "correct",
+          "score_before": 45,
+          "score_after": 60
         }
       ]
     },
@@ -73,14 +89,14 @@
       "zh": "基础科学",
       "gate": 1,
       "learned_at": "2026-07-30",
-      "reviews_done": 0,
-      "next_review_at": "2026-07-31",
-      "next_review_gate": 1,
+      "reviews_done": 1,
+      "next_review_at": "2026-08-05",
+      "next_review_gate": 2,
       "mastered": false,
       "score": 15,
-      "seen_count": 2,
-      "last_reviewed_at": "2026-07-30T07:57:00.017Z",
-      "last_result": "unknown",
+      "seen_count": 4,
+      "last_reviewed_at": "2026-08-04T09:49:43.644Z",
+      "last_result": "correct",
       "history": [
         {
           "at": "2026-07-30T07:55:53.324Z",
@@ -93,6 +109,22 @@
           "mode": "learn",
           "gate": 1,
           "result": "unknown"
+        },
+        {
+          "at": "2026-07-31T09:51:40.732Z",
+          "mode": "ebbinghaus",
+          "gate": 1,
+          "result": "incorrect",
+          "score_before": 15,
+          "score_after": 0
+        },
+        {
+          "at": "2026-08-04T09:49:43.644Z",
+          "mode": "ebbinghaus",
+          "gate": 1,
+          "result": "correct",
+          "score_before": 0,
+          "score_after": 15
         }
       ]
     },
@@ -102,14 +134,14 @@
       "zh": "国际儿童节",
       "gate": 1,
       "learned_at": "2026-07-30",
-      "reviews_done": 0,
-      "next_review_at": "2026-07-31",
-      "next_review_gate": 1,
+      "reviews_done": 1,
+      "next_review_at": "2026-08-07",
+      "next_review_gate": 2,
       "mastered": false,
       "score": 35,
-      "seen_count": 3,
-      "last_reviewed_at": "2026-07-30T08:12:10.615Z",
-      "last_result": "known",
+      "seen_count": 5,
+      "last_reviewed_at": "2026-08-06T07:39:21.918Z",
+      "last_result": "incorrect",
       "history": [
         {
           "at": "2026-07-30T08:12:03.145Z",
@@ -128,6 +160,22 @@
           "mode": "learn",
           "gate": 1,
           "result": "known"
+        },
+        {
+          "at": "2026-07-31T09:51:51.863Z",
+          "mode": "ebbinghaus",
+          "gate": 1,
+          "result": "correct",
+          "score_before": 35,
+          "score_after": 50
+        },
+        {
+          "at": "2026-08-06T07:39:21.918Z",
+          "mode": "ebbinghaus",
+          "gate": 2,
+          "result": "incorrect",
+          "score_before": 50,
+          "score_after": 35
         }
       ]
     },
@@ -166,20 +214,36 @@
       "zh": "历史性跨越",
       "gate": 1,
       "learned_at": "2026-07-30",
-      "reviews_done": 0,
-      "next_review_at": "2026-07-31",
-      "next_review_gate": 1,
+      "reviews_done": 1,
+      "next_review_at": "2026-08-07",
+      "next_review_gate": 2,
       "mastered": false,
       "score": 20,
-      "seen_count": 1,
-      "last_reviewed_at": "2026-07-30T08:55:24.567Z",
-      "last_result": "known",
+      "seen_count": 3,
+      "last_reviewed_at": "2026-08-06T07:39:37.719Z",
+      "last_result": "incorrect",
       "history": [
         {
           "at": "2026-07-30T08:55:24.567Z",
           "mode": "learn",
           "gate": 1,
           "result": "known"
+        },
+        {
+          "at": "2026-07-31T09:52:02.620Z",
+          "mode": "ebbinghaus",
+          "gate": 1,
+          "result": "correct",
+          "score_before": 20,
+          "score_after": 35
+        },
+        {
+          "at": "2026-08-06T07:39:37.719Z",
+          "mode": "ebbinghaus",
+          "gate": 2,
+          "result": "incorrect",
+          "score_before": 35,
+          "score_after": 20
         }
       ]
     },
@@ -187,22 +251,38 @@
       "id": "b2fc0701191c6d5b",
       "en": "Love is full of trouble",
       "zh": "爱情充满烦恼",
-      "gate": 1,
+      "gate": 2,
       "learned_at": "2026-07-30",
-      "reviews_done": 0,
-      "next_review_at": "2026-07-31",
-      "next_review_gate": 1,
+      "reviews_done": 2,
+      "next_review_at": "2026-08-08",
+      "next_review_gate": 3,
       "mastered": false,
-      "score": 20,
-      "seen_count": 1,
-      "last_reviewed_at": "2026-07-30T09:03:06.821Z",
-      "last_result": "known",
+      "score": 50,
+      "seen_count": 3,
+      "last_reviewed_at": "2026-08-06T07:39:56.451Z",
+      "last_result": "correct",
       "history": [
         {
           "at": "2026-07-30T09:03:06.821Z",
           "mode": "learn",
           "gate": 1,
           "result": "known"
+        },
+        {
+          "at": "2026-07-31T09:52:16.095Z",
+          "mode": "ebbinghaus",
+          "gate": 1,
+          "result": "correct",
+          "score_before": 20,
+          "score_after": 35
+        },
+        {
+          "at": "2026-08-06T07:39:56.451Z",
+          "mode": "ebbinghaus",
+          "gate": 2,
+          "result": "correct",
+          "score_before": 35,
+          "score_after": 50
         }
       ]
     },
@@ -212,20 +292,36 @@
       "zh": "大雪",
       "gate": 1,
       "learned_at": "2026-07-30",
-      "reviews_done": 0,
-      "next_review_at": "2026-07-31",
-      "next_review_gate": 1,
+      "reviews_done": 1,
+      "next_review_at": "2026-08-05",
+      "next_review_gate": 2,
       "mastered": false,
       "score": 20,
-      "seen_count": 1,
-      "last_reviewed_at": "2026-07-30T09:06:30.989Z",
-      "last_result": "known",
+      "seen_count": 3,
+      "last_reviewed_at": "2026-08-04T09:49:54.701Z",
+      "last_result": "correct",
       "history": [
         {
           "at": "2026-07-30T09:06:30.989Z",
           "mode": "learn",
           "gate": 1,
           "result": "known"
+        },
+        {
+          "at": "2026-07-31T09:52:27.141Z",
+          "mode": "ebbinghaus",
+          "gate": 1,
+          "result": "incorrect",
+          "score_before": 20,
+          "score_after": 5
+        },
+        {
+          "at": "2026-08-04T09:49:54.701Z",
+          "mode": "ebbinghaus",
+          "gate": 1,
+          "result": "correct",
+          "score_before": 5,
+          "score_after": 20
         }
       ]
     },
@@ -233,22 +329,38 @@
       "id": "e5a01ec3a2f5c21e",
       "en": "economic regulation",
       "zh": "经济调节",
-      "gate": 1,
+      "gate": 2,
       "learned_at": "2026-07-30",
-      "reviews_done": 0,
-      "next_review_at": "2026-07-31",
-      "next_review_gate": 1,
+      "reviews_done": 2,
+      "next_review_at": "2026-08-08",
+      "next_review_gate": 3,
       "mastered": false,
-      "score": 20,
-      "seen_count": 1,
-      "last_reviewed_at": "2026-07-30T09:06:42.501Z",
-      "last_result": "known",
+      "score": 50,
+      "seen_count": 3,
+      "last_reviewed_at": "2026-08-06T07:40:09.536Z",
+      "last_result": "correct",
       "history": [
         {
           "at": "2026-07-30T09:06:42.501Z",
           "mode": "learn",
           "gate": 1,
           "result": "known"
+        },
+        {
+          "at": "2026-07-31T09:53:00.212Z",
+          "mode": "ebbinghaus",
+          "gate": 1,
+          "result": "correct",
+          "score_before": 20,
+          "score_after": 35
+        },
+        {
+          "at": "2026-08-06T07:40:09.536Z",
+          "mode": "ebbinghaus",
+          "gate": 2,
+          "result": "correct",
+          "score_before": 35,
+          "score_after": 50
         }
       ]
     },
@@ -281,14 +393,14 @@
       "zh": "弹性退休制度",
       "gate": 1,
       "learned_at": "2026-07-30",
-      "reviews_done": 0,
-      "next_review_at": "2026-07-31",
-      "next_review_gate": 1,
+      "reviews_done": 1,
+      "next_review_at": "2026-08-05",
+      "next_review_gate": 2,
       "mastered": false,
       "score": 40,
-      "seen_count": 2,
-      "last_reviewed_at": "2026-07-30T09:12:04.031Z",
-      "last_result": "known",
+      "seen_count": 4,
+      "last_reviewed_at": "2026-08-04T09:50:08.274Z",
+      "last_result": "correct",
       "history": [
         {
           "at": "2026-07-30T09:09:38.413Z",
@@ -301,6 +413,22 @@
           "mode": "learn",
           "gate": 1,
           "result": "known"
+        },
+        {
+          "at": "2026-07-31T09:53:17.048Z",
+          "mode": "ebbinghaus",
+          "gate": 1,
+          "result": "incorrect",
+          "score_before": 40,
+          "score_after": 25
+        },
+        {
+          "at": "2026-08-04T09:50:08.274Z",
+          "mode": "ebbinghaus",
+          "gate": 1,
+          "result": "correct",
+          "score_before": 25,
+          "score_after": 40
         }
       ]
     },
@@ -331,22 +459,46 @@
       "id": "a7458fa3fc26d2f1",
       "en": "after-sale services",
       "zh": "售后服务",
-      "gate": 1,
+      "gate": 3,
       "learned_at": "2026-07-30",
-      "reviews_done": 0,
-      "next_review_at": "2026-07-31",
-      "next_review_gate": 1,
+      "reviews_done": 3,
+      "next_review_at": "2026-08-09",
+      "next_review_gate": 4,
       "mastered": false,
-      "score": 20,
-      "seen_count": 1,
-      "last_reviewed_at": "2026-07-30T10:01:43.512Z",
-      "last_result": "known",
+      "score": 65,
+      "seen_count": 4,
+      "last_reviewed_at": "2026-08-06T07:41:34.534Z",
+      "last_result": "correct",
       "history": [
         {
           "at": "2026-07-30T10:01:43.512Z",
           "mode": "learn",
           "gate": 1,
           "result": "known"
+        },
+        {
+          "at": "2026-07-31T09:54:28.053Z",
+          "mode": "ebbinghaus",
+          "gate": 1,
+          "result": "correct",
+          "score_before": 20,
+          "score_after": 35
+        },
+        {
+          "at": "2026-07-31T09:54:31.879Z",
+          "mode": "ebbinghaus",
+          "gate": 1,
+          "result": "correct",
+          "score_before": 35,
+          "score_after": 50
+        },
+        {
+          "at": "2026-08-06T07:41:34.534Z",
+          "mode": "ebbinghaus",
+          "gate": 3,
+          "result": "correct",
+          "score_before": 50,
+          "score_after": 65
         }
       ]
     },
@@ -354,22 +506,38 @@
       "id": "6059c93a5c46a108",
       "en": "geographer",
       "zh": "地理学家",
-      "gate": 1,
+      "gate": 2,
       "learned_at": "2026-07-30",
-      "reviews_done": 0,
-      "next_review_at": "2026-07-31",
-      "next_review_gate": 1,
+      "reviews_done": 2,
+      "next_review_at": "2026-08-08",
+      "next_review_gate": 3,
       "mastered": false,
-      "score": 20,
-      "seen_count": 1,
-      "last_reviewed_at": "2026-07-30T10:01:48.490Z",
-      "last_result": "known",
+      "score": 50,
+      "seen_count": 3,
+      "last_reviewed_at": "2026-08-06T07:40:23.571Z",
+      "last_result": "correct",
       "history": [
         {
           "at": "2026-07-30T10:01:48.490Z",
           "mode": "learn",
           "gate": 1,
           "result": "known"
+        },
+        {
+          "at": "2026-07-31T09:54:46.337Z",
+          "mode": "ebbinghaus",
+          "gate": 1,
+          "result": "correct",
+          "score_before": 20,
+          "score_after": 35
+        },
+        {
+          "at": "2026-08-06T07:40:23.571Z",
+          "mode": "ebbinghaus",
+          "gate": 2,
+          "result": "correct",
+          "score_before": 35,
+          "score_after": 50
         }
       ]
     },
@@ -384,12 +552,933 @@
       "next_review_gate": 1,
       "mastered": false,
       "score": 0,
-      "seen_count": 1,
-      "last_reviewed_at": "2026-07-31T06:01:19.289Z",
+      "seen_count": 2,
+      "last_reviewed_at": "2026-07-31T09:38:04.237Z",
       "last_result": "unknown",
       "history": [
         {
           "at": "2026-07-31T06:01:19.289Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "unknown"
+        },
+        {
+          "at": "2026-07-31T09:38:04.237Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "unknown"
+        }
+      ]
+    },
+    "7e593a6105f60036": {
+      "id": "7e593a6105f60036",
+      "en": "merchant bank, accepting bank",
+      "zh": "承兑银行",
+      "gate": 0,
+      "learned_at": null,
+      "reviews_done": 0,
+      "next_review_at": null,
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 0,
+      "seen_count": 1,
+      "last_reviewed_at": "2026-07-31T09:38:46.798Z",
+      "last_result": "unknown",
+      "history": [
+        {
+          "at": "2026-07-31T09:38:46.798Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "unknown"
+        }
+      ]
+    },
+    "3ef7d11502ab359d": {
+      "id": "3ef7d11502ab359d",
+      "en": "Electronic Technology Development Co",
+      "zh": "电子技术开发公司",
+      "gate": 1,
+      "learned_at": "2026-07-31",
+      "reviews_done": 1,
+      "next_review_at": "2026-08-05",
+      "next_review_gate": 2,
+      "mastered": false,
+      "score": 35,
+      "seen_count": 2,
+      "last_reviewed_at": "2026-08-04T09:50:38.641Z",
+      "last_result": "correct",
+      "history": [
+        {
+          "at": "2026-07-31T09:39:56.969Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "known"
+        },
+        {
+          "at": "2026-08-04T09:50:38.641Z",
+          "mode": "ebbinghaus",
+          "gate": 1,
+          "result": "correct",
+          "score_before": 20,
+          "score_after": 35
+        }
+      ]
+    },
+    "6edad03e3554e824": {
+      "id": "6edad03e3554e824",
+      "en": "check digit",
+      "zh": "校验数位",
+      "gate": 0,
+      "learned_at": null,
+      "reviews_done": 0,
+      "next_review_at": null,
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 0,
+      "seen_count": 1,
+      "last_reviewed_at": "2026-07-31T09:46:42.290Z",
+      "last_result": "unknown",
+      "history": [
+        {
+          "at": "2026-07-31T09:46:42.290Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "unknown"
+        }
+      ]
+    },
+    "a9ffee354c8f6d0d": {
+      "id": "a9ffee354c8f6d0d",
+      "en": "classic descriptions",
+      "zh": "经典描绘语句",
+      "gate": 1,
+      "learned_at": "2026-07-31",
+      "reviews_done": 1,
+      "next_review_at": "2026-08-05",
+      "next_review_gate": 2,
+      "mastered": false,
+      "score": 35,
+      "seen_count": 3,
+      "last_reviewed_at": "2026-08-04T09:50:53.768Z",
+      "last_result": "correct",
+      "history": [
+        {
+          "at": "2026-07-31T09:47:39.194Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "unknown"
+        },
+        {
+          "at": "2026-07-31T09:47:40.214Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "known"
+        },
+        {
+          "at": "2026-08-04T09:50:53.768Z",
+          "mode": "ebbinghaus",
+          "gate": 1,
+          "result": "correct",
+          "score_before": 20,
+          "score_after": 35
+        }
+      ]
+    },
+    "707b48f186f19772": {
+      "id": "707b48f186f19772",
+      "en": "bilateral",
+      "zh": "双边的",
+      "gate": 1,
+      "learned_at": "2026-07-31",
+      "reviews_done": 1,
+      "next_review_at": "2026-08-05",
+      "next_review_gate": 2,
+      "mastered": false,
+      "score": 35,
+      "seen_count": 2,
+      "last_reviewed_at": "2026-08-04T09:51:09.965Z",
+      "last_result": "correct",
+      "history": [
+        {
+          "at": "2026-07-31T09:49:13.446Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "known"
+        },
+        {
+          "at": "2026-08-04T09:51:09.965Z",
+          "mode": "ebbinghaus",
+          "gate": 1,
+          "result": "correct",
+          "score_before": 20,
+          "score_after": 35
+        }
+      ]
+    },
+    "35ce573238e7101a": {
+      "id": "35ce573238e7101a",
+      "en": "Electric Tool Works",
+      "zh": "电动工具厂",
+      "gate": 1,
+      "learned_at": "2026-07-31",
+      "reviews_done": 0,
+      "next_review_at": "2026-08-05",
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 0,
+      "seen_count": 4,
+      "last_reviewed_at": "2026-08-04T10:01:20.975Z",
+      "last_result": "incorrect",
+      "history": [
+        {
+          "at": "2026-07-31T09:50:08.038Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "unknown"
+        },
+        {
+          "at": "2026-07-31T09:50:08.967Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "known"
+        },
+        {
+          "at": "2026-07-31T09:50:10.410Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "unknown"
+        },
+        {
+          "at": "2026-08-04T10:01:20.975Z",
+          "mode": "ebbinghaus",
+          "gate": 1,
+          "result": "incorrect",
+          "score_before": 15,
+          "score_after": 0
+        }
+      ]
+    },
+    "633ab5db67936562": {
+      "id": "633ab5db67936562",
+      "en": "graduate",
+      "zh": "毕业生",
+      "gate": 1,
+      "learned_at": "2026-07-31",
+      "reviews_done": 1,
+      "next_review_at": "2026-08-05",
+      "next_review_gate": 2,
+      "mastered": false,
+      "score": 35,
+      "seen_count": 2,
+      "last_reviewed_at": "2026-08-04T10:01:34.567Z",
+      "last_result": "correct",
+      "history": [
+        {
+          "at": "2026-07-31T09:50:15.646Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "known"
+        },
+        {
+          "at": "2026-08-04T10:01:34.567Z",
+          "mode": "ebbinghaus",
+          "gate": 1,
+          "result": "correct",
+          "score_before": 20,
+          "score_after": 35
+        }
+      ]
+    },
+    "ba76a6183dc6aa82": {
+      "id": "ba76a6183dc6aa82",
+      "en": "bogus company",
+      "zh": "皮包公司",
+      "gate": 1,
+      "learned_at": "2026-07-31",
+      "reviews_done": 0,
+      "next_review_at": "2026-08-07",
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 5,
+      "seen_count": 2,
+      "last_reviewed_at": "2026-08-06T07:11:18.363Z",
+      "last_result": "incorrect",
+      "history": [
+        {
+          "at": "2026-07-31T09:50:31.471Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "known"
+        },
+        {
+          "at": "2026-08-06T07:11:18.363Z",
+          "mode": "ebbinghaus",
+          "gate": 1,
+          "result": "incorrect",
+          "score_before": 20,
+          "score_after": 5
+        }
+      ]
+    },
+    "c6d75c5c50286d1c": {
+      "id": "c6d75c5c50286d1c",
+      "en": "cut-throat competition",
+      "zh": "激烈竞争",
+      "gate": 1,
+      "learned_at": "2026-07-31",
+      "reviews_done": 1,
+      "next_review_at": "2026-08-07",
+      "next_review_gate": 2,
+      "mastered": false,
+      "score": 35,
+      "seen_count": 2,
+      "last_reviewed_at": "2026-08-06T07:38:40.009Z",
+      "last_result": "correct",
+      "history": [
+        {
+          "at": "2026-07-31T09:51:01.158Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "known"
+        },
+        {
+          "at": "2026-08-06T07:38:40.009Z",
+          "mode": "ebbinghaus",
+          "gate": 1,
+          "result": "correct",
+          "score_before": 20,
+          "score_after": 35
+        }
+      ]
+    },
+    "a34df7e555635691": {
+      "id": "a34df7e555635691",
+      "en": "cyber carriers",
+      "zh": "数码港 cyber port; cyber carriers 数码营业公司",
+      "gate": 0,
+      "learned_at": null,
+      "reviews_done": 0,
+      "next_review_at": null,
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 0,
+      "seen_count": 1,
+      "last_reviewed_at": "2026-08-04T08:47:54.671Z",
+      "last_result": "unknown",
+      "history": [
+        {
+          "at": "2026-08-04T08:47:54.671Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "unknown"
+        }
+      ]
+    },
+    "82099e8c81c73ea1": {
+      "id": "82099e8c81c73ea1",
+      "en": "reform the price formation mechanism",
+      "zh": "改革价格形成机制",
+      "gate": 0,
+      "learned_at": null,
+      "reviews_done": 0,
+      "next_review_at": null,
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 0,
+      "seen_count": 1,
+      "last_reviewed_at": "2026-08-04T09:22:57.808Z",
+      "last_result": "unknown",
+      "history": [
+        {
+          "at": "2026-08-04T09:22:57.808Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "unknown"
+        }
+      ]
+    },
+    "13e043b8048e1dd1": {
+      "id": "13e043b8048e1dd1",
+      "en": "increase transfer payments",
+      "zh": "加大转移支付力度",
+      "gate": 0,
+      "learned_at": null,
+      "reviews_done": 0,
+      "next_review_at": null,
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 0,
+      "seen_count": 2,
+      "last_reviewed_at": "2026-08-04T09:39:29.200Z",
+      "last_result": "unknown",
+      "history": [
+        {
+          "at": "2026-08-04T09:23:20.959Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "unknown"
+        },
+        {
+          "at": "2026-08-04T09:39:29.200Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "unknown"
+        }
+      ]
+    },
+    "5db919a44e309691": {
+      "id": "5db919a44e309691",
+      "en": "to do missionary work",
+      "zh": "基督教）传教",
+      "gate": 0,
+      "learned_at": null,
+      "reviews_done": 0,
+      "next_review_at": null,
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 0,
+      "seen_count": 1,
+      "last_reviewed_at": "2026-08-04T09:40:34.258Z",
+      "last_result": "unknown",
+      "history": [
+        {
+          "at": "2026-08-04T09:40:34.258Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "unknown"
+        }
+      ]
+    },
+    "a37a4e775b531138": {
+      "id": "a37a4e775b531138",
+      "en": "humanitarian",
+      "zh": "人道主义者",
+      "gate": 0,
+      "learned_at": null,
+      "reviews_done": 0,
+      "next_review_at": null,
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 0,
+      "seen_count": 1,
+      "last_reviewed_at": "2026-08-04T09:42:22.912Z",
+      "last_result": "unknown",
+      "history": [
+        {
+          "at": "2026-08-04T09:42:22.912Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "unknown"
+        }
+      ]
+    },
+    "acb6d9e110e671e3": {
+      "id": "acb6d9e110e671e3",
+      "en": "jury",
+      "zh": "陪审团",
+      "gate": 1,
+      "learned_at": "2026-08-04",
+      "reviews_done": 0,
+      "next_review_at": "2026-08-05",
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 20,
+      "seen_count": 1,
+      "last_reviewed_at": "2026-08-04T09:43:51.282Z",
+      "last_result": "known",
+      "history": [
+        {
+          "at": "2026-08-04T09:43:51.282Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "known"
+        }
+      ]
+    },
+    "43d743484357bbb4": {
+      "id": "43d743484357bbb4",
+      "en": "extramarital love",
+      "zh": "婚外恋",
+      "gate": 0,
+      "learned_at": null,
+      "reviews_done": 0,
+      "next_review_at": null,
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 0,
+      "seen_count": 1,
+      "last_reviewed_at": "2026-08-04T09:44:21.470Z",
+      "last_result": "unknown",
+      "history": [
+        {
+          "at": "2026-08-04T09:44:21.470Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "unknown"
+        }
+      ]
+    },
+    "be207809a796233c": {
+      "id": "be207809a796233c",
+      "en": "Economic Committee",
+      "zh": "经济委员会",
+      "gate": 0,
+      "learned_at": null,
+      "reviews_done": 0,
+      "next_review_at": null,
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 0,
+      "seen_count": 1,
+      "last_reviewed_at": "2026-08-04T09:46:50.134Z",
+      "last_result": "unknown",
+      "history": [
+        {
+          "at": "2026-08-04T09:46:50.134Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "unknown"
+        }
+      ]
+    },
+    "e6a0d75735665ac4": {
+      "id": "e6a0d75735665ac4",
+      "en": "duplicate law enforcement",
+      "zh": "多重多头执法",
+      "gate": 0,
+      "learned_at": null,
+      "reviews_done": 0,
+      "next_review_at": null,
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 0,
+      "seen_count": 1,
+      "last_reviewed_at": "2026-08-04T09:47:28.024Z",
+      "last_result": "unknown",
+      "history": [
+        {
+          "at": "2026-08-04T09:47:28.024Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "unknown"
+        }
+      ]
+    },
+    "4d2aee8cef76c909": {
+      "id": "4d2aee8cef76c909",
+      "en": "Domain Name Application and Registration",
+      "zh": "申请注册域名",
+      "gate": 1,
+      "learned_at": "2026-08-04",
+      "reviews_done": 0,
+      "next_review_at": "2026-08-05",
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 20,
+      "seen_count": 1,
+      "last_reviewed_at": "2026-08-04T09:49:21.443Z",
+      "last_result": "known",
+      "history": [
+        {
+          "at": "2026-08-04T09:49:21.443Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "known"
+        }
+      ]
+    },
+    "a067093d1bb634b4": {
+      "id": "a067093d1bb634b4",
+      "en": "major crimes",
+      "zh": "恶性犯罪",
+      "gate": 1,
+      "learned_at": "2026-08-05",
+      "reviews_done": 0,
+      "next_review_at": "2026-08-06",
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 30,
+      "seen_count": 4,
+      "last_reviewed_at": "2026-08-05T09:24:32.996Z",
+      "last_result": "unknown",
+      "history": [
+        {
+          "at": "2026-08-05T08:58:54.604Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "known"
+        },
+        {
+          "at": "2026-08-05T08:58:59.124Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "unknown"
+        },
+        {
+          "at": "2026-08-05T09:24:32.180Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "known"
+        },
+        {
+          "at": "2026-08-05T09:24:32.996Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "unknown"
+        }
+      ]
+    },
+    "ea7900fab954c567": {
+      "id": "ea7900fab954c567",
+      "en": "securities, options and futures",
+      "zh": "证券、期权及期货",
+      "gate": 0,
+      "learned_at": null,
+      "reviews_done": 0,
+      "next_review_at": null,
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 0,
+      "seen_count": 1,
+      "last_reviewed_at": "2026-08-05T09:24:48.533Z",
+      "last_result": "unknown",
+      "history": [
+        {
+          "at": "2026-08-05T09:24:48.533Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "unknown"
+        }
+      ]
+    },
+    "3043ec8ccf140eea": {
+      "id": "3043ec8ccf140eea",
+      "en": "nature reserve",
+      "zh": "自然保护区",
+      "gate": 0,
+      "learned_at": null,
+      "reviews_done": 0,
+      "next_review_at": null,
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 0,
+      "seen_count": 1,
+      "last_reviewed_at": "2026-08-05T09:30:14.197Z",
+      "last_result": "unknown",
+      "history": [
+        {
+          "at": "2026-08-05T09:30:14.197Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "unknown"
+        }
+      ]
+    },
+    "f8ed5024492158ca": {
+      "id": "f8ed5024492158ca",
+      "en": "non-traditional threats to security",
+      "zh": "非传统安全威胁",
+      "gate": 1,
+      "learned_at": "2026-08-05",
+      "reviews_done": 0,
+      "next_review_at": "2026-08-06",
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 20,
+      "seen_count": 1,
+      "last_reviewed_at": "2026-08-05T09:32:50.295Z",
+      "last_result": "known",
+      "history": [
+        {
+          "at": "2026-08-05T09:32:50.295Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "known"
+        }
+      ]
+    },
+    "ed5ebd3a59ab70f0": {
+      "id": "ed5ebd3a59ab70f0",
+      "en": "Nanjing Union Theological Seminary",
+      "zh": "金陵协和神学院",
+      "gate": 0,
+      "learned_at": null,
+      "reviews_done": 0,
+      "next_review_at": null,
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 0,
+      "seen_count": 1,
+      "last_reviewed_at": "2026-08-05T09:33:11.132Z",
+      "last_result": "unknown",
+      "history": [
+        {
+          "at": "2026-08-05T09:33:11.132Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "unknown"
+        }
+      ]
+    },
+    "0a88515701a8a7c1": {
+      "id": "0a88515701a8a7c1",
+      "en": "narrow-body passenger aircraft",
+      "zh": "窄体客机",
+      "gate": 0,
+      "learned_at": null,
+      "reviews_done": 0,
+      "next_review_at": null,
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 0,
+      "seen_count": 1,
+      "last_reviewed_at": "2026-08-05T09:48:34.351Z",
+      "last_result": "unknown",
+      "history": [
+        {
+          "at": "2026-08-05T09:48:34.351Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "unknown"
+        }
+      ]
+    },
+    "916cd48e846e08bb": {
+      "id": "916cd48e846e08bb",
+      "en": "proceed with confidence",
+      "zh": "坚定信心",
+      "gate": 1,
+      "learned_at": "2026-08-06",
+      "reviews_done": 0,
+      "next_review_at": "2026-08-07",
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 20,
+      "seen_count": 1,
+      "last_reviewed_at": "2026-08-06T06:44:22.613Z",
+      "last_result": "known",
+      "history": [
+        {
+          "at": "2026-08-06T06:44:22.613Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "known"
+        }
+      ]
+    },
+    "45bd225335cc0922": {
+      "id": "45bd225335cc0922",
+      "en": "electrostatic motor",
+      "zh": "静电电机",
+      "gate": 0,
+      "learned_at": null,
+      "reviews_done": 0,
+      "next_review_at": null,
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 0,
+      "seen_count": 1,
+      "last_reviewed_at": "2026-08-06T06:48:19.351Z",
+      "last_result": "unknown",
+      "history": [
+        {
+          "at": "2026-08-06T06:48:19.351Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "unknown"
+        }
+      ]
+    },
+    "17f9245e463c4080": {
+      "id": "17f9245e463c4080",
+      "en": "Assistant Editor",
+      "zh": "助理编辑",
+      "gate": 1,
+      "learned_at": "2026-08-06",
+      "reviews_done": 0,
+      "next_review_at": "2026-08-07",
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 20,
+      "seen_count": 1,
+      "last_reviewed_at": "2026-08-06T06:48:57.959Z",
+      "last_result": "known",
+      "history": [
+        {
+          "at": "2026-08-06T06:48:57.959Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "known"
+        }
+      ]
+    },
+    "fe69e1627a04395e": {
+      "id": "fe69e1627a04395e",
+      "en": "Century Park",
+      "zh": "（浦东） 世纪公园",
+      "gate": 1,
+      "learned_at": "2026-08-06",
+      "reviews_done": 0,
+      "next_review_at": "2026-08-07",
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 40,
+      "seen_count": 2,
+      "last_reviewed_at": "2026-08-06T06:50:22.766Z",
+      "last_result": "known",
+      "history": [
+        {
+          "at": "2026-08-06T06:49:34.849Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "known"
+        },
+        {
+          "at": "2026-08-06T06:50:22.766Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "known"
+        }
+      ]
+    },
+    "a59753ab364791cc": {
+      "id": "a59753ab364791cc",
+      "en": "aircraft industry",
+      "zh": "飞机制造工业",
+      "gate": 1,
+      "learned_at": "2026-08-06",
+      "reviews_done": 0,
+      "next_review_at": "2026-08-07",
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 20,
+      "seen_count": 1,
+      "last_reviewed_at": "2026-08-06T06:51:39.976Z",
+      "last_result": "known",
+      "history": [
+        {
+          "at": "2026-08-06T06:51:39.976Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "known"
+        }
+      ]
+    },
+    "17684931d997c518": {
+      "id": "17684931d997c518",
+      "en": "Administration of Exchange Control",
+      "zh": "外汇管理局",
+      "gate": 1,
+      "learned_at": "2026-08-06",
+      "reviews_done": 0,
+      "next_review_at": "2026-08-07",
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 20,
+      "seen_count": 1,
+      "last_reviewed_at": "2026-08-06T06:52:10.798Z",
+      "last_result": "known",
+      "history": [
+        {
+          "at": "2026-08-06T06:52:10.798Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "known"
+        }
+      ]
+    },
+    "bd37d903ab480e0d": {
+      "id": "bd37d903ab480e0d",
+      "en": "Account Representative",
+      "zh": "客户代表",
+      "gate": 0,
+      "learned_at": null,
+      "reviews_done": 0,
+      "next_review_at": null,
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 0,
+      "seen_count": 2,
+      "last_reviewed_at": "2026-08-06T06:53:13.775Z",
+      "last_result": "unknown",
+      "history": [
+        {
+          "at": "2026-08-06T06:52:24.602Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "unknown"
+        },
+        {
+          "at": "2026-08-06T06:53:13.775Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "unknown"
+        }
+      ]
+    },
+    "5b94befae3c2f415": {
+      "id": "5b94befae3c2f415",
+      "en": "China inbound tourism development report",
+      "zh": "中国入境旅游发展报告",
+      "gate": 0,
+      "learned_at": null,
+      "reviews_done": 0,
+      "next_review_at": null,
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 0,
+      "seen_count": 1,
+      "last_reviewed_at": "2026-08-06T06:56:52.398Z",
+      "last_result": "unknown",
+      "history": [
+        {
+          "at": "2026-08-06T06:56:52.398Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "unknown"
+        }
+      ]
+    },
+    "bce3081f36f51bfd": {
+      "id": "bce3081f36f51bfd",
+      "en": "advance with the times",
+      "zh": "与时俱进",
+      "gate": 1,
+      "learned_at": "2026-08-06",
+      "reviews_done": 0,
+      "next_review_at": "2026-08-07",
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 20,
+      "seen_count": 1,
+      "last_reviewed_at": "2026-08-06T06:57:51.740Z",
+      "last_result": "known",
+      "history": [
+        {
+          "at": "2026-08-06T06:57:51.740Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "known"
+        }
+      ]
+    },
+    "c3432b1f252cd1dc": {
+      "id": "c3432b1f252cd1dc",
+      "en": "abbey",
+      "zh": "修道院",
+      "gate": 0,
+      "learned_at": null,
+      "reviews_done": 0,
+      "next_review_at": null,
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 0,
+      "seen_count": 1,
+      "last_reviewed_at": "2026-08-06T07:10:34.754Z",
+      "last_result": "unknown",
+      "history": [
+        {
+          "at": "2026-08-06T07:10:34.754Z",
           "mode": "learn",
           "gate": 1,
           "result": "unknown"
@@ -407,11 +1496,35 @@
       "score_reviewed": 0
     },
     "2026-07-31": {
-      "new_words": 0,
+      "new_words": 7,
+      "reviewed": 11,
+      "correct": 8,
+      "incorrect": 3,
+      "ebbinghaus_reviewed": 11,
+      "score_reviewed": 0
+    },
+    "2026-08-04": {
+      "new_words": 10,
+      "reviewed": 8,
+      "correct": 7,
+      "incorrect": 1,
+      "ebbinghaus_reviewed": 8,
+      "score_reviewed": 0
+    },
+    "2026-08-05": {
+      "new_words": 6,
       "reviewed": 0,
       "correct": 0,
       "incorrect": 0,
       "ebbinghaus_reviewed": 0,
+      "score_reviewed": 0
+    },
+    "2026-08-06": {
+      "new_words": 10,
+      "reviewed": 9,
+      "correct": 6,
+      "incorrect": 3,
+      "ebbinghaus_reviewed": 9,
       "score_reviewed": 0
     }
   },
@@ -442,24 +1555,82 @@
       ],
       "correct": 2,
       "incorrect": 0
+    },
+    {
+      "at": "2026-07-31T09:51:06.765Z",
+      "mode": "learn",
+      "gate": 1,
+      "word_ids": [
+        "124f65a1d3295dae",
+        "7e593a6105f60036",
+        "3ef7d11502ab359d",
+        "6edad03e3554e824",
+        "a9ffee354c8f6d0d",
+        "707b48f186f19772",
+        "35ce573238e7101a",
+        "633ab5db67936562",
+        "ba76a6183dc6aa82",
+        "c6d75c5c50286d1c"
+      ],
+      "correct": 5,
+      "incorrect": 5
+    },
+    {
+      "at": "2026-07-31T09:54:48.148Z",
+      "mode": "ebbinghaus",
+      "word_ids": [
+        "1815da7d5abcad3e",
+        "905e5387b67c2cf4",
+        "ce2bbabc893653d6",
+        "877c74cb25872046",
+        "b2fc0701191c6d5b",
+        "48a05c0b9e91f6a3",
+        "e5a01ec3a2f5c21e",
+        "beede44e864b82ef",
+        "a7458fa3fc26d2f1",
+        "6059c93a5c46a108"
+      ],
+      "correct": 8,
+      "incorrect": 3
+    },
+    {
+      "at": "2026-08-04T09:49:25.330Z",
+      "mode": "learn",
+      "gate": 1,
+      "word_ids": [
+        "a34df7e555635691",
+        "82099e8c81c73ea1",
+        "13e043b8048e1dd1",
+        "5db919a44e309691",
+        "a37a4e775b531138",
+        "acb6d9e110e671e3",
+        "43d743484357bbb4",
+        "be207809a796233c",
+        "e6a0d75735665ac4",
+        "4d2aee8cef76c909"
+      ],
+      "correct": 2,
+      "incorrect": 8
+    },
+    {
+      "at": "2026-08-06T07:10:46.434Z",
+      "mode": "learn",
+      "gate": 1,
+      "word_ids": [
+        "916cd48e846e08bb",
+        "45bd225335cc0922",
+        "17f9245e463c4080",
+        "fe69e1627a04395e",
+        "a59753ab364791cc",
+        "17684931d997c518",
+        "bd37d903ab480e0d",
+        "5b94befae3c2f415",
+        "bce3081f36f51bfd",
+        "c3432b1f252cd1dc"
+      ],
+      "correct": 7,
+      "incorrect": 5
     }
   ],
-  "currentLearnSession": {
-    "wordIds": [
-      "124f65a1d3295dae",
-      "7e593a6105f60036",
-      "3ef7d11502ab359d",
-      "6edad03e3554e824",
-      "a9ffee354c8f6d0d",
-      "707b48f186f19772",
-      "35ce573238e7101a",
-      "633ab5db67936562",
-      "ba76a6183dc6aa82",
-      "c6d75c5c50286d1c"
-    ],
-    "idx": 0,
-    "known": 0,
-    "unknown": 0,
-    "startedAt": "2026-07-31T06:00:53.344Z"
-  }
+  "currentLearnSession": null
 }

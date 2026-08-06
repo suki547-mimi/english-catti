@@ -58,6 +58,13 @@ async function boot() {
     phonetics = p;
     sentenceAudioIndex = sa;
 
+    // Merge user-added vocab (from AI 助教) into the browse list.
+    try {
+      const uv = await callHost('getUserVocab');
+      const items = (uv && uv.items) || [];
+      for (const it of items) { mergeUserVocabEntry(it); }
+    } catch { /* ignore */ }
+
     // Restore any in-progress learn session from disk (survives Reload Window).
     try {
       const m = await callHost('getLearnSession');
@@ -143,6 +150,32 @@ function cleanEntry(v) {
   return out;
 }
 
+/** Insert (or update in place) a user-added word into the browse-time vocab
+ *  array. Called at boot (batch) and after the tutor adds a new one. */
+function mergeUserVocabEntry(uw) {
+  if (!uw || !uw.id || !uw.en) { return; }
+  const firstLetter = (String(uw.en).match(/[A-Za-z]/) || ['#'])[0].toUpperCase();
+  const entry = {
+    id: uw.id,
+    en: uw.en,
+    zh: uw.zh || '',
+    letter: firstLetter,
+    kind: 'user',
+    topic: 'user',
+    sources: [uw.source === 'tutor' ? 'AI 助教' : '手工添加'],
+    note: uw.note || '',
+    userAdded: true,
+  };
+  const existing = vocabById.get(uw.id);
+  if (existing) {
+    // Update in-place (keeps object identity for anything that cached refs).
+    Object.assign(existing, entry);
+  } else {
+    vocab.unshift(entry);
+    vocabById.set(uw.id, entry);
+  }
+}
+
 function playAudio(en, accent) {
   const idx = audioIndex[en];
   if (!idx) { return; }
@@ -153,9 +186,16 @@ function playAudio(en, accent) {
 }
 
 function audioBtns(en) {
-  if (!audioIndex[en]) { return ''; }
-  return `<button class="audio-btn" data-en="${escapeHtml(en)}" data-accent="us" title="美音">🇺🇸</button>
-          <button class="audio-btn" data-en="${escapeHtml(en)}" data-accent="uk" title="英音">🇬🇧</button>`;
+  if (audioIndex[en]) {
+    return `<button class="audio-btn" data-en="${escapeHtml(en)}" data-accent="us" title="美音">🇺🇸</button>
+            <button class="audio-btn" data-en="${escapeHtml(en)}" data-accent="uk" title="英音">🇬🇧</button>`;
+  }
+  // Fallback for user-added words that have no prebuilt mp3: use the
+  // sentence-audio pipeline (edge-tts on demand, cached under
+  // audio/sentences/dynamic/<accent>/<hash>.mp3).
+  const enText = encodeURIComponent(en);
+  return `<button class="audio-btn sent-audio" data-text="${enText}" data-accent="us" title="美音（首次点击会生成）">🇺🇸</button>
+          <button class="audio-btn sent-audio" data-text="${enText}" data-accent="uk" title="英音（首次点击会生成）">🇬🇧</button>`;
 }
 
 /** Look up phonetics for `en`. Only handles single-word entries (that's what our data has). */
@@ -208,7 +248,13 @@ function phoneticBadges(en) {
 
 function wireAudioButtons(root) {
   for (const b of root.querySelectorAll('.audio-btn')) {
-    b.addEventListener('click', () => playAudio(b.dataset.en, b.dataset.accent));
+    if (b.classList.contains('sent-audio')) {
+      // Fallback path: user-added words with no prebuilt mp3 — use the
+      // sentence-audio pipeline (edge-tts on demand).
+      b.addEventListener('click', () => playSentenceAudio(b));
+    } else {
+      b.addEventListener('click', () => playAudio(b.dataset.en, b.dataset.accent));
+    }
   }
 }
 
@@ -231,6 +277,7 @@ function render() {
   else if (state.tab === 'review') { renderReview(); }
   else if (state.tab === 'reading') { renderReading(); }
   else if (state.tab === 'tutor') { renderTutor(); }
+  else if (state.tab === 'queried') { renderQueriedWords(); }
   else if (state.tab === 'stats') { renderStats(); }
 }
 
@@ -529,7 +576,21 @@ const deepCache = new Map();   // wordId -> markdown
 const deepInFlight = new Map(); // wordId -> Promise<string|null> (dedupe)
 const chatHistories = new Map(); // wordId -> [{role, text}]
 
-/** Warm the deep-study cache in the background so 🔍 深度学习 opens instantly. */
+/** Generate a random session id. Uses crypto.randomUUID when available, else a
+ *  timestamp-random fallback. Kept in sync between webview and store so a click
+ *  in 🤖 AI 查询过 can restore the exact same transcript. */
+function newSessionId() {
+  try {
+    if (window.crypto && typeof window.crypto.randomUUID === 'function') {
+      return window.crypto.randomUUID();
+    }
+  } catch { /* ignore */ }
+  return `s-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
+}
+
+/** Warm the deep-study cache in the background so 🔍 深度学习 opens instantly.
+ *  Prefetch is view-only — it does NOT create a persisted AI session; the real
+ *  session is opened by openDeepStudy() when the user actually clicks. */
 function prefetchDeepStudy(w) {
   if (!w || !w.id) { return; }
   if (deepCache.has(w.id) || deepInFlight.has(w.id)) { return; }
@@ -544,7 +605,14 @@ function prefetchDeepStudy(w) {
   deepInFlight.set(w.id, p);
 }
 
-async function openDeepStudy(w) {
+/** Open the deep-study modal for word `w`.
+ *  `opts.sessionId` — replay an existing stored session (from the 🤖 AI 查询过 tab);
+ *                    do NOT re-run deepStudy, do NOT bump query count.
+ *  Otherwise a fresh sessionId is generated and the session is persisted so it
+ *  shows up in 🤖 AI 查询过. */
+async function openDeepStudy(w, opts) {
+  opts = opts || {};
+  const replaySessionId = opts.sessionId || null;
   const deep = document.getElementById('deepArea');
   if (!deep) { return; }
   deep.innerHTML = `
@@ -577,24 +645,54 @@ async function openDeepStudy(w) {
   });
 
   const body = document.getElementById('deepBody');
-  let md = deepCache.get(w.id);
-  if (!md) {
-    // If a background prefetch is already running, wait for it instead of starting a second call.
-    const inflight = deepInFlight.get(w.id);
-    if (inflight) {
-      md = await inflight;
+
+  // Decide the session: replay an existing one, or start a fresh persisted one.
+  let sessionId;
+  let history;
+  let md = null;
+  if (replaySessionId) {
+    // History mode: pull the stored transcript and don't call deepStudy again.
+    sessionId = replaySessionId;
+    const resp = await callHost('getAiSession', { sessionId });
+    const session = resp && resp.session;
+    if (session && session.messages) {
+      // The first assistant message of a deepStudy session is the study markdown.
+      const first = session.messages.find((m) => m.role === 'assistant');
+      md = first ? first.text : null;
+      // The chat log = every message AFTER the initial study markdown.
+      const rest = first ? session.messages.slice(session.messages.indexOf(first) + 1) : session.messages.slice();
+      history = rest.map((m) => ({ role: m.role, text: m.text }));
+      chatHistories.set(w.id, history);
     } else {
-      const m = await callHost('deepStudy', { en: w.en, zh: w.zh });
+      body.innerHTML = '<div class="result-bad">⚠️ 找不到这段对话（可能已被清除）</div>';
+      return;
+    }
+  } else {
+    // Fresh session: generate an id, register with host + persist.
+    sessionId = newSessionId();
+    md = deepCache.get(w.id);
+    if (!md) {
+      const inflight = deepInFlight.get(w.id);
+      if (inflight) { md = await inflight; }
+    }
+    if (md) {
+      // Prefetch already produced the markdown — just persist the session; do
+      // NOT spend another LLM call. Persistence is fire-and-forget.
+      callHost('registerAiSession', { sessionId, mode: 'deepStudy', wordId: w.id, en: w.en, zh: w.zh, markdown: md })
+        .catch(() => { /* ignore */ });
+    } else {
+      const m = await callHost('deepStudy', { en: w.en, zh: w.zh, wordId: w.id, sessionId });
       md = m && m.markdown;
       if (md) { deepCache.set(w.id, md); }
     }
+    history = chatHistories.get(w.id) || [];
+    chatHistories.set(w.id, history);
   }
+
   body.innerHTML = md ? renderMarkdown(md) : '<div class="result-bad">⚠️ 生成失败</div>';
 
   // Wire chat
   const chatLog = document.getElementById('chatLog');
-  const history = chatHistories.get(w.id) || [];
-  chatHistories.set(w.id, history);
   renderChat(chatLog, history);
   const chatInput = document.getElementById('chatInput');
   const send = async () => {
@@ -606,7 +704,10 @@ async function openDeepStudy(w) {
     const placeholder = { role: 'assistant', text: '⏳ …' };
     history.push(placeholder);
     renderChat(chatLog, history);
-    const m = await callHost('chatWithWord', { en: w.en, zh: w.zh, history: history.slice(0, -2), question: q });
+    const m = await callHost('chatWithWord', {
+      en: w.en, zh: w.zh, wordId: w.id, sessionId,
+      history: history.slice(0, -2), question: q,
+    });
     // replace placeholder
     history[history.length - 1] = { role: 'assistant', text: (m && m.reply) || '⚠️ 无回复' };
     renderChat(chatLog, history);
@@ -991,18 +1092,25 @@ async function renderReview() {
 
 async function renderEbbinghausOverview() {
   const body = document.getElementById('reviewBody');
-  const due = await fetchEbbinghausDue(200);
+  const due = await fetchEbbinghausDue(200, true);   // capped at DAILY_REVIEW_CAP (20)
   const summary = await fetchUserSummary();
   const totalLearned = summary?.total_learned || 0;
+  const backlog = summary?.review_backlog || due.length;
+  const cap = summary?.daily_review_cap || 20;
+  const overflow = Math.max(0, backlog - due.length);
   const byGate = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
   for (const d of due) { byGate[d.gate] = (byGate[d.gate] || 0) + 1; }
   const emptyHint = totalLearned === 0
     ? '还没有已学的词。请先去"学习" tab 学几个新词。'
     : '✨ 今天你新学的词按艾宾浩斯曲线安排在 <b>明天</b> 复习（间隔 1 天）。已到期的词会自动出现在这里。';
+  const backlogLine = overflow > 0
+    ? `<p class="muted" style="margin-top:4px">📦 累计逾期 <b>${backlog}</b> 词，为保障学习质量今天只推 ${cap} 个，剩下的 ${overflow} 个明天优先。</p>`
+    : '';
   body.innerHTML = `
     <div class="card">
       <b>今日应复习：${due.length} 词</b>
       <p class="muted" style="margin-top:6px">按记忆曲线到期（含之前落下的补测）。</p>
+      ${backlogLine}
       <div style="margin-top:12px; font-size:13px; color:var(--vscode-descriptionForeground)">
         关卡分布：
         ${[1,2,3,4,5].map(g => `<span style="margin-right:12px">关 ${g}: <b>${byGate[g]||0}</b></span>`).join('')}
@@ -1010,7 +1118,7 @@ async function renderEbbinghausOverview() {
       ${due.length === 0 ? `<p class="muted" style="margin-top:10px">${emptyHint}</p>` : ''}
       <p style="margin-top:14px">
         <button id="startEbb" ${due.length === 0 ? 'disabled' : ''}>
-          ${due.length === 0 ? '今日没有到期词' : `开始复习（最多 20 个 / 次）`}
+          ${due.length === 0 ? '今日没有到期词' : `开始复习（${due.length} 个）`}
         </button>
       </p>
     </div>
@@ -1018,8 +1126,7 @@ async function renderEbbinghausOverview() {
   `;
   if (due.length > 0) {
     document.getElementById('startEbb').addEventListener('click', () => {
-      const batch = due.slice(0, 20);
-      runEbbinghausSession(batch);
+      runEbbinghausSession(due);
     });
   }
 }
@@ -1115,11 +1222,34 @@ function runQuizSession(mode, words) {
     document.getElementById('res').innerHTML = `
       <div class="result-box">
         <p class="${pass ? 'result-ok' : 'result-bad'}"><b>${pass ? '✓ 正确' : '✗ 需改进'}</b>：${escapeHtml(feedback || '')}</p>
-        <p class="muted">参考：${escapeHtml(w.en)} — ${escapeHtml(w.zh)}</p>
-        <p><button id="next">下一个</button></p>
+        <p class="muted">参考：${escapeHtml(w.en)} — ${escapeHtml(w.zh)} ${audioBtns(w.en)}</p>
+        <div class="review-post-actions">
+          <button id="reviewDeep" class="secondary chip-btn">🔍 深度学习</button>
+          <button id="reviewCtxShort" class="secondary chip-btn" data-mode="short">📝 短句</button>
+          <button id="reviewCtxStory" class="secondary chip-btn" data-mode="story">📖 故事</button>
+          <button id="reviewCtxFun" class="secondary chip-btn" data-mode="fun">🌸 小红书</button>
+          <button id="next" class="chip-btn" style="margin-left:auto">下一个 →</button>
+        </div>
+        <div id="deepArea"></div>
+        <div id="contextBox" class="context-box hidden"></div>
       </div>
     `;
+    wireAudioButtons(document.getElementById('res'));
     document.getElementById('next').addEventListener('click', () => { idx++; show(); });
+    document.getElementById('reviewDeep').addEventListener('click', () => {
+      openDeepStudy(w);
+      document.getElementById('reviewDeep').classList.add('chip-active');
+    });
+    const ctxBox = document.getElementById('contextBox');
+    for (const id of ['reviewCtxShort', 'reviewCtxStory', 'reviewCtxFun']) {
+      const btn = document.getElementById(id);
+      btn.addEventListener('click', () => {
+        loadContextInto(ctxBox, w, btn.dataset.mode);
+        for (const other of ['reviewCtxShort', 'reviewCtxStory', 'reviewCtxFun']) {
+          document.getElementById(other).classList.toggle('chip-active', other === id);
+        }
+      });
+    }
   }
 
   function show() {
@@ -1359,8 +1489,8 @@ async function fetchLearnedIds() {
   const m = await callHost('getLearnedIds');
   return new Set(m.ids || []);
 }
-async function fetchEbbinghausDue(limit = 200) {
-  const m = await callHost('getEbbinghausDue', { limit });
+async function fetchEbbinghausDue(limit = 200, capped = false) {
+  const m = await callHost('getEbbinghausDue', { limit, capped });
   return m.due || [];
 }
 async function fetchScorePool() {
@@ -1378,12 +1508,18 @@ async function fetchDayDetail(date) {
 
 // ============ Tab: AI Tutor (free-form chat) ============
 const tutorHistory = [];   // [{role: 'user'|'assistant', text}]
+/** Session id for the current tutor conversation. Generated lazily on first
+ *  send so an empty tab doesn't create empty sessions. Reset by 清空对话. */
+let tutorSessionId = null;
+/** Track which tutor-added words already made it into the vocab this session
+ *  so pills for already-added words render as ✅ instead of ➕. */
+const tutorAddedEnLower = new Set();
 
 async function renderTutor() {
   const content = document.getElementById('content');
   content.innerHTML = `
     <h2>💬 AI 助教</h2>
-    <p class="muted">和 Copilot 深度聊英语——释义、辨析、翻译难点、文化背景、写作润色都行。历史保留在这次对话里。</p>
+    <p class="muted">和 Copilot 深度聊英语——释义、辨析、翻译难点、文化背景、写作润色都行。<b>助教会把值得学的英文加粗</b>，点旁边的 <code>➕ 加入词本</code> 就能收进 📖 词本。</p>
     <div class="tutor-container">
       <div id="tutorLog" class="tutor-log"></div>
       <div class="tutor-input-row">
@@ -1403,11 +1539,16 @@ async function renderTutor() {
   const send = async () => {
     const q = inputEl.value.trim();
     if (!q) { return; }
+    if (!tutorSessionId) { tutorSessionId = newSessionId(); }
     tutorHistory.push({ role: 'user', text: q });
     renderTutorLog(true);
     inputEl.value = '';
     inputEl.disabled = true;
-    const m = await callHost('chatFreeform', { history: tutorHistory.slice(0, -1), question: q });
+    const m = await callHost('chatFreeform', {
+      history: tutorHistory.slice(0, -1),
+      question: q,
+      sessionId: tutorSessionId,
+    });
     tutorHistory.push({ role: 'assistant', text: m.reply || '⚠️ 无响应' });
     inputEl.disabled = false;
     renderTutorLog(true);
@@ -1419,7 +1560,11 @@ async function renderTutor() {
   });
   document.getElementById('tutorClear').addEventListener('click', () => {
     if (tutorHistory.length === 0) { return; }
-    if (confirm('清空全部对话历史？')) { tutorHistory.length = 0; renderTutorLog(); }
+    if (confirm('清空全部对话历史？')) {
+      tutorHistory.length = 0;
+      tutorSessionId = null;   // start a fresh session next time
+      renderTutorLog();
+    }
   });
   document.getElementById('tutorExport').addEventListener('click', () => {
     if (tutorHistory.length === 0) { return; }
@@ -1437,12 +1582,176 @@ function renderTutorLog(scrollBottom = false) {
     return;
   }
   log.innerHTML = tutorHistory.map((t, i) => `
-    <div class="tutor-msg tutor-msg-${t.role}">
+    <div class="tutor-msg tutor-msg-${t.role}" data-msg-idx="${i}">
       <div class="tutor-msg-label">${t.role === 'user' ? '你' : '💬 助教'}</div>
       <div class="tutor-msg-body">${renderMarkdown(t.text)}</div>
     </div>
   `).join('');
+  // Decorate every assistant reply: turn <strong> English phrases into
+  // clickable "➕ 加入词本" pills.
+  for (const msg of log.querySelectorAll('.tutor-msg-assistant')) {
+    const idx = Number(msg.dataset.msgIdx);
+    decorateTutorMessage(msg, tutorHistory[idx]?.text || '');
+  }
   if (scrollBottom) { log.scrollTop = log.scrollHeight; }
+}
+
+/** Regex for an English word/phrase we're willing to offer as a vocab entry.
+ *  Only Latin letters, spaces, hyphens, apostrophes; 1–5 tokens; not just a
+ *  bare stopword. */
+const TUTOR_WORD_RE = /^[A-Za-z][A-Za-z\-']*(?:\s+[A-Za-z][A-Za-z\-']*){0,4}$/;
+const TUTOR_BOLD_STOP = new Set(['the','a','an','and','or','but','so','to','of','in','on','at','for','with','by','if','as','is','are']);
+
+function looksLikeEnglishPhrase(s) {
+  const t = String(s || '').trim();
+  if (!t) { return false; }
+  if (t.length > 60) { return false; }
+  if (!TUTOR_WORD_RE.test(t)) { return false; }
+  const lower = t.toLowerCase();
+  if (TUTOR_BOLD_STOP.has(lower)) { return false; }
+  return true;
+}
+
+/** Walk every <strong>/<b> in `msgEl` and append an "➕ 加入词本" pill after
+ *  each English one. Idempotent: skips <strong>s already decorated. */
+function decorateTutorMessage(msgEl, rawText) {
+  const strongs = msgEl.querySelectorAll('strong, b');
+  for (const st of strongs) {
+    if (st.dataset.tutorDecorated === '1') { continue; }
+    const text = (st.textContent || '').trim();
+    if (!looksLikeEnglishPhrase(text)) { continue; }
+    st.dataset.tutorDecorated = '1';
+    const pill = document.createElement('button');
+    pill.className = 'tutor-add-pill';
+    const alreadyAdded = tutorAddedEnLower.has(text.toLowerCase());
+    pill.dataset.en = text;
+    pill.textContent = alreadyAdded ? '✅ 已在词本' : '➕ 加入词本';
+    if (alreadyAdded) { pill.classList.add('done'); pill.disabled = true; }
+    pill.title = alreadyAdded ? '已经在词本里了' : '加到 📖 词本，同时收进 🤖 AI 查询过';
+    pill.addEventListener('click', () => addTutorWordToVocab(pill, rawText));
+    st.insertAdjacentElement('afterend', pill);
+  }
+}
+
+/** Send the add request to host, update UI + in-memory vocab on success. */
+async function addTutorWordToVocab(pill, contextText) {
+  const en = pill.dataset.en;
+  if (!en) { return; }
+  const original = pill.textContent;
+  pill.disabled = true;
+  pill.textContent = '⏳ 加入中…';
+  try {
+    const m = await callHost('addUserVocab', {
+      en, contextText, tutorSessionId, source: 'tutor',
+    });
+    const entry = m && m.entry;
+    if (!entry) {
+      pill.textContent = '⚠️ 失败';
+      setTimeout(() => { pill.textContent = original; pill.disabled = false; }, 1600);
+      return;
+    }
+    mergeUserVocabEntry(entry);
+    tutorAddedEnLower.add(en.toLowerCase());
+    pill.textContent = `✅ 已加入（${entry.zh || '?'}）`;
+    pill.classList.add('done');
+    showToast(`✅ 已加入词本：${entry.en}${entry.zh ? ' — ' + entry.zh : ''}`);
+  } catch (e) {
+    pill.textContent = '⚠️ 失败';
+    setTimeout(() => { pill.textContent = original; pill.disabled = false; }, 1600);
+  }
+}
+
+/** Bottom-right toast used by the tutor + anywhere else that needs it. */
+function showToast(text, ms = 2600) {
+  let host = document.getElementById('toastHost');
+  if (!host) {
+    host = document.createElement('div');
+    host.id = 'toastHost';
+    document.body.appendChild(host);
+  }
+  const el = document.createElement('div');
+  el.className = 'toast';
+  el.textContent = text;
+  host.appendChild(el);
+  setTimeout(() => { el.classList.add('toast-hide'); }, ms - 400);
+  setTimeout(() => { el.remove(); }, ms);
+}
+
+// ============ Tab: 🤖 AI 查询过 ============
+/** A小本子 of every word the user opened 深度学习 on. Rows include audio
+ *  buttons, query count, and a link back to every stored conversation. */
+async function renderQueriedWords() {
+  const content = document.getElementById('content');
+  content.innerHTML = `<h2>🤖 AI 查询过</h2><p class="muted">加载中…</p>`;
+  const resp = await callHost('getQueriedWords');
+  const items = (resp && resp.items) || [];
+  const rows = items.map((it) => {
+    const w = vocabById.get(it.wordId);
+    const en = (w && w.en) || it.en || it.wordId;
+    const zh = (w && w.zh) || it.zh || '';
+    const isFav = favoriteWordIds.has(it.wordId);
+    const sessions = (it.sessionIds || []).map((sid, idx) => `
+      <button class="queried-session-btn" data-word-id="${it.wordId}" data-session-id="${sid}">
+        💬 对话 ${it.sessionIds.length - idx}
+      </button>`).join('');
+    const lastFmt = fmtRelativeTime(it.lastQueriedAt);
+    return `
+      <div class="card queried-card" data-word-id="${it.wordId}">
+        <div class="en">${escapeHtml(en)} ${audioBtns(en)}
+          <button class="word-fav-btn" data-word-fav="${it.wordId}" title="${isFav ? '取消收藏' : '收藏'}">${isFav ? '★' : '☆'}</button>
+          <span class="queried-count-badge" title="AI 查询次数">🤖 ×${it.count}</span>
+        </div>
+        ${phoneticBadges(en)}
+        <div class="zh">${escapeHtml(zh) || '<em class="muted">暂无中文释义</em>'}</div>
+        <div class="queried-meta">
+          <span class="muted">最近：${escapeHtml(lastFmt)}</span>
+          <div class="queried-sessions">${sessions}</div>
+        </div>
+      </div>`;
+  }).join('');
+
+  content.innerHTML = `
+    <h2>🤖 AI 查询过 <span class="muted" style="font-weight:normal">(${items.length})</span></h2>
+    <p class="muted">你在 🔍 深度学习 里问过 AI 助教的词都会收进这里。点击 💬 对话 可以回到当时那段聊天继续问。</p>
+    <div id="queriedList">${items.length ? rows : '<p class="muted">还没有查询记录。到 📖 词本 里选一个词点 🔍 深度学习 就会自动收录。</p>'}</div>
+  `;
+  const list = document.getElementById('queriedList');
+  if (!list) { return; }
+  wireAudioButtons(list);
+  wireFavoriteButtons(list);
+  for (const b of list.querySelectorAll('.queried-session-btn')) {
+    b.addEventListener('click', () => {
+      const wordId = b.dataset.wordId;
+      const sessionId = b.dataset.sessionId;
+      const w = vocabById.get(wordId) || { id: wordId, en: b.closest('.queried-card')?.querySelector('.en')?.textContent?.trim() || wordId, zh: '' };
+      // Reuse the browse tab's deep-study area if we are there; otherwise
+      // ensure a deepArea container exists at the top of this tab.
+      let deep = document.getElementById('deepArea');
+      if (!deep) {
+        deep = document.createElement('div');
+        deep.id = 'deepArea';
+        content.insertBefore(deep, list);
+      }
+      deep.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      openDeepStudy(w, { sessionId });
+    });
+  }
+}
+
+/** Small helper: relative time like "3分钟前 / 2小时前 / 昨天 / 2026-08-01". */
+function fmtRelativeTime(iso) {
+  if (!iso) { return ''; }
+  const t = new Date(iso).getTime();
+  if (isNaN(t)) { return iso; }
+  const diffMs = Date.now() - t;
+  const min = Math.floor(diffMs / 60000);
+  if (min < 1) { return '刚刚'; }
+  if (min < 60) { return `${min} 分钟前`; }
+  const hr = Math.floor(min / 60);
+  if (hr < 24) { return `${hr} 小时前`; }
+  const day = Math.floor(hr / 24);
+  if (day < 7) { return `${day} 天前`; }
+  return iso.slice(0, 10);
 }
 
 // ============ Tab: Reading Corner ============

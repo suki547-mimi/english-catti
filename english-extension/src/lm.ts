@@ -26,6 +26,28 @@ async function collectResponse(response: vscode.LanguageModelChatResponse): Prom
   return text;
 }
 
+/** Parse delimiter-based EN/ZH response. Format:
+ *    ===EN===
+ *    <english text possibly multi-line>
+ *    ===ZH===
+ *    <chinese text possibly multi-line>
+ *  Tolerates variations: === EN ===, ---EN---, extra whitespace, leading/trailing chatter. */
+function parseDelimited(text: string): { en: string; zh: string } | null {
+  if (!text) { return null; }
+  // Strip optional code fences
+  const fence = text.match(/```(?:\w+)?\s*([\s\S]*?)```/);
+  const body = fence ? fence[1] : text;
+  // Match ===EN=== ... ===ZH=== ... (also accept --- and slight whitespace/case variance)
+  const re = /[=\-]{2,}\s*EN\s*[=\-]{2,}([\s\S]*?)[=\-]{2,}\s*ZH\s*[=\-]{2,}([\s\S]*?)(?:[=\-]{2,}\s*END\s*[=\-]{2,}|$)/i;
+  const m = body.match(re);
+  if (m) {
+    const en = m[1].trim();
+    const zh = m[2].trim();
+    if (en && zh) { return { en, zh }; }
+  }
+  return null;
+}
+
 /** Robust JSON extractor: handles ```json fences, plain text, extra chatter. */
 function parseJson(text: string): any | null {
   // 1. Try direct parse
@@ -58,6 +80,57 @@ function parseJson(text: string): any | null {
   return null;
 }
 
+/** Parse delimiter-based grade response. Format:
+ *    ===CORRECT===
+ *    true | false
+ *    ===FEEDBACK===
+ *    <feedback text, may contain any quotes/newlines>
+ *    ===END===
+ *  Robust against unescaped quotes in feedback (common LLM failure). */
+function parseDelimitedGrade(text: string): { correct: boolean; feedback: string } | null {
+  if (!text) { return null; }
+  const fence = text.match(/```(?:\w+)?\s*([\s\S]*?)```/);
+  const body = fence ? fence[1] : text;
+  const re = /[=\-]{2,}\s*CORRECT\s*[=\-]{2,}([\s\S]*?)[=\-]{2,}\s*FEEDBACK\s*[=\-]{2,}([\s\S]*?)(?:[=\-]{2,}\s*END\s*[=\-]{2,}|$)/i;
+  const m = body.match(re);
+  if (!m) { return null; }
+  const correctToken = m[1].trim().toLowerCase();
+  if (correctToken !== 'true' && correctToken !== 'false') { return null; }
+  return { correct: correctToken === 'true', feedback: m[2].trim() };
+}
+
+/** Field-by-field regex fallback for `{"correct": bool, "feedback": "..."}` shaped
+ *  JSON when the LLM outputs unescaped quotes inside `feedback` (common failure).
+ *  Recovers as much as possible so grading doesn't fail on a benign format issue. */
+function parseGradeLoose(text: string): { correct: boolean; feedback: string } | null {
+  if (!text) { return null; }
+  const correctMatch = text.match(/"correct"\s*:\s*(true|false)/i);
+  if (!correctMatch) { return null; }
+  const correct = correctMatch[1].toLowerCase() === 'true';
+  // Grab everything between "feedback": " and the last " before } (tolerates
+  // unescaped inner quotes). Fall back to empty string if not found.
+  let feedback = '';
+  const fbStart = text.search(/"feedback"\s*:\s*"/);
+  if (fbStart >= 0) {
+    const after = text.slice(fbStart).match(/"feedback"\s*:\s*"/);
+    if (after) {
+      const contentStart = fbStart + after[0].length;
+      // Find the closing " that's followed (allowing whitespace) by } or end
+      const rest = text.slice(contentStart);
+      const closeMatch = rest.match(/"\s*\}\s*$|"\s*\}[^"]*$/);
+      if (closeMatch && closeMatch.index !== undefined) {
+        feedback = rest.slice(0, closeMatch.index);
+      } else {
+        // Last resort: strip trailing } and take everything
+        feedback = rest.replace(/\}\s*$/, '').replace(/"\s*$/, '');
+      }
+      // Unescape common escapes
+      feedback = feedback.replace(/\\n/g, '\n').replace(/\\"/g, '"').trim();
+    }
+  }
+  return { correct, feedback };
+}
+
 /**
  * Gate 1: EN → ZH. Grade whether user's Chinese answer semantically matches
  * the reference Chinese meaning. Loose match (any of the equivalent Chinese
@@ -71,25 +144,34 @@ export async function gradeSemantic(userAnswer: string, referenceZh: string): Pr
     }
     const prompt =
       `你是一位英语学习助手，需要判断学习者对英文单词的中文释义答案是否语义正确。\n` +
-      `参考中文释义："${referenceZh}"\n` +
-      `学习者的答案："${userAnswer}"\n\n` +
+      `参考中文释义：${referenceZh}\n` +
+      `学习者的答案：${userAnswer}\n\n` +
       `判分规则：\n` +
       `- 同义词、意思相近的表达都算对（例：如参考是"道路"，答案"路/道/公路/马路"都算对）\n` +
       `- 只要抓到核心意思即可，不要求字面一致\n` +
       `- 但如果学习者的答案指向完全不同的概念（例：参考"香格里拉"答"机场"），算错\n\n` +
-      `只输出一行 JSON，不要 markdown 代码围栏，不要额外文字：\n` +
-      `{"correct": true 或 false, "feedback": "中文简短点评，1 句话"}`;
+      `**输出格式（严格遵守，不要 JSON，不要 markdown 代码围栏，不要额外文字）**：\n` +
+      `===CORRECT===\n` +
+      `true 或 false\n` +
+      `===FEEDBACK===\n` +
+      `<中文点评，1 句话，随便用引号无所谓>\n` +
+      `===END===`;
     const messages = [vscode.LanguageModelChatMessage.User(prompt)];
     const cts = new vscode.CancellationTokenSource();
     const response = await model.sendRequest(messages, {}, cts.token);
     const text = await collectResponse(response);
     log(`[gradeSemantic] raw response:\n${text}`);
+    // Try delimiter first (primary format), then strict JSON, then loose regex.
+    const delim = parseDelimitedGrade(text);
+    if (delim) { return delim; }
     const parsed = parseJson(text);
-    if (!parsed) {
-      log(`[gradeSemantic] parse failed, raw text was: ${JSON.stringify(text)}`);
-      return { correct: false, feedback: `LLM 返回格式异常。原文：${text.slice(0, 100)}` };
+    if (parsed && typeof parsed.correct === 'boolean') {
+      return { correct: !!parsed.correct, feedback: String(parsed.feedback || '') };
     }
-    return { correct: !!parsed.correct, feedback: String(parsed.feedback || '') };
+    const loose = parseGradeLoose(text);
+    if (loose) { return loose; }
+    log(`[gradeSemantic] all parsers failed. raw: ${JSON.stringify(text)}`);
+    return { correct: false, feedback: `LLM 返回格式异常。原文：${text.slice(0, 100)}` };
   } catch (e: any) {
     log(`[gradeSemantic] error: ${e.message || e}`);
     return { correct: false, feedback: `LM 错误: ${e.message || e}` };
@@ -108,21 +190,32 @@ export async function gradeSentence(sentence: string, targetWord: string, chines
     }
     const prompt =
       `你是英语造句评审。目标词：${targetWord}（中文意思：${chineseMeaning}）。\n` +
-      `学习者的造句："${sentence}"。\n` +
+      `学习者的造句：${sentence}\n` +
       `请判断：\n` +
       `1. 语法是否正确\n` +
       `2. 目标词的用法是否地道\n` +
-      `3. 整句是否自然\n` +
-      `只返回 JSON：{"correct": true/false, "feedback": "中文点评，2-3 句，含改进建议"}`;
+      `3. 整句是否自然\n\n` +
+      `**输出格式（严格遵守，不要 JSON，不要 markdown 代码围栏，不要额外文字）**：\n` +
+      `===CORRECT===\n` +
+      `true 或 false\n` +
+      `===FEEDBACK===\n` +
+      `<中文点评，2-3 句，含改进建议>\n` +
+      `===END===`;
     const messages = [vscode.LanguageModelChatMessage.User(prompt)];
     const cts = new vscode.CancellationTokenSource();
     const response = await model.sendRequest(messages, {}, cts.token);
     const text = await collectResponse(response);
+    log(`[gradeSentence] raw len=${text.length}`);
+    const delim = parseDelimitedGrade(text);
+    if (delim) { return delim; }
     const parsed = parseJson(text);
-    if (!parsed) {
-      return { correct: false, feedback: 'LLM 返回格式异常，暂无法判分。' };
+    if (parsed && typeof parsed.correct === 'boolean') {
+      return { correct: !!parsed.correct, feedback: String(parsed.feedback || '') };
     }
-    return { correct: !!parsed.correct, feedback: String(parsed.feedback || '') };
+    const loose = parseGradeLoose(text);
+    if (loose) { return loose; }
+    log(`[gradeSentence] all parsers failed. raw: ${JSON.stringify(text)}`);
+    return { correct: false, feedback: 'LLM 返回格式异常，暂无法判分。' };
   } catch (e: any) {
     return { correct: false, feedback: `LM 错误: ${e.message || e}` };
   }
@@ -159,71 +252,92 @@ export async function generateContext(en: string, zh: string): Promise<{ en: str
 /** Story mode: Generate a short vivid English narrative (100-180 words) that
  *  makes the target word/phrase concrete. Real scenarios, characters, tension. */
 export async function generateStoryContext(en: string, zh: string): Promise<{ en: string; zh: string } | null> {
-  try {
-    const model = await getModel();
-    if (!model) { return null; }
-    const isPhrase = en.trim().split(/\s+/).length >= 2;
-    const strictNote = isPhrase
-      ? `**关键**：这是一个多词短语。故事里必须**完整地、原封不动地**用到 "${en}"（允许词形变化如复数/时态）。不能拆开。`
-      : `**关键**：故事里必须用到目标词 "${en}"（允许词形变化）。`;
-    const prompt =
-      `你是一位擅长写英语学习故事的作者。请围绕英文词 "${en}"（中文意思：${zh}）写一个 100-180 词的英文短故事。\n\n` +
-      `故事要求：\n` +
-      `- 有具体场景（国家、公司、家庭、法庭、街头等——挑最贴合这个词的语境）\n` +
-      `- 有真实的角色和冲突/情节（比如 "cross retaliation" 可以写两个国家贸易战里 A 国对 B 国不同领域的报复）\n` +
-      `- 让读者读完立刻理解这个词在真实世界里怎么用、什么感觉\n` +
-      `- 语言地道，句子长短结合，避免堆砌\n` +
-      `- 故事完整，不要写成一个片段\n\n` +
-      `${strictNote}\n\n` +
-      `严格只输出 JSON（无 markdown 围栏，无额外文字）：\n` +
-      `{"en": "英文故事", "zh": "对应的地道中文翻译"}`;
-    const messages = [vscode.LanguageModelChatMessage.User(prompt)];
-    const cts = new vscode.CancellationTokenSource();
-    const response = await model.sendRequest(messages, {}, cts.token);
-    const text = await collectResponse(response);
-    log(`[generateStoryContext] "${en}" raw len=${text.length}`);
-    const parsed = parseJson(text);
-    if (!parsed || !parsed.en || !parsed.zh) { return null; }
-    return { en: String(parsed.en), zh: String(parsed.zh) };
-  } catch (e: any) {
-    log(`[generateStoryContext] error: ${e.message || e}`);
-    return null;
+  const model = await getModel();
+  if (!model) { return null; }
+  const isPhrase = en.trim().split(/\s+/).length >= 2;
+  const strictNote = isPhrase
+    ? `**关键**：这是一个多词短语。故事里必须**完整地、原封不动地**用到 "${en}"（允许词形变化如复数/时态）。不能拆开。`
+    : `**关键**：故事里必须用到目标词 "${en}"（允许词形变化）。`;
+  const prompt =
+    `你是一位擅长写英语学习故事的作者。请围绕英文词 "${en}"（中文意思：${zh}）写一个 100-180 词的英文短故事。\n\n` +
+    `故事要求：\n` +
+    `- 有具体场景（国家、公司、家庭、法庭、街头等——挑最贴合这个词的语境）\n` +
+    `- 有真实的角色和冲突/情节（比如 "cross retaliation" 可以写两个国家贸易战里 A 国对 B 国不同领域的报复）\n` +
+    `- 让读者读完立刻理解这个词在真实世界里怎么用、什么感觉\n` +
+    `- 语言地道，句子长短结合，避免堆砌\n` +
+    `- 故事完整，不要写成一个片段\n\n` +
+    `${strictNote}\n\n` +
+    `**输出格式（严格遵守，不要 JSON，不要 markdown 围栏，不要额外解释）**：\n` +
+    `===EN===\n` +
+    `<在这里写完整英文故事，可以多行>\n` +
+    `===ZH===\n` +
+    `<在这里写对应的地道中文翻译，可以多行>\n` +
+    `===END===`;
+  for (let attempt = 1; attempt <= 2; attempt++) {
+    try {
+      const messages = [vscode.LanguageModelChatMessage.User(prompt)];
+      const cts = new vscode.CancellationTokenSource();
+      const response = await model.sendRequest(messages, {}, cts.token);
+      const text = await collectResponse(response);
+      log(`[generateStoryContext] "${en}" attempt=${attempt} raw len=${text.length}`);
+      const delim = parseDelimited(text);
+      if (delim) { return delim; }
+      // Fallback: try legacy JSON parse (in case model still returned JSON)
+      const parsed = parseJson(text);
+      if (parsed && parsed.en && parsed.zh) {
+        return { en: String(parsed.en), zh: String(parsed.zh) };
+      }
+      log(`[generateStoryContext] "${en}" attempt=${attempt} parse failed. Head: ${text.slice(0, 200)}`);
+    } catch (e: any) {
+      log(`[generateStoryContext] "${en}" attempt=${attempt} error: ${e.message || e}`);
+    }
   }
+  return null;
 }
 
 /** Fun mode: 小红书 / social-media style English post (80-140 words). Lively,
  *  emoji-friendly, hooks, life-scenario. Target word woven in naturally. */
 export async function generateFunContext(en: string, zh: string): Promise<{ en: string; zh: string } | null> {
-  try {
-    const model = await getModel();
-    if (!model) { return null; }
-    const isPhrase = en.trim().split(/\s+/).length >= 2;
-    const strictNote = isPhrase
-      ? `**关键**：这个多词短语必须原封不动地出现在文中（可词形变化，不能拆开）。`
-      : `**关键**：目标词必须原封不动地出现（可词形变化）。`;
-    const prompt =
-      `你是一位活泼的英语博主，风格类似 Instagram Reels / 小红书笔记。围绕英文词 "${en}"（意思：${zh}）` +
-      `写一段 80-140 词的英文短帖。\n\n` +
-      `风格要求：\n` +
-      `- 有钩子（第一句抓人眼球，像刷到笔记的感觉）\n` +
-      `- 生活化场景（约会、职场、旅行、看剧、小八卦……）\n` +
-      `- 短句多、语气活泼、可以用 emoji（1-3 个即可，不要泛滥）\n` +
-      `- 结尾可以有小反转或俏皮话\n\n` +
-      `${strictNote}\n\n` +
-      `严格只输出 JSON（无 markdown 围栏，无额外文字）：\n` +
-      `{"en": "英文短帖", "zh": "对应的活泼中文翻译"}`;
-    const messages = [vscode.LanguageModelChatMessage.User(prompt)];
-    const cts = new vscode.CancellationTokenSource();
-    const response = await model.sendRequest(messages, {}, cts.token);
-    const text = await collectResponse(response);
-    log(`[generateFunContext] "${en}" raw len=${text.length}`);
-    const parsed = parseJson(text);
-    if (!parsed || !parsed.en || !parsed.zh) { return null; }
-    return { en: String(parsed.en), zh: String(parsed.zh) };
-  } catch (e: any) {
-    log(`[generateFunContext] error: ${e.message || e}`);
-    return null;
+  const model = await getModel();
+  if (!model) { return null; }
+  const isPhrase = en.trim().split(/\s+/).length >= 2;
+  const strictNote = isPhrase
+    ? `**关键**：这个多词短语必须原封不动地出现在文中（可词形变化，不能拆开）。`
+    : `**关键**：目标词必须原封不动地出现（可词形变化）。`;
+  const prompt =
+    `你是一位活泼的英语博主，风格类似 Instagram Reels / 小红书笔记。围绕英文词 "${en}"（意思：${zh}）` +
+    `写一段 80-140 词的英文短帖。\n\n` +
+    `风格要求：\n` +
+    `- 有钩子（第一句抓人眼球，像刷到笔记的感觉）\n` +
+    `- 生活化场景（约会、职场、旅行、看剧、小八卦……）\n` +
+    `- 短句多、语气活泼、可以用 emoji（1-3 个即可，不要泛滥）\n` +
+    `- 结尾可以有小反转或俏皮话\n\n` +
+    `${strictNote}\n\n` +
+    `**输出格式（严格遵守，不要 JSON，不要 markdown 围栏，不要额外解释）**：\n` +
+    `===EN===\n` +
+    `<在这里写英文短帖，可以多行，emoji 直接放>\n` +
+    `===ZH===\n` +
+    `<在这里写对应的活泼中文翻译，可以多行>\n` +
+    `===END===`;
+  for (let attempt = 1; attempt <= 2; attempt++) {
+    try {
+      const messages = [vscode.LanguageModelChatMessage.User(prompt)];
+      const cts = new vscode.CancellationTokenSource();
+      const response = await model.sendRequest(messages, {}, cts.token);
+      const text = await collectResponse(response);
+      log(`[generateFunContext] "${en}" attempt=${attempt} raw len=${text.length}`);
+      const delim = parseDelimited(text);
+      if (delim) { return delim; }
+      const parsed = parseJson(text);
+      if (parsed && parsed.en && parsed.zh) {
+        return { en: String(parsed.en), zh: String(parsed.zh) };
+      }
+      log(`[generateFunContext] "${en}" attempt=${attempt} parse failed. Head: ${text.slice(0, 200)}`);
+    } catch (e: any) {
+      log(`[generateFunContext] "${en}" attempt=${attempt} error: ${e.message || e}`);
+    }
   }
+  return null;
 }
 
 /** Generate an in-depth Markdown study card for a word: EN-EN, register,
@@ -410,21 +524,32 @@ export async function gradeReverseSemantic(userEn: string, targetEn: string, zhH
     const model = await getModel();
     if (!model) { return { correct: false, feedback: '未找到可用的语言模型。' }; }
     const prompt =
-      `你是一位英语学习助手。学习者看到中文意思"${zhHint}"，被要求写出对应的英文表达。\n` +
-      `目标英文（参考）："${targetEn}"\n` +
-      `学习者的答案："${userEn}"\n\n` +
+      `你是一位英语学习助手。学习者看到中文意思 ${zhHint}，被要求写出对应的英文表达。\n` +
+      `目标英文（参考）：${targetEn}\n` +
+      `学习者的答案：${userEn}\n\n` +
       `判分规则：\n` +
       `- 同义词、近义词都算对（例：happy / glad / joyful 都对）\n` +
       `- 词形变化算对（例：walk / walked / walking）\n` +
-      `- 拼写错误 1-2 个字母也可以算对但要提示\n` +
-      `- 只输出一行 JSON：{"correct": true 或 false, "feedback": "中文简短点评一句，如果和参考不同但对，说明"}`;
+      `- 拼写错误 1-2 个字母也可以算对但要提示\n\n` +
+      `**输出格式（严格遵守，不要 JSON，不要 markdown 代码围栏，不要额外文字）**：\n` +
+      `===CORRECT===\n` +
+      `true 或 false\n` +
+      `===FEEDBACK===\n` +
+      `<中文简短点评一句；如与参考不同但对，说明原因>\n` +
+      `===END===`;
     const messages = [vscode.LanguageModelChatMessage.User(prompt)];
     const cts = new vscode.CancellationTokenSource();
     const response = await model.sendRequest(messages, {}, cts.token);
     const text = await collectResponse(response);
+    const delim = parseDelimitedGrade(text);
+    if (delim) { return delim; }
     const parsed = parseJson(text);
-    if (!parsed) { return { correct: false, feedback: `LLM 返回异常: ${text.slice(0, 80)}` }; }
-    return { correct: !!parsed.correct, feedback: String(parsed.feedback || '') };
+    if (parsed && typeof parsed.correct === 'boolean') {
+      return { correct: !!parsed.correct, feedback: String(parsed.feedback || '') };
+    }
+    const loose = parseGradeLoose(text);
+    if (loose) { return loose; }
+    return { correct: false, feedback: `LLM 返回异常: ${text.slice(0, 80)}` };
   } catch (e: any) {
     return { correct: false, feedback: `LM 错误: ${e.message || e}` };
   }
@@ -472,17 +597,28 @@ export async function gradeCollocation(userAnswer: string, expected: string, ste
     const model = await getModel();
     if (!model) { return { correct: false, feedback: `期待: ${expected}` }; }
     const prompt =
-      `搭配填空题：\n"${stem}"\n\n` +
-      `期待答案："${expected}"\n学习者填的是："${userAnswer}"\n\n` +
-      `是否算对？考虑：单复数变形、时态、大小写、拼写小错。只输出一行 JSON：\n` +
-      `{"correct": true 或 false, "feedback": "中文简短点评"}`;
+      `搭配填空题：\n${stem}\n\n` +
+      `期待答案：${expected}\n学习者填的是：${userAnswer}\n\n` +
+      `是否算对？考虑：单复数变形、时态、大小写、拼写小错。\n\n` +
+      `**输出格式（严格遵守，不要 JSON，不要 markdown 代码围栏，不要额外文字）**：\n` +
+      `===CORRECT===\n` +
+      `true 或 false\n` +
+      `===FEEDBACK===\n` +
+      `<中文简短点评>\n` +
+      `===END===`;
     const messages = [vscode.LanguageModelChatMessage.User(prompt)];
     const cts = new vscode.CancellationTokenSource();
     const response = await model.sendRequest(messages, {}, cts.token);
     const text = await collectResponse(response);
+    const delim = parseDelimitedGrade(text);
+    if (delim) { return delim.feedback ? delim : { correct: delim.correct, feedback: `期待: ${expected}` }; }
     const parsed = parseJson(text);
-    if (!parsed) { return { correct: false, feedback: `期待: ${expected}` }; }
-    return { correct: !!parsed.correct, feedback: String(parsed.feedback || `期待: ${expected}`) };
+    if (parsed && typeof parsed.correct === 'boolean') {
+      return { correct: !!parsed.correct, feedback: String(parsed.feedback || `期待: ${expected}`) };
+    }
+    const loose = parseGradeLoose(text);
+    if (loose) { return { correct: loose.correct, feedback: loose.feedback || `期待: ${expected}` }; }
+    return { correct: false, feedback: `期待: ${expected}` };
   } catch (e: any) {
     return { correct: false, feedback: `LM 错误: ${e.message || e}` };
   }
@@ -498,17 +634,28 @@ export async function gradeContextCloze(userAnswer: string, expected: string, se
     const model = await getModel();
     if (!model) { return { correct: false, feedback: `期待: ${expected}` }; }
     const prompt =
-      `语境填空题（原句括号里是被挖掉的目标词）：\n"${sentence}"\n\n` +
-      `期待答案："${expected}"\n学习者填的是："${userAnswer}"\n\n` +
-      `是否算对？可接受词形变化，但要求语义完全一致。只输出一行 JSON：\n` +
-      `{"correct": true 或 false, "feedback": "中文简短点评"}`;
+      `语境填空题（原句括号里是被挖掉的目标词）：\n${sentence}\n\n` +
+      `期待答案：${expected}\n学习者填的是：${userAnswer}\n\n` +
+      `是否算对？可接受词形变化，但要求语义完全一致。\n\n` +
+      `**输出格式（严格遵守，不要 JSON，不要 markdown 代码围栏，不要额外文字）**：\n` +
+      `===CORRECT===\n` +
+      `true 或 false\n` +
+      `===FEEDBACK===\n` +
+      `<中文简短点评>\n` +
+      `===END===`;
     const messages = [vscode.LanguageModelChatMessage.User(prompt)];
     const cts = new vscode.CancellationTokenSource();
     const response = await model.sendRequest(messages, {}, cts.token);
     const text = await collectResponse(response);
+    const delim = parseDelimitedGrade(text);
+    if (delim) { return delim; }
     const parsed = parseJson(text);
-    if (!parsed) { return { correct: false, feedback: `期待: ${expected}` }; }
-    return { correct: !!parsed.correct, feedback: String(parsed.feedback || '') };
+    if (parsed && typeof parsed.correct === 'boolean') {
+      return { correct: !!parsed.correct, feedback: String(parsed.feedback || '') };
+    }
+    const loose = parseGradeLoose(text);
+    if (loose) { return loose; }
+    return { correct: false, feedback: `期待: ${expected}` };
   } catch (e: any) {
     return { correct: false, feedback: `LM 错误: ${e.message || e}` };
   }
@@ -531,7 +678,11 @@ export async function chatFreeform(
       `- 提供高质量例句（尽量地道，标准中文翻译）\n` +
       `- 讨论英美文化背景、成语典故、影视名场面里的用法\n` +
       `- 帮忙润色英文写作、找到更好的表达\n\n` +
-      `回答简洁、准确、地道。中文为主，可以夹带英文示例。避免闲聊和过度铺垫。`;
+      `回答简洁、准确、地道。中文为主，可以夹带英文示例。避免闲聊和过度铺垫。\n\n` +
+      `**加粗规则（重要）**：每当你在回答中首次介绍一个值得学的英文单词/短语/习语` +
+      `（例如 chicken out、pearl-clutching、burn the midnight oil），请把它用 Markdown **加粗** 包起来，` +
+      `如 **chicken out**。只加粗真正值得收进词本的目标英语表达；` +
+      `不要加粗普通句子、中文、或者已经加粗过的同一个表达。`;
     const messages: vscode.LanguageModelChatMessage[] = [
       vscode.LanguageModelChatMessage.User(systemNote),
       vscode.LanguageModelChatMessage.Assistant('好的，请开始提问。'),
@@ -552,3 +703,45 @@ export async function chatFreeform(
   }
 }
 
+/** Extract a short (`zh`, `note`) pair for a word/phrase the user wants to
+ *  add to their vocab from a tutor conversation. `contextText` (optional) is
+ *  the surrounding assistant reply so the model can pick the meaning that
+ *  actually applies in that context. */
+export async function explainWordFromTutor(
+  en: string,
+  contextText?: string,
+): Promise<{ zh: string; note?: string } | null> {
+  const model = await getModel();
+  if (!model) { return null; }
+  const clean = String(en || '').trim();
+  if (!clean) { return null; }
+  const ctx = (contextText || '').trim().slice(0, 800);
+  const prompt =
+    `请把英文单词/短语 "${clean}" 添加到中国学习者的词汇本。\n` +
+    (ctx ? `参考上下文（可能包含它的解释）：\n"""\n${ctx}\n"""\n\n` : '') +
+    `输出严格 JSON（不加解释、不加代码围栏）：\n` +
+    `{"zh": "<最贴切的中文释义，10 字以内首选，可 15 字>", "note": "<可选，一句话用法/语域/搭配提示，30 字内>"}`;
+  try {
+    const messages = [vscode.LanguageModelChatMessage.User(prompt)];
+    const cts = new vscode.CancellationTokenSource();
+    const response = await model.sendRequest(messages, {}, cts.token);
+    const text = (await collectResponse(response)).trim();
+    // Grab the first JSON object we can find (tolerant of stray backticks).
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) {
+      log(`[explainWordFromTutor] "${clean}" no JSON in reply: ${text.slice(0, 120)}`);
+      return null;
+    }
+    const parsed = JSON.parse(jsonMatch[0]);
+    const zh = String(parsed.zh || '').trim();
+    const note = parsed.note ? String(parsed.note).trim() : undefined;
+    if (!zh) {
+      log(`[explainWordFromTutor] "${clean}" empty zh`);
+      return null;
+    }
+    return { zh, note };
+  } catch (e: any) {
+    log(`[explainWordFromTutor] "${clean}" error: ${e.message || e}`);
+    return null;
+  }
+}

@@ -1,11 +1,8 @@
-# Audio files (generated, can be regenerated)
+# Audio files (large, distributed via GitHub Releases — see tools/pack_audio.ps1
+# and tools/fetch_audio.ps1; the manifest at data/audio-manifest.json IS in git)
 data/audio/
 data/audio_test/
-
-# Large raw external sources
-Files/*.apkg
-data/external/*.js
-data/external/*.csv.bak
+data/audio_pack.zip
 
 # Python
 __pycache__/
@@ -27,7 +24,7 @@ tools/_*.log
 tools/_*.err
 tools/_test_*.py
 
-# Daily state backups (kept locally by extension)
+# Daily state backups (git IS the backup)
 data/user_state.backup-*.json
 
 # Daily LLM-generated reading corner articles (regenerated each day; noisy)

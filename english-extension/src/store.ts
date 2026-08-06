@@ -5,6 +5,9 @@ import * as path from 'path';
 export const EBBINGHAUS_INTERVALS = [1, 2, 4, 7, 15, 30];
 /** Gate to run at each Ebbinghaus review step (index-aligned with intervals). */
 export const EBBINGHAUS_GATES = [1, 2, 3, 4, 5, 5];
+/** Max reviews推送 per day. 保障学习质量：休假回来 backlog 不会一次砸下来，
+ *  超出的仍留在队列里，明天优先级更高。 */
+export const DAILY_REVIEW_CAP = 20;
 
 export interface WordState {
   id: string;
@@ -59,6 +62,43 @@ export interface LearnSessionState {
   startedAt: string;
 }
 
+/** One persisted AI conversation the user had with the tutor (mostly opened
+ *  from a word card's 深度学习 button). Referenced from `queriedWords[wordId].sessionIds`. */
+export interface AiSession {
+  id: string;
+  mode: 'deepStudy' | 'tutor';
+  wordId?: string;
+  en?: string;
+  zh?: string;
+  startedAt: string;
+  updatedAt: string;
+  messages: Array<{ role: 'user' | 'assistant'; text: string; at: string }>;
+}
+
+/** Aggregate stats for a word the user has asked the AI 助教 about. */
+export interface QueriedWordStat {
+  wordId: string;
+  count: number;                 // total user questions across all sessions
+  firstQueriedAt: string;
+  lastQueriedAt: string;
+  sessionIds: string[];          // most-recent first
+  en?: string;
+  zh?: string;
+}
+
+/** A word the user added to their vocab from outside the seed corpus
+ *  (e.g. picked up in an AI 助教 conversation). Merged into the browse list
+ *  at boot in the webview. */
+export interface CustomWord {
+  id: string;                   // e.g. 'user-chicken-out'
+  en: string;
+  zh: string;
+  note?: string;                // short usage / register hint
+  source: 'tutor' | 'manual';
+  tutorSessionId?: string;      // link back to the conversation that surfaced it
+  addedAt: string;
+}
+
 export interface UserState {
   version: number;
   created_at: string;
@@ -68,6 +108,9 @@ export interface UserState {
   sessions: Session[];
   currentLearnSession?: LearnSessionState | null;
   favoriteWords?: string[];   // wordIds the user has starred
+  queriedWords?: Record<string, QueriedWordStat>;    // wordId -> stats
+  aiSessions?: Record<string, AiSession>;             // sessionId -> full transcript
+  customWords?: Record<string, CustomWord>;           // wordId -> user-added word
 }
 
 const EMPTY_STATE = (): UserState => ({
@@ -79,6 +122,9 @@ const EMPTY_STATE = (): UserState => ({
   sessions: [],
   currentLearnSession: null,
   favoriteWords: [],
+  queriedWords: {},
+  aiSessions: {},
+  customWords: {},
 });
 
 function isoDate(d: Date = new Date()): string {
@@ -199,7 +245,10 @@ export class UserStore {
     const w = this.ensureWord(wordId, en, zh);
     const now = new Date().toISOString();
     const today = isoDate();
-    const wasNew = w.gate === 0 && !w.learned_at;
+    // "wasNew" = first time this word is ever recorded. Guards against
+    // double-counting when a word previously marked "不熟" (gate stays 0,
+    // learned_at stays null) gets drawn again on a later day.
+    const wasNew = w.seen_count === 0;
     w.seen_count += 1;
     w.last_reviewed_at = now;
     w.last_result = known ? 'known' : 'unknown';
@@ -215,7 +264,9 @@ export class UserStore {
       w.score = Math.max(0, w.score - 5);
     }
     const day = this.ensureDaily(today);
-    if (known && wasNew) { day.new_words += 1; }
+    // Count every first-time-studied card toward today's tally, whether the
+    // user marked "认识" or "不熟" — both represent real study effort.
+    if (wasNew) { day.new_words += 1; }
     this.save();
   }
 
@@ -335,8 +386,183 @@ export class UserStore {
     return this.state.favoriteWords || [];
   }
 
-  /** Ebbinghaus queue: due today or earlier, most overdue first. */
-  getEbbinghausDue(limit = 200) {
+  // ---------- AI 小本子 (queried-words + session transcripts) ----------
+
+  private ensureAiMaps(): void {
+    if (!this.state.queriedWords) { this.state.queriedWords = {}; }
+    if (!this.state.aiSessions) { this.state.aiSessions = {}; }
+  }
+
+  /** Create a new AI session record. If `wordId` is given, the session is
+   *  linked to that word (deep-study mode); this also bumps the initial
+   *  “查询” counter by 1 so opening the modal counts as one query.
+   *  Returns the session id (caller passes `id` from webview so both sides stay in sync). */
+  startAiSession(opts: { id: string; mode: 'deepStudy' | 'tutor'; wordId?: string; en?: string; zh?: string }): string {
+    this.ensureAiMaps();
+    const now = new Date().toISOString();
+    const session: AiSession = {
+      id: opts.id,
+      mode: opts.mode,
+      wordId: opts.wordId,
+      en: opts.en,
+      zh: opts.zh,
+      startedAt: now,
+      updatedAt: now,
+      messages: [],
+    };
+    this.state.aiSessions![opts.id] = session;
+    if (opts.wordId) {
+      const qw = this.state.queriedWords!;
+      const prev = qw[opts.wordId];
+      if (prev) {
+        prev.count += 1;
+        prev.lastQueriedAt = now;
+        // most-recent-first, deduped
+        prev.sessionIds = [opts.id, ...prev.sessionIds.filter((s) => s !== opts.id)];
+        if (opts.en) { prev.en = opts.en; }
+        if (opts.zh) { prev.zh = opts.zh; }
+      } else {
+        qw[opts.wordId] = {
+          wordId: opts.wordId,
+          count: 1,
+          firstQueriedAt: now,
+          lastQueriedAt: now,
+          sessionIds: [opts.id],
+          en: opts.en,
+          zh: opts.zh,
+        };
+      }
+    }
+    this.save();
+    return opts.id;
+  }
+
+  /** Append one message to an existing session. If role='user' and the session
+   *  is linked to a word, also bump that word's query count. */
+  appendAiMessage(sessionId: string, role: 'user' | 'assistant', text: string): void {
+    this.ensureAiMaps();
+    const s = this.state.aiSessions![sessionId];
+    if (!s) { return; }
+    const now = new Date().toISOString();
+    s.messages.push({ role, text: String(text || ''), at: now });
+    s.updatedAt = now;
+    if (role === 'user' && s.wordId) {
+      const qw = this.state.queriedWords!;
+      const stat = qw[s.wordId];
+      if (stat) {
+        stat.count += 1;
+        stat.lastQueriedAt = now;
+      }
+    }
+    this.save();
+  }
+
+  getAiSession(sessionId: string): AiSession | null {
+    this.ensureAiMaps();
+    return this.state.aiSessions![sessionId] || null;
+  }
+
+  /** All AI-queried words, most recent first. */
+  getQueriedWords(): QueriedWordStat[] {
+    this.ensureAiMaps();
+    const list = Object.values(this.state.queriedWords!);
+    list.sort((a, b) => (a.lastQueriedAt < b.lastQueriedAt ? 1 : -1));
+    return list;
+  }
+
+  // ---------- User-added vocab (from AI tutor / manual) ----------
+
+  private ensureCustomMap(): void {
+    if (!this.state.customWords) { this.state.customWords = {}; }
+  }
+
+  /** Deterministic id from the english string so "chicken out" is always the same
+   *  entry regardless of when it was added. Keeps join with WordState stable. */
+  private customIdFor(en: string): string {
+    const slug = String(en || '').toLowerCase().trim()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '')
+      .slice(0, 60) || 'x';
+    return `user-${slug}`;
+  }
+
+  /** Add (or update) a user-supplied vocab entry. Dedupes on lowercased english.
+   *  If `tutorSessionId` is provided, the word is also linked into
+   *  `queriedWords` and its session list so it appears in 🤖 AI 查询过. */
+  addCustomWord(opts: {
+    en: string;
+    zh: string;
+    note?: string;
+    source: 'tutor' | 'manual';
+    tutorSessionId?: string;
+  }): CustomWord {
+    this.ensureCustomMap();
+    this.ensureAiMaps();
+    const en = String(opts.en || '').trim();
+    const zh = String(opts.zh || '').trim();
+    const id = this.customIdFor(en);
+    const now = new Date().toISOString();
+    const existing = this.state.customWords![id];
+    const entry: CustomWord = existing
+      ? { ...existing, en, zh: zh || existing.zh, note: opts.note ?? existing.note, tutorSessionId: opts.tutorSessionId || existing.tutorSessionId }
+      : { id, en, zh, note: opts.note, source: opts.source, tutorSessionId: opts.tutorSessionId, addedAt: now };
+    this.state.customWords![id] = entry;
+
+    // Also link this word into the tutor session (so the session is now
+    // classified as "about" this word) + bump queriedWords so it shows up in
+    // the 🤖 AI 查询过 tab with a click-through to the conversation.
+    if (opts.tutorSessionId) {
+      const session = this.state.aiSessions![opts.tutorSessionId];
+      if (session && !session.wordId) {
+        session.wordId = id;
+        session.en = en;
+        session.zh = zh || session.zh;
+        session.updatedAt = now;
+      }
+      const qw = this.state.queriedWords!;
+      const prev = qw[id];
+      if (prev) {
+        prev.lastQueriedAt = now;
+        if (!prev.sessionIds.includes(opts.tutorSessionId)) {
+          prev.sessionIds = [opts.tutorSessionId, ...prev.sessionIds];
+          prev.count += 1;
+        }
+        if (en) { prev.en = en; }
+        if (zh) { prev.zh = zh; }
+      } else {
+        qw[id] = {
+          wordId: id,
+          count: 1,
+          firstQueriedAt: now,
+          lastQueriedAt: now,
+          sessionIds: [opts.tutorSessionId],
+          en,
+          zh,
+        };
+      }
+    }
+    this.save();
+    return entry;
+  }
+
+  /** All user-added words, most-recently-added first. */
+  getCustomWords(): CustomWord[] {
+    this.ensureCustomMap();
+    const list = Object.values(this.state.customWords!);
+    list.sort((a, b) => (a.addedAt < b.addedAt ? 1 : -1));
+    return list;
+  }
+
+  /** True if the given english phrase is already in the user's custom list. */
+  hasCustomWord(en: string): boolean {
+    this.ensureCustomMap();
+    return !!this.state.customWords![this.customIdFor(en)];
+  }
+
+  /** Ebbinghaus queue: due today or earlier, most overdue first.
+   *  The webview normally requests capped=true so休假回来 backlog 不会一次砸 50 个。
+   *  剩下的仍留在队列（`next_review_at` 不变），第二天 overdue+1 更靠前。 */
+  getEbbinghausDue(limit = 200, capped = false) {
     const today = isoDate();
     const items: Array<{ wordId: string; gate: number; scheduled: string; overdue: number }> = [];
     for (const w of Object.values(this.state.words)) {
@@ -347,7 +573,19 @@ export class UserStore {
       }
     }
     items.sort((a, b) => (b.overdue - a.overdue) || (a.gate - b.gate));
-    return items.slice(0, limit).map(({ wordId, gate, scheduled }) => ({ wordId, gate, scheduled }));
+    const cap = capped ? Math.min(limit, DAILY_REVIEW_CAP) : limit;
+    return items.slice(0, cap).map(({ wordId, gate, scheduled }) => ({ wordId, gate, scheduled }));
+  }
+
+  /** Total overdue count (uncapped). Used to show "累计逾期" alongside today's cap. */
+  getEbbinghausBacklog(): number {
+    const today = isoDate();
+    let n = 0;
+    for (const w of Object.values(this.state.words)) {
+      if (w.mastered || w.gate < 1 || !w.next_review_at) { continue; }
+      if (w.next_review_at <= today) { n += 1; }
+    }
+    return n;
   }
 
   /** Weighted pool for score-driven review. */
@@ -399,6 +637,20 @@ export class UserStore {
   summary() {
     const today = isoDate();
     const t = this.state.daily[today] || { new_words: 0, reviewed: 0, correct: 0, incorrect: 0, ebbinghaus_reviewed: 0, score_reviewed: 0 };
+    // Recompute today's `new_words` from the source of truth (per-word history)
+    // so the chip stays accurate even if past sessions used older semantics or
+    // an increment was missed. A word counts if its FIRST 'learn' history
+    // entry (known OR unknown) landed on today.
+    let newWordsToday = 0;
+    for (const w of Object.values(this.state.words)) {
+      const first = w.history.find((h) => h.mode === 'learn');
+      if (first && first.at.slice(0, 10) === today) { newWordsToday += 1; }
+    }
+    if (newWordsToday > t.new_words) {
+      t.new_words = newWordsToday;
+      this.state.daily[today] = t;
+      this.save();
+    }
     let streak = 0;
     const cursor = new Date();
     while (true) {
@@ -412,13 +664,16 @@ export class UserStore {
     for (const w of words) { byLevel[w.gate] = (byLevel[w.gate] || 0) + 1; }
     const mastered = words.filter((w) => w.mastered).length;
     const learned = words.filter((w) => w.gate >= 1).length;
-    const dueToday = this.getEbbinghausDue(9999).length;
+    const backlog = this.getEbbinghausBacklog();
+    const dueToday = Math.min(backlog, DAILY_REVIEW_CAP);
     return {
       today, today_stats: t,
       streak_days: streak,
       total_learned: learned,
       total_mastered: mastered,
       due_today: dueToday,
+      review_backlog: backlog,
+      daily_review_cap: DAILY_REVIEW_CAP,
       by_level: byLevel,
       total_sessions: this.state.sessions.length,
     };
