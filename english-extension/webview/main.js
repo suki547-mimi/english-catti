@@ -1323,10 +1323,12 @@ function runQuizSession(mode, words) {
 
   // ---------- Gate 3: Collocation cloze ----------
   async function renderGate3(w, gate) {
+    // Do NOT reveal w.en (that IS the answer) and don't spoon-feed w.zh either
+    // — the LLM-generated hint below is enough. The reference is revealed in
+    // the result box after submit.
     area.innerHTML = `
       <div class="card quiz-card">
         ${gateHeader(w, gate, '搭配填空')}
-        <div class="muted">目标词：<b>${escapeHtml(w.en)}</b> — ${escapeHtml(w.zh)}</div>
         <div id="clozeArea"><p class="muted" style="margin-top:12px">🌀 生成题目中…</p></div>
       </div>
     `;
@@ -1339,8 +1341,18 @@ function runQuizSession(mode, words) {
       document.getElementById('skipG3').addEventListener('click', () => { idx++; show(); });
       return;
     }
+    // Safety net: if the LLM forgot to blank the target word inside the stem
+    // (which would defeat the whole point), mask any lingering occurrence.
+    let stem = String(c.stem || '');
+    const enRaw = String(w.en || '').trim();
+    if (enRaw) {
+      try {
+        const rx = new RegExp(`\\b${escapeRegex(enRaw)}\\b`, 'gi');
+        stem = stem.replace(rx, '_____');
+      } catch { /* ignore bad regex */ }
+    }
     document.getElementById('clozeArea').innerHTML = `
-      <div class="cloze-stem">${escapeHtml(c.stem)}</div>
+      <div class="cloze-stem">${escapeHtml(stem)}</div>
       <div class="quiz-hint">${escapeHtml(c.hint || '填入合适的词')}</div>
       <input class="quiz-input" id="ans" placeholder="填空">
       <p><button id="go">提交</button> <button class="secondary" id="skip">跳过</button></p>
@@ -1398,7 +1410,7 @@ function runQuizSession(mode, words) {
       area.innerHTML = `
         <div class="card quiz-card">
           ${gateHeader(w, gate, '语境填空')}
-          <div class="muted">目标词：<b>${escapeHtml(w.en)}</b> — ${escapeHtml(w.zh)}</div>
+          <div class="muted">意思：${escapeHtml(w.zh)}</div>
           <p class="muted" style="margin-top:12px">🌀 从语料库找不到，用 LLM 现场生成…</p>
         </div>
       `;

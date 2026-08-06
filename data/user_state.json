@@ -1,7 +1,7 @@
 {
   "version": 2,
   "created_at": "2026-07-30T07:46:20.217Z",
-  "updated_at": "2026-08-06T07:41:34.534Z",
+  "updated_at": "2026-08-06T07:47:11.893Z",
   "words": {
     "1815da7d5abcad3e": {
       "id": "1815da7d5abcad3e",
@@ -87,15 +87,15 @@
       "id": "905e5387b67c2cf4",
       "en": "the fundamentals",
       "zh": "基础科学",
-      "gate": 1,
+      "gate": 2,
       "learned_at": "2026-07-30",
-      "reviews_done": 1,
-      "next_review_at": "2026-08-05",
-      "next_review_gate": 2,
+      "reviews_done": 2,
+      "next_review_at": "2026-08-08",
+      "next_review_gate": 3,
       "mastered": false,
-      "score": 15,
-      "seen_count": 4,
-      "last_reviewed_at": "2026-08-04T09:49:43.644Z",
+      "score": 30,
+      "seen_count": 5,
+      "last_reviewed_at": "2026-08-06T07:44:29.274Z",
       "last_result": "correct",
       "history": [
         {
@@ -125,6 +125,14 @@
           "result": "correct",
           "score_before": 0,
           "score_after": 15
+        },
+        {
+          "at": "2026-08-06T07:44:29.274Z",
+          "mode": "ebbinghaus",
+          "gate": 2,
+          "result": "correct",
+          "score_before": 15,
+          "score_after": 30
         }
       ]
     },
@@ -290,15 +298,15 @@
       "id": "48a05c0b9e91f6a3",
       "en": "Heavy snow",
       "zh": "大雪",
-      "gate": 1,
+      "gate": 2,
       "learned_at": "2026-07-30",
-      "reviews_done": 1,
-      "next_review_at": "2026-08-05",
-      "next_review_gate": 2,
+      "reviews_done": 2,
+      "next_review_at": "2026-08-08",
+      "next_review_gate": 3,
       "mastered": false,
-      "score": 20,
-      "seen_count": 3,
-      "last_reviewed_at": "2026-08-04T09:49:54.701Z",
+      "score": 35,
+      "seen_count": 4,
+      "last_reviewed_at": "2026-08-06T07:44:38.113Z",
       "last_result": "correct",
       "history": [
         {
@@ -322,6 +330,14 @@
           "result": "correct",
           "score_before": 5,
           "score_after": 20
+        },
+        {
+          "at": "2026-08-06T07:44:38.113Z",
+          "mode": "ebbinghaus",
+          "gate": 2,
+          "result": "correct",
+          "score_before": 20,
+          "score_after": 35
         }
       ]
     },
@@ -391,15 +407,15 @@
       "id": "beede44e864b82ef",
       "en": "flexible retirement system",
       "zh": "弹性退休制度",
-      "gate": 1,
+      "gate": 2,
       "learned_at": "2026-07-30",
-      "reviews_done": 1,
-      "next_review_at": "2026-08-05",
-      "next_review_gate": 2,
+      "reviews_done": 2,
+      "next_review_at": "2026-08-08",
+      "next_review_gate": 3,
       "mastered": false,
-      "score": 40,
-      "seen_count": 4,
-      "last_reviewed_at": "2026-08-04T09:50:08.274Z",
+      "score": 55,
+      "seen_count": 5,
+      "last_reviewed_at": "2026-08-06T07:44:59.545Z",
       "last_result": "correct",
       "history": [
         {
@@ -429,6 +445,14 @@
           "result": "correct",
           "score_before": 25,
           "score_after": 40
+        },
+        {
+          "at": "2026-08-06T07:44:59.545Z",
+          "mode": "ebbinghaus",
+          "gate": 2,
+          "result": "correct",
+          "score_before": 40,
+          "score_after": 55
         }
       ]
     },
@@ -600,13 +624,13 @@
       "gate": 1,
       "learned_at": "2026-07-31",
       "reviews_done": 1,
-      "next_review_at": "2026-08-05",
+      "next_review_at": "2026-08-07",
       "next_review_gate": 2,
       "mastered": false,
-      "score": 35,
-      "seen_count": 2,
-      "last_reviewed_at": "2026-08-04T09:50:38.641Z",
-      "last_result": "correct",
+      "score": 20,
+      "seen_count": 3,
+      "last_reviewed_at": "2026-08-06T07:45:23.962Z",
+      "last_result": "incorrect",
       "history": [
         {
           "at": "2026-07-31T09:39:56.969Z",
@@ -621,6 +645,14 @@
           "result": "correct",
           "score_before": 20,
           "score_after": 35
+        },
+        {
+          "at": "2026-08-06T07:45:23.962Z",
+          "mode": "ebbinghaus",
+          "gate": 2,
+          "result": "incorrect",
+          "score_before": 35,
+          "score_after": 20
         }
       ]
     },
@@ -654,13 +686,13 @@
       "gate": 1,
       "learned_at": "2026-07-31",
       "reviews_done": 1,
-      "next_review_at": "2026-08-05",
+      "next_review_at": "2026-08-07",
       "next_review_gate": 2,
       "mastered": false,
-      "score": 35,
-      "seen_count": 3,
-      "last_reviewed_at": "2026-08-04T09:50:53.768Z",
-      "last_result": "correct",
+      "score": 20,
+      "seen_count": 4,
+      "last_reviewed_at": "2026-08-06T07:46:26.779Z",
+      "last_result": "incorrect",
       "history": [
         {
           "at": "2026-07-31T09:47:39.194Z",
@@ -681,6 +713,14 @@
           "result": "correct",
           "score_before": 20,
           "score_after": 35
+        },
+        {
+          "at": "2026-08-06T07:46:26.779Z",
+          "mode": "ebbinghaus",
+          "gate": 2,
+          "result": "incorrect",
+          "score_before": 35,
+          "score_after": 20
         }
       ]
     },
@@ -688,15 +728,15 @@
       "id": "707b48f186f19772",
       "en": "bilateral",
       "zh": "双边的",
-      "gate": 1,
+      "gate": 2,
       "learned_at": "2026-07-31",
-      "reviews_done": 1,
-      "next_review_at": "2026-08-05",
-      "next_review_gate": 2,
+      "reviews_done": 2,
+      "next_review_at": "2026-08-08",
+      "next_review_gate": 3,
       "mastered": false,
-      "score": 35,
-      "seen_count": 2,
-      "last_reviewed_at": "2026-08-04T09:51:09.965Z",
+      "score": 50,
+      "seen_count": 3,
+      "last_reviewed_at": "2026-08-06T07:46:40.105Z",
       "last_result": "correct",
       "history": [
         {
@@ -712,6 +752,14 @@
           "result": "correct",
           "score_before": 20,
           "score_after": 35
+        },
+        {
+          "at": "2026-08-06T07:46:40.105Z",
+          "mode": "ebbinghaus",
+          "gate": 2,
+          "result": "correct",
+          "score_before": 35,
+          "score_after": 50
         }
       ]
     },
@@ -721,14 +769,14 @@
       "zh": "电动工具厂",
       "gate": 1,
       "learned_at": "2026-07-31",
-      "reviews_done": 0,
-      "next_review_at": "2026-08-05",
-      "next_review_gate": 1,
+      "reviews_done": 1,
+      "next_review_at": "2026-08-07",
+      "next_review_gate": 2,
       "mastered": false,
-      "score": 0,
-      "seen_count": 4,
-      "last_reviewed_at": "2026-08-04T10:01:20.975Z",
-      "last_result": "incorrect",
+      "score": 15,
+      "seen_count": 5,
+      "last_reviewed_at": "2026-08-06T07:42:52.526Z",
+      "last_result": "correct",
       "history": [
         {
           "at": "2026-07-31T09:50:08.038Z",
@@ -755,6 +803,14 @@
           "result": "incorrect",
           "score_before": 15,
           "score_after": 0
+        },
+        {
+          "at": "2026-08-06T07:42:52.526Z",
+          "mode": "ebbinghaus",
+          "gate": 1,
+          "result": "correct",
+          "score_before": 0,
+          "score_after": 15
         }
       ]
     },
@@ -762,15 +818,15 @@
       "id": "633ab5db67936562",
       "en": "graduate",
       "zh": "毕业生",
-      "gate": 1,
+      "gate": 2,
       "learned_at": "2026-07-31",
-      "reviews_done": 1,
-      "next_review_at": "2026-08-05",
-      "next_review_gate": 2,
+      "reviews_done": 2,
+      "next_review_at": "2026-08-08",
+      "next_review_gate": 3,
       "mastered": false,
-      "score": 35,
-      "seen_count": 2,
-      "last_reviewed_at": "2026-08-04T10:01:34.567Z",
+      "score": 50,
+      "seen_count": 3,
+      "last_reviewed_at": "2026-08-06T07:46:47.379Z",
       "last_result": "correct",
       "history": [
         {
@@ -786,6 +842,14 @@
           "result": "correct",
           "score_before": 20,
           "score_after": 35
+        },
+        {
+          "at": "2026-08-06T07:46:47.379Z",
+          "mode": "ebbinghaus",
+          "gate": 2,
+          "result": "correct",
+          "score_before": 35,
+          "score_after": 50
         }
       ]
     },
@@ -978,20 +1042,28 @@
       "zh": "陪审团",
       "gate": 1,
       "learned_at": "2026-08-04",
-      "reviews_done": 0,
-      "next_review_at": "2026-08-05",
-      "next_review_gate": 1,
+      "reviews_done": 1,
+      "next_review_at": "2026-08-07",
+      "next_review_gate": 2,
       "mastered": false,
-      "score": 20,
-      "seen_count": 1,
-      "last_reviewed_at": "2026-08-04T09:43:51.282Z",
-      "last_result": "known",
+      "score": 35,
+      "seen_count": 2,
+      "last_reviewed_at": "2026-08-06T07:43:58.962Z",
+      "last_result": "correct",
       "history": [
         {
           "at": "2026-08-04T09:43:51.282Z",
           "mode": "learn",
           "gate": 1,
           "result": "known"
+        },
+        {
+          "at": "2026-08-06T07:43:58.962Z",
+          "mode": "ebbinghaus",
+          "gate": 1,
+          "result": "correct",
+          "score_before": 20,
+          "score_after": 35
         }
       ]
     },
@@ -1070,20 +1142,28 @@
       "zh": "申请注册域名",
       "gate": 1,
       "learned_at": "2026-08-04",
-      "reviews_done": 0,
-      "next_review_at": "2026-08-05",
-      "next_review_gate": 1,
+      "reviews_done": 1,
+      "next_review_at": "2026-08-07",
+      "next_review_gate": 2,
       "mastered": false,
-      "score": 20,
-      "seen_count": 1,
-      "last_reviewed_at": "2026-08-04T09:49:21.443Z",
-      "last_result": "known",
+      "score": 35,
+      "seen_count": 2,
+      "last_reviewed_at": "2026-08-06T07:44:16.132Z",
+      "last_result": "correct",
       "history": [
         {
           "at": "2026-08-04T09:49:21.443Z",
           "mode": "learn",
           "gate": 1,
           "result": "known"
+        },
+        {
+          "at": "2026-08-06T07:44:16.132Z",
+          "mode": "ebbinghaus",
+          "gate": 1,
+          "result": "correct",
+          "score_before": 20,
+          "score_after": 35
         }
       ]
     },
@@ -1093,14 +1173,14 @@
       "zh": "恶性犯罪",
       "gate": 1,
       "learned_at": "2026-08-05",
-      "reviews_done": 0,
-      "next_review_at": "2026-08-06",
-      "next_review_gate": 1,
+      "reviews_done": 1,
+      "next_review_at": "2026-08-07",
+      "next_review_gate": 2,
       "mastered": false,
-      "score": 30,
-      "seen_count": 4,
-      "last_reviewed_at": "2026-08-05T09:24:32.996Z",
-      "last_result": "unknown",
+      "score": 45,
+      "seen_count": 5,
+      "last_reviewed_at": "2026-08-06T07:46:56.596Z",
+      "last_result": "correct",
       "history": [
         {
           "at": "2026-08-05T08:58:54.604Z",
@@ -1125,6 +1205,14 @@
           "mode": "learn",
           "gate": 1,
           "result": "unknown"
+        },
+        {
+          "at": "2026-08-06T07:46:56.596Z",
+          "mode": "ebbinghaus",
+          "gate": 1,
+          "result": "correct",
+          "score_before": 30,
+          "score_after": 45
         }
       ]
     },
@@ -1180,20 +1268,28 @@
       "zh": "非传统安全威胁",
       "gate": 1,
       "learned_at": "2026-08-05",
-      "reviews_done": 0,
-      "next_review_at": "2026-08-06",
-      "next_review_gate": 1,
+      "reviews_done": 1,
+      "next_review_at": "2026-08-07",
+      "next_review_gate": 2,
       "mastered": false,
-      "score": 20,
-      "seen_count": 1,
-      "last_reviewed_at": "2026-08-05T09:32:50.295Z",
-      "last_result": "known",
+      "score": 35,
+      "seen_count": 2,
+      "last_reviewed_at": "2026-08-06T07:47:11.893Z",
+      "last_result": "correct",
       "history": [
         {
           "at": "2026-08-05T09:32:50.295Z",
           "mode": "learn",
           "gate": 1,
           "result": "known"
+        },
+        {
+          "at": "2026-08-06T07:47:11.893Z",
+          "mode": "ebbinghaus",
+          "gate": 1,
+          "result": "correct",
+          "score_before": 20,
+          "score_after": 35
         }
       ]
     },
@@ -1521,10 +1617,10 @@
     },
     "2026-08-06": {
       "new_words": 10,
-      "reviewed": 9,
-      "correct": 6,
-      "incorrect": 3,
-      "ebbinghaus_reviewed": 9,
+      "reviewed": 21,
+      "correct": 16,
+      "incorrect": 5,
+      "ebbinghaus_reviewed": 21,
       "score_reviewed": 0
     }
   },
