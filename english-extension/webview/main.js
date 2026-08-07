@@ -690,38 +690,45 @@ async function openDeepStudy(w, opts) {
   }
 
   body.innerHTML = md ? renderMarkdown(md) : '<div class="result-bad">⚠️ 生成失败</div>';
+  // Turn every bolded English phrase in the study card into a ➕ 加入词本 pill.
+  if (md) { decorateAiMessage(body, md, sessionId, 'deepStudy'); }
 
   // Wire chat
   const chatLog = document.getElementById('chatLog');
-  renderChat(chatLog, history);
+  renderChat(chatLog, history, sessionId);
   const chatInput = document.getElementById('chatInput');
   const send = async () => {
     const q = chatInput.value.trim();
     if (!q) { return; }
     chatInput.value = '';
     history.push({ role: 'user', text: q });
-    renderChat(chatLog, history);
+    renderChat(chatLog, history, sessionId);
     const placeholder = { role: 'assistant', text: '⏳ …' };
     history.push(placeholder);
-    renderChat(chatLog, history);
+    renderChat(chatLog, history, sessionId);
     const m = await callHost('chatWithWord', {
       en: w.en, zh: w.zh, wordId: w.id, sessionId,
       history: history.slice(0, -2), question: q,
     });
     // replace placeholder
     history[history.length - 1] = { role: 'assistant', text: (m && m.reply) || '⚠️ 无回复' };
-    renderChat(chatLog, history);
+    renderChat(chatLog, history, sessionId);
   };
   document.getElementById('chatSend').addEventListener('click', send);
   chatInput.addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); } });
 }
 
-function renderChat(root, history) {
+function renderChat(root, history, sessionId) {
   if (!history.length) { root.innerHTML = ''; return; }
-  root.innerHTML = history.map((t) => {
+  root.innerHTML = history.map((t, i) => {
     const cls = t.role === 'user' ? 'chat-turn-user' : 'chat-turn-ai';
-    return `<div class="${cls}">${renderMarkdown(t.text)}</div>`;
+    return `<div class="${cls}" data-msg-idx="${i}">${renderMarkdown(t.text)}</div>`;
   }).join('');
+  // Decorate AI turns with ➕ 加入词本 pills (same behavior as the tutor tab).
+  for (const msg of root.querySelectorAll('.chat-turn-ai')) {
+    const idx = Number(msg.dataset.msgIdx);
+    decorateAiMessage(msg, history[idx]?.text || '', sessionId, 'deepStudy');
+  }
   root.scrollTop = root.scrollHeight;
 }
 
@@ -1633,7 +1640,7 @@ function renderTutorLog(scrollBottom = false) {
   // clickable "➕ 加入词本" pills.
   for (const msg of log.querySelectorAll('.tutor-msg-assistant')) {
     const idx = Number(msg.dataset.msgIdx);
-    decorateTutorMessage(msg, tutorHistory[idx]?.text || '');
+    decorateAiMessage(msg, tutorHistory[idx]?.text || '', tutorSessionId, 'tutor');
   }
   if (scrollBottom) { log.scrollTop = log.scrollHeight; }
 }
@@ -1655,36 +1662,47 @@ function looksLikeEnglishPhrase(s) {
 }
 
 /** Walk every <strong>/<b> in `msgEl` and append an "➕ 加入词本" pill after
- *  each English one. Idempotent: skips <strong>s already decorated. */
-function decorateTutorMessage(msgEl, rawText) {
+ *  each English one. Idempotent: skips <strong>s already decorated.
+ *  `sessionId` links the added word back to this AI conversation for the
+ *  🤖 AI 查询过 tab. `source` is 'tutor' or 'deepStudy' (persisted verbatim).
+ */
+function decorateAiMessage(msgEl, rawText, sessionId, source) {
   const strongs = msgEl.querySelectorAll('strong, b');
   for (const st of strongs) {
-    if (st.dataset.tutorDecorated === '1') { continue; }
+    if (st.dataset.aiDecorated === '1') { continue; }
     const text = (st.textContent || '').trim();
     if (!looksLikeEnglishPhrase(text)) { continue; }
-    st.dataset.tutorDecorated = '1';
+    st.dataset.aiDecorated = '1';
     const pill = document.createElement('button');
     pill.className = 'tutor-add-pill';
     const alreadyAdded = tutorAddedEnLower.has(text.toLowerCase());
     pill.dataset.en = text;
+    pill.dataset.contextText = rawText || '';
+    pill.dataset.sessionId = sessionId || '';
+    pill.dataset.source = source || 'tutor';
     pill.textContent = alreadyAdded ? '✅ 已在词本' : '➕ 加入词本';
     if (alreadyAdded) { pill.classList.add('done'); pill.disabled = true; }
     pill.title = alreadyAdded ? '已经在词本里了' : '加到 📖 词本，同时收进 🤖 AI 查询过';
-    pill.addEventListener('click', () => addTutorWordToVocab(pill, rawText));
+    pill.addEventListener('click', () => addAiWordToVocab(pill));
     st.insertAdjacentElement('afterend', pill);
   }
 }
 
 /** Send the add request to host, update UI + in-memory vocab on success. */
-async function addTutorWordToVocab(pill, contextText) {
+async function addAiWordToVocab(pill) {
   const en = pill.dataset.en;
   if (!en) { return; }
+  const contextText = pill.dataset.contextText || '';
+  const sessionId = pill.dataset.sessionId || undefined;
+  const source = pill.dataset.source || 'tutor';
   const original = pill.textContent;
   pill.disabled = true;
   pill.textContent = '⏳ 加入中…';
   try {
     const m = await callHost('addUserVocab', {
-      en, contextText, tutorSessionId, source: 'tutor',
+      en, contextText,
+      tutorSessionId: sessionId,
+      source: source === 'tutor' ? 'tutor' : 'tutor', // both persist as 'tutor'
     });
     const entry = m && m.entry;
     if (!entry) {
@@ -1696,6 +1714,14 @@ async function addTutorWordToVocab(pill, contextText) {
     tutorAddedEnLower.add(en.toLowerCase());
     pill.textContent = `✅ 已加入（${entry.zh || '?'}）`;
     pill.classList.add('done');
+    // Mirror status to any sibling pills for the same word on-screen.
+    for (const other of document.querySelectorAll(`.tutor-add-pill[data-en="${en.replace(/"/g, '&quot;')}"]`)) {
+      if (other === pill) { continue; }
+      if (other.dataset.aiDecorated !== '1' && !other.dataset.en) { continue; }
+      other.textContent = '✅ 已在词本';
+      other.classList.add('done');
+      other.disabled = true;
+    }
     showToast(`✅ 已加入词本：${entry.en}${entry.zh ? ' — ' + entry.zh : ''}`);
   } catch (e) {
     pill.textContent = '⚠️ 失败';

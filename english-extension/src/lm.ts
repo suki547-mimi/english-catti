@@ -386,7 +386,11 @@ export async function chatWithWord(
     const systemNote =
       `你是英语学习助手。当前学习对象是英文词 "${en}"（中文意思：${zh}）。` +
       `围绕这个词的用法、含义、语域、搭配、文化背景等回答学习者的问题。` +
-      `简洁、准确，用中文回答，可以夹带英文原文。避免闲聊。`;
+      `简洁、准确，用中文回答，可以夹带英文原文。避免闲聊。\n\n` +
+      `**加粗规则（重要）**：每当你在回答里首次介绍或提到一个值得学的英文单词/短语/习语` +
+      `（含目标词的相关词、近义词、常见搭配），请把它用 Markdown **加粗** 包起来，` +
+      `如 **venture**。只加粗真正值得收进词本的英语表达；不要加粗普通句子、中文、` +
+      `或者已经加粗过的同一个表达。`;
     const messages: vscode.LanguageModelChatMessage[] = [
       vscode.LanguageModelChatMessage.User(systemNote),
       vscode.LanguageModelChatMessage.Assistant('好的，请开始提问。'),

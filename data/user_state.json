@@ -1,7 +1,7 @@
 {
   "version": 2,
   "created_at": "2026-07-30T07:46:20.217Z",
-  "updated_at": "2026-08-06T07:47:11.893Z",
+  "updated_at": "2026-08-07T02:11:13.155Z",
   "words": {
     "1815da7d5abcad3e": {
       "id": "1815da7d5abcad3e",
@@ -1580,6 +1580,52 @@
           "result": "unknown"
         }
       ]
+    },
+    "fd5e1d82449ca12c": {
+      "id": "fd5e1d82449ca12c",
+      "en": "Have a good trip",
+      "zh": "祝旅途愉快",
+      "gate": 1,
+      "learned_at": "2026-08-07",
+      "reviews_done": 0,
+      "next_review_at": "2026-08-08",
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 20,
+      "seen_count": 1,
+      "last_reviewed_at": "2026-08-07T02:08:41.093Z",
+      "last_result": "known",
+      "history": [
+        {
+          "at": "2026-08-07T02:08:41.093Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "known"
+        }
+      ]
+    },
+    "0b4dda9fc4edfa7f": {
+      "id": "0b4dda9fc4edfa7f",
+      "en": "exclusively-funded venture",
+      "zh": "独资公司",
+      "gate": 0,
+      "learned_at": null,
+      "reviews_done": 0,
+      "next_review_at": null,
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 0,
+      "seen_count": 1,
+      "last_reviewed_at": "2026-08-07T02:10:30.661Z",
+      "last_result": "unknown",
+      "history": [
+        {
+          "at": "2026-08-07T02:10:30.661Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "unknown"
+        }
+      ]
     }
   },
   "daily": {
@@ -1621,6 +1667,14 @@
       "correct": 16,
       "incorrect": 5,
       "ebbinghaus_reviewed": 21,
+      "score_reviewed": 0
+    },
+    "2026-08-07": {
+      "new_words": 2,
+      "reviewed": 0,
+      "correct": 0,
+      "incorrect": 0,
+      "ebbinghaus_reviewed": 0,
       "score_reviewed": 0
     }
   },
@@ -1728,5 +1782,207 @@
       "incorrect": 5
     }
   ],
-  "currentLearnSession": null
+  "currentLearnSession": {
+    "wordIds": [
+      "fd5e1d82449ca12c",
+      "0b4dda9fc4edfa7f",
+      "d0275201086eda47",
+      "a615cc6ac50d0aa7",
+      "cedd05d6798543e1",
+      "12b8dac6f04cb905",
+      "1e77588349977751",
+      "e23dd1a77f9e2790",
+      "0afd8975d9e2beea",
+      "25e266a8847c7d1c"
+    ],
+    "idx": 1,
+    "known": 1,
+    "unknown": 0,
+    "startedAt": "2026-08-07T02:08:06.582Z"
+  },
+  "customWords": {
+    "user-pricing-glitch": {
+      "id": "user-pricing-glitch",
+      "en": "Pricing glitch",
+      "zh": "定价故障/价格错误",
+      "note": "偏口语及新闻体，常指电商或航司系统出错导致标价异常偏低",
+      "source": "tutor",
+      "tutorSessionId": "57391ec7-52c8-46c8-b8e8-d205b5022a6b",
+      "addedAt": "2026-08-06T09:31:37.834Z"
+    }
+  },
+  "queriedWords": {
+    "7479cc4901936065": {
+      "wordId": "7479cc4901936065",
+      "count": 1,
+      "firstQueriedAt": "2026-08-06T08:32:24.841Z",
+      "lastQueriedAt": "2026-08-06T08:32:24.841Z",
+      "sessionIds": [
+        "f6ce4c42-2654-4fc3-9a7c-e1f869b5fbc1"
+      ],
+      "en": "ITA - Information TechnologyAgreement",
+      "zh": "信息技术处理"
+    },
+    "ee006a26a318944b": {
+      "wordId": "ee006a26a318944b",
+      "count": 3,
+      "firstQueriedAt": "2026-08-06T09:13:33.791Z",
+      "lastQueriedAt": "2026-08-06T09:27:10.169Z",
+      "sessionIds": [
+        "7f9b9aee-c0ae-451e-a11e-496dc4450636"
+      ],
+      "en": "cross rate, arbitrage rate",
+      "zh": "套汇汇率"
+    },
+    "user-pricing-glitch": {
+      "wordId": "user-pricing-glitch",
+      "count": 1,
+      "firstQueriedAt": "2026-08-06T09:31:37.834Z",
+      "lastQueriedAt": "2026-08-06T09:31:37.834Z",
+      "sessionIds": [
+        "57391ec7-52c8-46c8-b8e8-d205b5022a6b"
+      ],
+      "en": "Pricing glitch",
+      "zh": "定价故障/价格错误"
+    },
+    "fd5e1d82449ca12c": {
+      "wordId": "fd5e1d82449ca12c",
+      "count": 1,
+      "firstQueriedAt": "2026-08-07T02:08:41.745Z",
+      "lastQueriedAt": "2026-08-07T02:08:41.745Z",
+      "sessionIds": [
+        "a5a4850d-011d-43d5-bb7c-54de28c64379"
+      ],
+      "en": "Have a good trip",
+      "zh": "祝旅途愉快"
+    },
+    "0b4dda9fc4edfa7f": {
+      "wordId": "0b4dda9fc4edfa7f",
+      "count": 2,
+      "firstQueriedAt": "2026-08-07T02:10:31.393Z",
+      "lastQueriedAt": "2026-08-07T02:11:04.711Z",
+      "sessionIds": [
+        "f992dc7c-8491-4935-947c-9418cf506e03"
+      ],
+      "en": "exclusively-funded venture",
+      "zh": "独资公司"
+    }
+  },
+  "aiSessions": {
+    "f6ce4c42-2654-4fc3-9a7c-e1f869b5fbc1": {
+      "id": "f6ce4c42-2654-4fc3-9a7c-e1f869b5fbc1",
+      "mode": "deepStudy",
+      "wordId": "7479cc4901936065",
+      "en": "ITA - Information TechnologyAgreement",
+      "zh": "信息技术处理",
+      "startedAt": "2026-08-06T08:32:24.841Z",
+      "updatedAt": "2026-08-06T08:32:39.174Z",
+      "messages": [
+        {
+          "role": "assistant",
+          "text": "## 1. 英英释义\n\n**ITA (Information Technology Agreement)** — *noun (proper)*\n\nA multilateral trade agreement within the World Trade Organization (WTO) framework under which signatory countries agree to eliminate tariffs and duties on information technology products.\n\n## 2. 常用度 & 语域\n\n- 常见程度：**一般**（在国际贸易、WTO 政策讨论中较常见，日常生活中罕见）\n- 语域：**正式**（出现在政策文件、学术论文、财经新闻中）\n\n## 3. 近义词辨析\n\n1. **trade liberalization agreement** — 泛指任何贸易自由化协定，ITA 专指 IT 产品领域。\n2. **tariff elimination pact** — 强调关税取消这一动作，ITA 还涵盖产品范围界定与谈判机制。\n3. **free trade agreement (FTA)** — 通常为双边/区域性、覆盖多行业，ITA 是多边且限于 IT 产品。\n\n## 4. 影视名场面\n\n1. **House of Cards**（《纸牌屋》）— Frank Underwood 在与贸易代表讨论对华科技政策时提及关税减让框架。\n   > ⚠️ 符合角色说话风格的示范用法：\"The ITA keeps our tech exports competitive — kill it, and you hand Beijing the leverage they need.\"\n\n2. **Succession**（《继承之战》）— Logan Roy 在董事会上讨论 Waystar 硬件部门的海外定价策略。\n   > ⚠️ 符合角色说话风格的示范用法：\"We're protected under the ITA — zero tariffs into 80 markets. Don't let some trade war screw that up.\"\n\n## 5. 高频搭配\n\n1. **ITA expansion** — 指 ITA 扩围谈判（2015 年 ITA-II），将更多新兴 IT 产品纳入零关税清单。\n2. **ITA signatories / participants** — ITA 签署国/参与方，目前涵盖 80 多个 WTO 成员。\n3. **products covered under the ITA** — ITA 覆盖的产品范围，包括半导体、计算机、电信设备等。",
+          "at": "2026-08-06T08:32:39.174Z"
+        }
+      ]
+    },
+    "7f9b9aee-c0ae-451e-a11e-496dc4450636": {
+      "id": "7f9b9aee-c0ae-451e-a11e-496dc4450636",
+      "mode": "deepStudy",
+      "wordId": "ee006a26a318944b",
+      "en": "cross rate, arbitrage rate",
+      "zh": "套汇汇率",
+      "startedAt": "2026-08-06T09:13:33.791Z",
+      "updatedAt": "2026-08-06T09:27:22.119Z",
+      "messages": [
+        {
+          "role": "assistant",
+          "text": "## 1. 英英释义\n\n- **cross rate** (*noun*): An exchange rate between two currencies calculated by reference to a third currency (usually the US dollar).\n- **arbitrage rate** (*noun*): An exchange rate derived from two or more foreign exchange markets, used to exploit price differences between markets for profit.\n\n## 2. 常用度 & 语域\n\n- **cross rate**：常见 | 正式（金融/外汇专业术语）\n- **arbitrage rate**：一般 | 正式（国际金融教材及实务用语）\n\n## 3. 近义词辨析\n\n1. **indirect rate**（间接汇率）——强调报价方式，不一定涉及套利，而 cross rate 强调通过第三货币推算。\n2. **implied rate**（隐含汇率）——泛指从其他工具推导出的汇率，范围更广，不限于外汇市场。\n3. **triangular arbitrage rate**（三角套汇汇率）——特指三种货币间的套利机会，比 arbitrage rate 更具体地指向三角关系。\n\n## 4. 影视名场面\n\n1. **Suits**（《金装律师》）— Harvey Specter 向客户解释跨国并购中的汇率风险：\n   \"We locked in the cross rate between the euro and the yen before the deal closed — that saved your client twelve million.\" ⚠️ 符合角色说话风格的示范用法\n\n2. **Succession**（《继承之战》）— Logan Roy 在董事会上质问 CFO：\n   \"Did anyone bother to check the arbitrage rate before wiring funds through Hong Kong?\" ⚠️ 符合角色说话风格的示范用法\n\n3. **House of Cards**（《纸牌屋》）— Frank Underwood 与中国谈判贸易协议时：\n   \"The cross rate tells you more about leverage than any diplomat ever will.\" ⚠️ 符合角色说话风格的示范用法\n\n## 5. 高频搭配\n\n1. **calculate the cross rate** — 计算（两种非美元货币之间的）套算汇率\n2. **exploit an arbitrage rate** — 利用套汇汇率进行无风险获利\n3. **cross rate fluctuation** — 套算汇率波动，常用于风险管理讨论中",
+          "at": "2026-08-06T09:13:48.823Z"
+        },
+        {
+          "role": "user",
+          "text": "arbitrage rate  还是不懂",
+          "at": "2026-08-06T09:24:08.337Z"
+        },
+        {
+          "role": "assistant",
+          "text": "**arbitrage rate（套汇汇率）** 拆解理解：\n\n- **arbitrage**：套利/套汇，指利用不同市场之间的价格差异来获利的行为\n- **rate**：汇率\n\n**核心含义：** 通过第三种货币间接换算出的两种货币之间的汇率。\n\n**举例：**\n\n你想知道人民币兑英镑的汇率，但市场上没有直接报价。你手上有：\n- 美元/人民币 = 7.2\n- 美元/英镑 = 0.79\n\n通过这两个汇率间接算出人民币/英镑的汇率，这个算出来的汇率就是 **arbitrage rate（套汇汇率）**，也叫 **cross rate（交叉汇率）**。\n\n**为什么叫 arbitrage？** 因为如果这个间接算出的汇率和市场实际报价有差异，交易者就可以通过套汇操作赚取差价（即 arbitrage 套利）。",
+          "at": "2026-08-06T09:24:17.837Z"
+        },
+        {
+          "role": "user",
+          "text": "那arbitrage rate 要怎么找到呢？ 目前我经常看到都是有直接汇率的，什么原因可以找到有利的 arbitrage rate呢",
+          "at": "2026-08-06T09:27:10.169Z"
+        },
+        {
+          "role": "assistant",
+          "text": "**什么时候会出现有利的 arbitrage rate？**\n\n核心条件：**市场定价不一致**（mispricing）。\n\n**常见原因：**\n\n1. **不同市场/银行报价有时差或信息滞后** — 伦敦、纽约、东京外汇市场开盘时间不同，报价可能暂时不同步\n2. **流动性差异** — 冷门货币对（如泰铢/瑞典克朗）直接报价少，可能与通过美元交叉计算的结果有偏差\n3. **突发事件** — 某个市场因新闻冲击价格剧烈波动，其他市场还没反应过来\n\n**实际例子（三角套汇 triangular arbitrage）：**\n\n- 市场A：1 USD = 7.2 CNY\n- 市场B：1 USD = 0.79 GBP\n- 市场C：1 GBP = 9.0 CNY\n\n用A和B算出：1 GBP = 7.2 ÷ 0.79 ≈ **9.11 CNY**\n\n但市场C报价只有 **9.0 CNY**，存在差异 → 套利机会出现。\n\n**现实中：**\n\n- 这种机会极其短暂（通常几秒内被高频交易算法抹平）\n- 普通投资者几乎无法捕捉\n- 大型机构用程序自动扫描全球市场寻找这类 mispricing\n\n所以你日常看到的汇率都是\"一致的\"，正是因为 arbitrage 行为本身让市场价格趋于统一。",
+          "at": "2026-08-06T09:27:22.119Z"
+        }
+      ]
+    },
+    "57391ec7-52c8-46c8-b8e8-d205b5022a6b": {
+      "id": "57391ec7-52c8-46c8-b8e8-d205b5022a6b",
+      "mode": "tutor",
+      "wordId": "user-pricing-glitch",
+      "en": "Pricing glitch",
+      "zh": "定价故障/价格错误",
+      "startedAt": "2026-08-06T09:30:54.779Z",
+      "updatedAt": "2026-08-06T09:31:37.834Z",
+      "messages": [
+        {
+          "role": "user",
+          "text": "pricing glitch",
+          "at": "2026-08-06T09:30:54.782Z"
+        },
+        {
+          "role": "assistant",
+          "text": "**Pricing glitch** — 定价故障/价格错误\n\n指系统或人为失误导致商品标价异常（通常是标低了）。常见于电商、航空公司出错时的新闻报道。\n\n**例句：**\n- Amazon had a pricing glitch that sold $500 cameras for $5.\n- The airline refused to honor tickets bought during the pricing glitch.\n\n**glitch** 本身指小故障、小差错，来源有争议，可能源自意第绪语或德语，20世纪60年代NASA工程师开始广泛使用。语域偏口语/新闻体。\n\n近义词辨析：\n- **glitch**：偏技术性小错，暗示非人为、短暂\n- error：更正式、通用\n- bug：专指软件缺陷",
+          "at": "2026-08-06T09:31:03.607Z"
+        }
+      ]
+    },
+    "a5a4850d-011d-43d5-bb7c-54de28c64379": {
+      "id": "a5a4850d-011d-43d5-bb7c-54de28c64379",
+      "mode": "deepStudy",
+      "wordId": "fd5e1d82449ca12c",
+      "en": "Have a good trip",
+      "zh": "祝旅途愉快",
+      "startedAt": "2026-08-07T02:08:41.745Z",
+      "updatedAt": "2026-08-07T02:08:41.750Z",
+      "messages": [
+        {
+          "role": "assistant",
+          "text": "## 1. 英英释义\n\n**Have a good trip** (*phrase*) — A polite expression used to wish someone a pleasant and safe journey before they leave for travel.\n\n## 2. 常用度 & 语域\n\n- 常见程度：**高频**\n- 语域：**中性**（日常口语和书面均可使用）\n\n## 3. 近义词辨析\n\n1. **Have a safe trip** — 更强调安全，适用于长途或有风险的旅行。\n2. **Bon voyage** — 来自法语，更正式/文雅，常用于较长的旅程或送别场合。\n3. **Safe travels** — 语气温暖，略偏口语，复数 travels 暗示多段行程。\n\n## 4. 影视名场面\n\n1. **Friends**（老友记）— Monica 在送 Ross 出差时说道：\n   > \"Have a good trip! And call me when you land.\"\n   ⚠️ 符合角色说话风格的示范用法\n\n2. **The Office**（办公室）— Michael Scott 在同事出差前夸张地告别：\n   > \"Have a good trip! Don't forget about us little people.\"\n   ⚠️ 符合角色说话风格的示范用法\n\n3. **Breaking Bad**（绝命毒师）— Skyler 在 Walt 出门时平静地说：\n   > \"Have a good trip.\"\n   ⚠️ 符合角色说话风格的示范用法（表面平静，暗含疏离）\n\n## 5. 高频搭配\n\n1. **Have a good trip back** — 祝回程顺利愉快。\n2. **Have a good trip home** — 祝平安到家。\n3. **Have a good trip and stay safe** — 祝旅途愉快并注意安全（常见组合祝福）。",
+          "at": "2026-08-07T02:08:41.750Z"
+        }
+      ]
+    },
+    "f992dc7c-8491-4935-947c-9418cf506e03": {
+      "id": "f992dc7c-8491-4935-947c-9418cf506e03",
+      "mode": "deepStudy",
+      "wordId": "0b4dda9fc4edfa7f",
+      "en": "exclusively-funded venture",
+      "zh": "独资公司",
+      "startedAt": "2026-08-07T02:10:31.393Z",
+      "updatedAt": "2026-08-07T02:11:13.155Z",
+      "messages": [
+        {
+          "role": "assistant",
+          "text": "## 1. 英英释义\n\n**noun phrase** — A business entity that is financed entirely by a single investor or parent company, with no shared ownership or outside funding partners.\n\n## 2. 常用度 & 语域\n\n- 常见程度：**罕见**（更常用 wholly-owned enterprise / sole proprietorship 等表达）\n- 语域：**正式**，多见于商务、法律及外商投资语境（尤其中国外资法律英译文本）\n\n## 3. 近义词辨析\n\n1. **wholly-owned enterprise** — 最常见的正式替代说法，国际商务通用度更高。\n2. **sole proprietorship** — 侧重个人独资的小型企业，规模感和法律结构不同。\n3. **wholly foreign-owned enterprise (WFOE)** — 特指外商在华独资企业，语境更窄，带有中国法律色彩。\n\n## 4. 影视名场面\n\n1. **Suits**（《金装律师》）— Harvey Specter 向客户解释公司架构时：\n   \"You don't need partners dragging you down — set it up as an exclusively-funded venture and keep full control.\" ⚠️ 符合角色说话风格的示范用法\n\n2. **Succession**（《继承之战》）— Logan Roy 讨论海外扩张：\n   \"I want this as an exclusively-funded venture. No joint ventures, no committees.\" ⚠️ 符合角色说话风格的示范用法\n\n3. **House of Cards**（《纸牌屋》）— Raymond Tusk 谈中国投资布局：\n   \"The Chinese side prefers an exclusively-funded venture — no American board seats.\" ⚠️ 符合角色说话风格的示范用法\n\n## 5. 高频搭配\n\n1. **establish an exclusively-funded venture** — 设立独资公司\n2. **convert into an exclusively-funded venture** — 转为独资经营\n3. **register as an exclusively-funded venture** — 注册为独资企业",
+          "at": "2026-08-07T02:10:31.400Z"
+        },
+        {
+          "role": "user",
+          "text": "所以 venture是公司的意思吗",
+          "at": "2026-08-07T02:11:04.711Z"
+        },
+        {
+          "role": "assistant",
+          "text": "不完全是。**Venture** 的核心意思是\"冒险事业、创业项目\"，强调带有风险的商业活动，不等同于 company/corporation。\n\n在 \"exclusively-funded venture\" 中，venture 指的是一个商业实体/项目，翻译为\"公司\"是意译。\n\n常见搭配：\n- joint venture（合资企业）\n- business venture（商业项目）\n- venture capital（风险投资）\n\n简单说：venture ≈ 有风险的商业项目/企业，语义比 \"company\" 更强调**创业性和风险性**。",
+          "at": "2026-08-07T02:11:13.155Z"
+        }
+      ]
+    }
+  }
 }
