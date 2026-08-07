@@ -1,7 +1,7 @@
 {
   "version": 2,
   "created_at": "2026-07-30T07:46:20.217Z",
-  "updated_at": "2026-08-07T02:11:13.155Z",
+  "updated_at": "2026-08-07T08:00:55.441Z",
   "words": {
     "1815da7d5abcad3e": {
       "id": "1815da7d5abcad3e",
@@ -1615,12 +1615,139 @@
       "next_review_gate": 1,
       "mastered": false,
       "score": 0,
-      "seen_count": 1,
-      "last_reviewed_at": "2026-08-07T02:10:30.661Z",
+      "seen_count": 2,
+      "last_reviewed_at": "2026-08-07T06:44:43.193Z",
       "last_result": "unknown",
       "history": [
         {
           "at": "2026-08-07T02:10:30.661Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "unknown"
+        },
+        {
+          "at": "2026-08-07T06:44:43.193Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "unknown"
+        }
+      ]
+    },
+    "d0275201086eda47": {
+      "id": "d0275201086eda47",
+      "en": "extinct species",
+      "zh": "灭绝的物种",
+      "gate": 1,
+      "learned_at": "2026-08-07",
+      "reviews_done": 0,
+      "next_review_at": "2026-08-08",
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 20,
+      "seen_count": 1,
+      "last_reviewed_at": "2026-08-07T06:46:55.393Z",
+      "last_result": "known",
+      "history": [
+        {
+          "at": "2026-08-07T06:46:55.393Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "known"
+        }
+      ]
+    },
+    "a615cc6ac50d0aa7": {
+      "id": "a615cc6ac50d0aa7",
+      "en": "soup",
+      "zh": "汤",
+      "gate": 1,
+      "learned_at": "2026-08-07",
+      "reviews_done": 0,
+      "next_review_at": "2026-08-08",
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 20,
+      "seen_count": 1,
+      "last_reviewed_at": "2026-08-07T06:48:06.728Z",
+      "last_result": "known",
+      "history": [
+        {
+          "at": "2026-08-07T06:48:06.728Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "known"
+        }
+      ]
+    },
+    "cedd05d6798543e1": {
+      "id": "cedd05d6798543e1",
+      "en": "The best man stumbles",
+      "zh": "伟人也有犯错时",
+      "gate": 0,
+      "learned_at": null,
+      "reviews_done": 0,
+      "next_review_at": null,
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 0,
+      "seen_count": 1,
+      "last_reviewed_at": "2026-08-07T06:52:13.847Z",
+      "last_result": "unknown",
+      "history": [
+        {
+          "at": "2026-08-07T06:52:13.847Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "unknown"
+        }
+      ]
+    },
+    "12b8dac6f04cb905": {
+      "id": "12b8dac6f04cb905",
+      "en": "abalone",
+      "zh": "鲍鱼",
+      "gate": 0,
+      "learned_at": null,
+      "reviews_done": 0,
+      "next_review_at": null,
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 0,
+      "seen_count": 2,
+      "last_reviewed_at": "2026-08-07T07:59:57.450Z",
+      "last_result": "unknown",
+      "history": [
+        {
+          "at": "2026-08-07T07:10:39.958Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "unknown"
+        },
+        {
+          "at": "2026-08-07T07:59:57.450Z",
+          "mode": "learn",
+          "gate": 1,
+          "result": "unknown"
+        }
+      ]
+    },
+    "1e77588349977751": {
+      "id": "1e77588349977751",
+      "en": "CD burner",
+      "zh": "刻录机",
+      "gate": 0,
+      "learned_at": null,
+      "reviews_done": 0,
+      "next_review_at": null,
+      "next_review_gate": 1,
+      "mastered": false,
+      "score": 0,
+      "seen_count": 1,
+      "last_reviewed_at": "2026-08-07T08:00:54.754Z",
+      "last_result": "unknown",
+      "history": [
+        {
+          "at": "2026-08-07T08:00:54.754Z",
           "mode": "learn",
           "gate": 1,
           "result": "unknown"
@@ -1670,7 +1797,7 @@
       "score_reviewed": 0
     },
     "2026-08-07": {
-      "new_words": 2,
+      "new_words": 7,
       "reviewed": 0,
       "correct": 0,
       "incorrect": 0,
@@ -1795,9 +1922,9 @@
       "0afd8975d9e2beea",
       "25e266a8847c7d1c"
     ],
-    "idx": 1,
-    "known": 1,
-    "unknown": 0,
+    "idx": 6,
+    "known": 3,
+    "unknown": 3,
     "startedAt": "2026-08-07T02:08:06.582Z"
   },
   "customWords": {
@@ -1809,6 +1936,51 @@
       "source": "tutor",
       "tutorSessionId": "57391ec7-52c8-46c8-b8e8-d205b5022a6b",
       "addedAt": "2026-08-06T09:31:37.834Z"
+    },
+    "user-sole-proprietorship": {
+      "id": "user-sole-proprietorship",
+      "en": "sole proprietorship",
+      "zh": "个人独资企业",
+      "note": "正式商法用语，强调个人出资、承担无限责任，规模通常较小。",
+      "source": "tutor",
+      "tutorSessionId": "282c28b4-759f-4ca4-8108-b14f6d7e8909",
+      "addedAt": "2026-08-07T06:45:25.146Z"
+    },
+    "user-stumble": {
+      "id": "user-stumble",
+      "en": "stumble",
+      "zh": "绊倒；犯错",
+      "note": "本义指脚下踉跄，引申为犯错、失误，常见搭配 stumble over/on",
+      "source": "tutor",
+      "tutorSessionId": "7cc8c5af-a303-4cee-a1e0-014e9746f1ec",
+      "addedAt": "2026-08-07T06:59:57.805Z"
+    },
+    "user-meritocracy": {
+      "id": "user-meritocracy",
+      "en": "meritocracy",
+      "zh": "优绩主义；精英管理制度",
+      "note": "常见搭配：a meritocratic society、undermine meritocracy",
+      "source": "tutor",
+      "tutorSessionId": "50bce668-ca78-4538-a1b2-652ab05661be",
+      "addedAt": "2026-08-07T07:51:47.522Z"
+    },
+    "user-prestige": {
+      "id": "user-prestige",
+      "en": "prestige",
+      "zh": "声望，威望",
+      "note": "正式用语，常作不可数名词；注意发音末尾 /ʒ/，源自法语",
+      "source": "tutor",
+      "tutorSessionId": "50bce668-ca78-4538-a1b2-652ab05661be",
+      "addedAt": "2026-08-07T07:57:44.157Z"
+    },
+    "user-prestige-is-a-loan": {
+      "id": "user-prestige-is-a-loan",
+      "en": "Prestige is a loan",
+      "zh": "声望是借来的东西",
+      "note": "比喻外在地位不真正属于你，失去即消失；书面/哲理语境",
+      "source": "tutor",
+      "tutorSessionId": "50bce668-ca78-4538-a1b2-652ab05661be",
+      "addedAt": "2026-08-07T07:58:31.354Z"
     }
   },
   "queriedWords": {
@@ -1858,14 +2030,126 @@
     },
     "0b4dda9fc4edfa7f": {
       "wordId": "0b4dda9fc4edfa7f",
-      "count": 2,
+      "count": 3,
       "firstQueriedAt": "2026-08-07T02:10:31.393Z",
-      "lastQueriedAt": "2026-08-07T02:11:04.711Z",
+      "lastQueriedAt": "2026-08-07T06:44:50.998Z",
       "sessionIds": [
+        "282c28b4-759f-4ca4-8108-b14f6d7e8909",
         "f992dc7c-8491-4935-947c-9418cf506e03"
       ],
       "en": "exclusively-funded venture",
       "zh": "独资公司"
+    },
+    "user-sole-proprietorship": {
+      "wordId": "user-sole-proprietorship",
+      "count": 1,
+      "firstQueriedAt": "2026-08-07T06:45:25.146Z",
+      "lastQueriedAt": "2026-08-07T06:45:25.146Z",
+      "sessionIds": [
+        "282c28b4-759f-4ca4-8108-b14f6d7e8909"
+      ],
+      "en": "sole proprietorship",
+      "zh": "个人独资企业"
+    },
+    "d0275201086eda47": {
+      "wordId": "d0275201086eda47",
+      "count": 1,
+      "firstQueriedAt": "2026-08-07T06:46:56.099Z",
+      "lastQueriedAt": "2026-08-07T06:46:56.099Z",
+      "sessionIds": [
+        "99eadbcb-504e-48a0-bb0c-d791c954f772"
+      ],
+      "en": "extinct species",
+      "zh": "灭绝的物种"
+    },
+    "a615cc6ac50d0aa7": {
+      "wordId": "a615cc6ac50d0aa7",
+      "count": 1,
+      "firstQueriedAt": "2026-08-07T06:48:07.243Z",
+      "lastQueriedAt": "2026-08-07T06:48:07.243Z",
+      "sessionIds": [
+        "a3d15ba6-16c1-435c-a7ab-995193aa1a1d"
+      ],
+      "en": "soup",
+      "zh": "汤"
+    },
+    "cedd05d6798543e1": {
+      "wordId": "cedd05d6798543e1",
+      "count": 2,
+      "firstQueriedAt": "2026-08-07T06:52:14.931Z",
+      "lastQueriedAt": "2026-08-07T06:52:36.576Z",
+      "sessionIds": [
+        "7cc8c5af-a303-4cee-a1e0-014e9746f1ec"
+      ],
+      "en": "The best man stumbles",
+      "zh": "伟人也有犯错时"
+    },
+    "user-stumble": {
+      "wordId": "user-stumble",
+      "count": 1,
+      "firstQueriedAt": "2026-08-07T06:59:57.805Z",
+      "lastQueriedAt": "2026-08-07T06:59:57.805Z",
+      "sessionIds": [
+        "7cc8c5af-a303-4cee-a1e0-014e9746f1ec"
+      ],
+      "en": "stumble",
+      "zh": "绊倒；犯错"
+    },
+    "12b8dac6f04cb905": {
+      "wordId": "12b8dac6f04cb905",
+      "count": 2,
+      "firstQueriedAt": "2026-08-07T07:10:40.881Z",
+      "lastQueriedAt": "2026-08-07T08:00:09.016Z",
+      "sessionIds": [
+        "eb2f1710-326d-4b51-bc75-0d30c16499a1",
+        "55859bb1-f2d3-4270-9f38-e837f90023dd"
+      ],
+      "en": "abalone",
+      "zh": "鲍鱼"
+    },
+    "user-meritocracy": {
+      "wordId": "user-meritocracy",
+      "count": 5,
+      "firstQueriedAt": "2026-08-07T07:51:47.522Z",
+      "lastQueriedAt": "2026-08-07T07:58:11.695Z",
+      "sessionIds": [
+        "50bce668-ca78-4538-a1b2-652ab05661be"
+      ],
+      "en": "meritocracy",
+      "zh": "优绩主义；精英管理制度"
+    },
+    "user-prestige": {
+      "wordId": "user-prestige",
+      "count": 1,
+      "firstQueriedAt": "2026-08-07T07:57:44.157Z",
+      "lastQueriedAt": "2026-08-07T07:57:44.157Z",
+      "sessionIds": [
+        "50bce668-ca78-4538-a1b2-652ab05661be"
+      ],
+      "en": "prestige",
+      "zh": "声望，威望"
+    },
+    "user-prestige-is-a-loan": {
+      "wordId": "user-prestige-is-a-loan",
+      "count": 1,
+      "firstQueriedAt": "2026-08-07T07:58:31.354Z",
+      "lastQueriedAt": "2026-08-07T07:58:31.354Z",
+      "sessionIds": [
+        "50bce668-ca78-4538-a1b2-652ab05661be"
+      ],
+      "en": "Prestige is a loan",
+      "zh": "声望是借来的东西"
+    },
+    "1e77588349977751": {
+      "wordId": "1e77588349977751",
+      "count": 1,
+      "firstQueriedAt": "2026-08-07T08:00:55.435Z",
+      "lastQueriedAt": "2026-08-07T08:00:55.435Z",
+      "sessionIds": [
+        "30f2fca9-da6a-44d5-9122-a941630ee29d"
+      ],
+      "en": "CD burner",
+      "zh": "刻录机"
     }
   },
   "aiSessions": {
@@ -1981,6 +2265,189 @@
           "role": "assistant",
           "text": "不完全是。**Venture** 的核心意思是\"冒险事业、创业项目\"，强调带有风险的商业活动，不等同于 company/corporation。\n\n在 \"exclusively-funded venture\" 中，venture 指的是一个商业实体/项目，翻译为\"公司\"是意译。\n\n常见搭配：\n- joint venture（合资企业）\n- business venture（商业项目）\n- venture capital（风险投资）\n\n简单说：venture ≈ 有风险的商业项目/企业，语义比 \"company\" 更强调**创业性和风险性**。",
           "at": "2026-08-07T02:11:13.155Z"
+        }
+      ]
+    },
+    "282c28b4-759f-4ca4-8108-b14f6d7e8909": {
+      "id": "282c28b4-759f-4ca4-8108-b14f6d7e8909",
+      "mode": "deepStudy",
+      "wordId": "0b4dda9fc4edfa7f",
+      "en": "exclusively-funded venture",
+      "zh": "独资公司",
+      "startedAt": "2026-08-07T06:44:50.998Z",
+      "updatedAt": "2026-08-07T06:44:51.005Z",
+      "messages": [
+        {
+          "role": "assistant",
+          "text": "## 1. 英英释义\n\n**noun phrase**\nA business enterprise that is financed entirely by a single investor or entity, with no shared ownership or outside funding partners.\n\n## 2. 常用度 & 语域\n\n- 常见程度：**罕见**（更常用 sole proprietorship、wholly-owned enterprise 等表达）\n- 语域：**正式**，多见于商务、法律及跨境投资语境\n\n## 3. 近义词辨析\n\n1. **wholly-owned enterprise** — 最常见的正式说法，尤其用于外商独资企业（WFOE）语境，比 exclusively-funded venture 使用频率高得多。\n2. **sole proprietorship** — 强调个人独资、个人承担无限责任，规模通常较小，搭配偏向个体经营。\n3. **wholly foreign-owned enterprise (WFOE)** — 特指外国投资者在东道国设立的独资企业，带有跨国投资的特定法律含义。\n\n## 4. 影视名场面\n\n1. **Suits**（《金装律师》）— Harvey Specter 向客户解释公司架构时：\n   \"You set it up as an exclusively-funded venture — no partners, no board to answer to.\" ⚠️ 符合角色说话风格的示范用法\n\n2. **Succession**（《继承之战》）— Logan Roy 讨论新业务板块：\n   \"I want this as my exclusively-funded venture. No siblings, no votes.\" ⚠️ 符合角色说话风格的示范用法\n\n3. **Better Call Saul**（《风骚律师》）— Jimmy 向 Kim 描述某客户的公司性质：\n   \"It's an exclusively-funded venture — one guy's money, one guy's risk.\" ⚠️ 符合角色说话风格的示范用法\n\n## 5. 高频搭配\n\n1. **establish an exclusively-funded venture** — 设立一家独资公司\n2. **register as an exclusively-funded venture** — 以独资企业形式注册登记\n3. **convert into an exclusively-funded venture** — 将企业转为独资经营模式",
+          "at": "2026-08-07T06:44:51.005Z"
+        }
+      ]
+    },
+    "99eadbcb-504e-48a0-bb0c-d791c954f772": {
+      "id": "99eadbcb-504e-48a0-bb0c-d791c954f772",
+      "mode": "deepStudy",
+      "wordId": "d0275201086eda47",
+      "en": "extinct species",
+      "zh": "灭绝的物种",
+      "startedAt": "2026-08-07T06:46:56.099Z",
+      "updatedAt": "2026-08-07T06:46:56.107Z",
+      "messages": [
+        {
+          "role": "assistant",
+          "text": "## 1. 英英释义\n\n**noun phrase** — A type of animal or plant that no longer exists anywhere in the world because all individuals have died.\n\n## 2. 常用度 & 语域\n\n常见 | 正式／中性（多见于科学、环保、新闻语境）\n\n## 3. 近义词辨析\n\n1. **vanished species** — 更文学化，强调\"消失\"的意象，正式文本中少于 extinct species。\n2. **lost species** — 语气更感性，常带惋惜色彩，科学严谨度略低。\n3. **dead species** — 非标准术语，口语中偶见，学术写作中不使用。\n\n## 4. 影视名场面\n\n1. **Friends**《老友记》— Ross 向朋友们谈论恐龙时：\n   \"The T-Rex is an extinct species — you can't just bring one back because you feel like it.\" ⚠️ 符合角色说话风格的示范用法\n\n2. **Game of Thrones**《权力的游戏》— Tyrion 谈论龙的存在：\n   \"Dragons were thought to be an extinct species… until they weren't.\" ⚠️ 符合角色说话风格的示范用法\n\n3. **Sherlock**《神探夏洛克》— Sherlock 讽刺对手智商：\n   \"Common sense — practically an extinct species in this room.\" ⚠️ 符合角色说话风格的示范用法\n\n## 5. 高频搭配\n\n1. **bring back extinct species** — 指通过基因技术复活已灭绝的物种\n2. **protect … from becoming an extinct species** — 保护某物种免于灭绝\n3. **list of extinct species** — 灭绝物种名录，常见于科学报告",
+          "at": "2026-08-07T06:46:56.107Z"
+        }
+      ]
+    },
+    "a3d15ba6-16c1-435c-a7ab-995193aa1a1d": {
+      "id": "a3d15ba6-16c1-435c-a7ab-995193aa1a1d",
+      "mode": "deepStudy",
+      "wordId": "a615cc6ac50d0aa7",
+      "en": "soup",
+      "zh": "汤",
+      "startedAt": "2026-08-07T06:48:07.243Z",
+      "updatedAt": "2026-08-07T06:48:07.249Z",
+      "messages": [
+        {
+          "role": "assistant",
+          "text": "## 1. 英英释义\n\n- **noun**: a liquid food made by cooking meat, vegetables, or other ingredients in water, usually served hot.\n\n## 2. 常用度 & 语域\n\n**高频** / 中性\n\n## 3. 近义词辨析\n\n- **broth**：强调用肉或骨熬制的清汤，比 soup 更稀、更清淡。\n- **stew**：比 soup 更浓稠，食材更大块，介于汤和菜之间。\n- **chowder**：特指加奶油/土豆的浓汤，地域色彩更强（美式）。\n\n## 4. 影视名场面\n\n- **Friends**（老友记）— Joey — 在公寓里吃东西的日常场景中提到汤。\n  - ⚠️ 符合角色说话风格的示范用法：\"Could we BE having any more soup?\"\n\n- **Seinfeld**（宋飞正传）— 各角色 — 著名的 \"Soup Nazi\" 剧集，角色排队买汤被拒。\n  - 台词：\"No soup for you!\"\n\n- **The Office**（办公室）— Michael Scott — 午餐时讨论食物。\n  - ⚠️ 符合角色说话风格的示范用法：\"I'm a big soup guy. Soup is basically a hug in a bowl.\"\n\n## 5. 高频搭配\n\n- **a bowl of soup** — 一碗汤（最基本的量词搭配）\n- **chicken soup** — 鸡汤，常与感冒/安慰联系在一起\n- **soup kitchen** — 施粥处/救济食堂，为穷人免费提供食物的地方",
+          "at": "2026-08-07T06:48:07.249Z"
+        }
+      ]
+    },
+    "7cc8c5af-a303-4cee-a1e0-014e9746f1ec": {
+      "id": "7cc8c5af-a303-4cee-a1e0-014e9746f1ec",
+      "mode": "deepStudy",
+      "wordId": "cedd05d6798543e1",
+      "en": "The best man stumbles",
+      "zh": "伟人也有犯错时",
+      "startedAt": "2026-08-07T06:52:14.931Z",
+      "updatedAt": "2026-08-07T06:52:41.922Z",
+      "messages": [
+        {
+          "role": "assistant",
+          "text": "## 1. 英英释义\n\n**Proverb.** Even the most capable or virtuous person can make mistakes sometimes.\n\n## 2. 常用度 & 语域\n\n罕见 / 正式（书面语、格言体，日常口语中较少直接使用）\n\n## 3. 近义词辨析\n\n1. **To err is human** — 更常见，语气更温和普适，不限于\"伟人\"，强调犯错是人之常情。\n2. **Homer sometimes nods** — 同为谚语，源自古典文学，正式度更高，强调即使大师也有疏忽。\n3. **Nobody's perfect** — 口语化程度最高，语气轻松随意，常用于安慰或自嘲。\n\n## 4. 影视名场面\n\n1. **Suits**（《金装律师》）— Harvey Specter 在输掉一场官司后，Jessica 安慰他：⚠️ 符合角色说话风格的示范用法：\"The best man stumbles, Harvey. What matters is you get back up.\"\n\n2. **The Crown**（《王冠》）— 丘吉尔因政治失误受到批评，其幕僚宽慰道：⚠️ 符合角色说话风格的示范用法：\"The best man stumbles. Even you, Prime Minister.\"\n\n3. **Downton Abbey**（《唐顿庄园》）— Carson 犯了管家职责上的小错，Mrs. Hughes 说：⚠️ 符合角色说话风格的示范用法：\"Don't be so hard on yourself. The best man stumbles now and then.\"\n\n## 5. 高频搭配\n\n1. **Even the best man stumbles** — 加 even 强调\"即便是最优秀的人也会犯错\"。\n2. **The best man stumbles sometimes** — 加 sometimes 使语气更缓和日常。\n3. **Remember, the best man stumbles** — 用作劝慰开头，提醒对方不必苛责自己或他人。",
+          "at": "2026-08-07T06:52:14.938Z"
+        },
+        {
+          "role": "user",
+          "text": "stumble是摔跤么",
+          "at": "2026-08-07T06:52:36.576Z"
+        },
+        {
+          "role": "assistant",
+          "text": "**stumble** 的基本义是\"绊倒、失足\"，不是完全摔倒在地（那个是 **fall**），而是脚下一个趔趄、踉跄。\n\n在这句谚语里，stumble 取引申义：\"犯错、失误\"。\n\n所以 \"The best man stumbles\" = 最优秀的人也会失足/犯错。",
+          "at": "2026-08-07T06:52:41.922Z"
+        }
+      ]
+    },
+    "55859bb1-f2d3-4270-9f38-e837f90023dd": {
+      "id": "55859bb1-f2d3-4270-9f38-e837f90023dd",
+      "mode": "deepStudy",
+      "wordId": "12b8dac6f04cb905",
+      "en": "abalone",
+      "zh": "鲍鱼",
+      "startedAt": "2026-08-07T07:10:40.881Z",
+      "updatedAt": "2026-08-07T07:10:40.907Z",
+      "messages": [
+        {
+          "role": "assistant",
+          "text": "## 1. 英英释义\n\n**noun** — a type of large flat shellfish (mollusk) that lives attached to rocks in the sea, valued as food and for its colorful inner shell lined with mother-of-pearl.\n\n## 2. 常用度 & 语域\n\n- 常见程度：**一般**（日常对话中不高频，但在美食、海洋生物话题中常见）\n- 语域：**中性**\n\n## 3. 近义词辨析\n\n| 近义词 | 差别 |\n|--------|------|\n| **shellfish** | 上位词，泛指所有贝类海鲜，abalone 是其中一种 |\n| **oyster** | 同为贝类，但指牡蛎，形态和吃法不同，搭配偏向 raw/shucked |\n| **sea ear** | abalone 的别名，更偏学术/地方用法，日常少见 |\n\n## 4. 影视名场面\n\n1. **Downton Abbey**（唐顿庄园）— 厨房场景\n   Mrs. Patmore 讨论宴会菜单时提及珍贵食材：\n   ⚠️ 符合角色说话风格的示范用法：\"They want abalone for the dinner party — as if we can just pluck it from the garden!\"\n\n2. **Succession**（继承之战）— 富豪聚餐场景\n   Logan Roy 家族奢华晚宴中点评菜品：\n   ⚠️ 符合角色说话风格的示范用法：\"The abalone's flown in from Tasmania. Costs more than your suit.\"\n\n3. **Friends**（老友记）— Monica 烹饪场景\n   Monica 展示厨艺时炫耀食材：\n   ⚠️ 符合角色说话风格的示范用法：\"I got fresh abalone from the market — you guys are gonna die when you taste this.\"\n\n## 5. 高频搭配\n\n- **abalone shell** — 鲍鱼壳，常用于工艺品或装饰描述\n- **dried abalone** — 干鲍鱼，中式烹饪中的高档食材说法\n- **abalone steak** — 鲍鱼排，指将鲍鱼肉切片煎制的西式做法",
+          "at": "2026-08-07T07:10:40.907Z"
+        }
+      ]
+    },
+    "50bce668-ca78-4538-a1b2-652ab05661be": {
+      "id": "50bce668-ca78-4538-a1b2-652ab05661be",
+      "mode": "tutor",
+      "wordId": "user-meritocracy",
+      "en": "meritocracy",
+      "zh": "优绩主义；精英管理制度",
+      "startedAt": "2026-08-07T07:51:23.534Z",
+      "updatedAt": "2026-08-07T07:58:18.298Z",
+      "messages": [
+        {
+          "role": "user",
+          "text": "meritocracy 是优绩主义 吗",
+          "at": "2026-08-07T07:51:23.541Z"
+        },
+        {
+          "role": "assistant",
+          "text": "是的。**meritocracy** = 优绩主义／精英管理制度，指以个人能力和成绩（merit）决定社会地位和机会分配的体制。\n\n词源：merit（功绩）+ -cracy（统治），1958年英国社会学家 Michael Young 在讽刺小说 *The Rise of the Meritocracy* 中造出，原本带贬义，现多为中性或褒义。\n\n常见搭配：\n- a meritocratic society 精英社会\n- undermine meritocracy 破坏择优机制\n\n翻译时根据语境可选\"优绩主义\"\"能力至上\"\"唯才是举\"等。",
+          "at": "2026-08-07T07:51:30.403Z"
+        },
+        {
+          "role": "user",
+          "text": "怎么读呢",
+          "at": "2026-08-07T07:51:54.379Z"
+        },
+        {
+          "role": "assistant",
+          "text": "/ˌmerɪˈtɒkrəsi/（英）　/ˌmerɪˈtɑːkrəsi/（美）\n\n重音在第三个音节 **-TOC-**：me-ri-**TOC**-ra-cy。",
+          "at": "2026-08-07T07:51:58.031Z"
+        },
+        {
+          "role": "user",
+          "text": "thought about my months as an assistant editor, fact-checking articles no one read, learning how sentences breathe.  什么叫做 how sentences breathe 我不理解这个比喻\n这是比喻吗“",
+          "at": "2026-08-07T07:55:08.329Z"
+        },
+        {
+          "role": "assistant",
+          "text": "是比喻（metaphor）。\n\n**\"how sentences breathe\"** 把句子比作有生命的东西，会\"呼吸\"——意思是学习句子的**节奏、停顿、松紧、气韵**。\n\n具体指：\n- 句子长短交替带来的韵律感\n- 标点制造的停顿（像呼吸的间隙）\n- 信息疏密的把控\n- 读起来让人感到舒服、自然、有生命力\n\n这是编辑/写作圈很常见的说法，强调好文章不只是信息正确，还要有**节奏感**。作者回忆做助理编辑时，虽然核查的文章没人看，但学会了感受文字的\"气息\"——这是真正的写作内功。\n\n翻译参考：「学会句子如何呼吸」或意译为「学会文字的节奏与气韵」。",
+          "at": "2026-08-07T07:55:16.917Z"
+        },
+        {
+          "role": "user",
+          "text": "Prestige is a loan. 这句话好好 啊，可以加入词本吗",
+          "at": "2026-08-07T07:56:59.578Z"
+        },
+        {
+          "role": "assistant",
+          "text": "可以，但这句妙在比喻而非生词。\n\n**prestige** 本身值得收：/preˈstiːʒ/，名声、威望、声望。注意发音末尾是 /ʒ/，来自法语。\n\n这句话的精妙在于把声望比作**贷款**——意思是：声望不是你真正拥有的东西，是借来的，迟早要还，要用实力偿付。\n\n建议词本这样记：\n\n> **Prestige is a loan.**\n> 声望是借来的。（隐含：不靠实力维持终会\"破产\"。）\n\n类似精辟短句可以一起积累：\n- **Reputation is fragile, character is not.**\n- **Status is borrowed confidence.**",
+          "at": "2026-08-07T07:57:30.088Z"
+        },
+        {
+          "role": "user",
+          "text": "Status is borrowed confidence. 是什么意思",
+          "at": "2026-08-07T07:58:11.695Z"
+        },
+        {
+          "role": "assistant",
+          "text": "这句是我顺手造的类比句，不是名言出处，抱歉可能误导了。\n\n意思是：地位带来的自信是\"借来的\"——不是发自内心的真正自信，而是靠外在身份撑起来的，一旦地位没了，自信也跟着消失。\n\n和 \"Prestige is a loan\" 逻辑类似：外在的东西终归不真正属于你。\n\n如果要收词本，建议只收原文那句 **Prestige is a loan**，那是作者的原创表达，更有分量。",
+          "at": "2026-08-07T07:58:18.298Z"
+        }
+      ]
+    },
+    "eb2f1710-326d-4b51-bc75-0d30c16499a1": {
+      "id": "eb2f1710-326d-4b51-bc75-0d30c16499a1",
+      "mode": "deepStudy",
+      "wordId": "12b8dac6f04cb905",
+      "en": "abalone",
+      "zh": "鲍鱼",
+      "startedAt": "2026-08-07T08:00:09.016Z",
+      "updatedAt": "2026-08-07T08:00:09.021Z",
+      "messages": [
+        {
+          "role": "assistant",
+          "text": "## 1. 英英释义\n\n**noun** — a type of large flat shellfish (mollusk) that lives attached to rocks in the sea, valued as food and for its colorful inner shell lined with mother-of-pearl.\n\n## 2. 常用度 & 语域\n\n- 常见程度：**一般**（日常对话中不高频，但在美食、海洋生物、亚太文化语境中常见）\n- 语域：**中性**\n\n## 3. 近义词辨析\n\n| 近义词 | 差别 |\n|--------|------|\n| **ear shell** | abalone 的别名，多见于生物学描述，日常少用 |\n| **paua** | 新西兰英语对当地鲍鱼的称呼，带地域色彩 |\n| **ormer** | 英国/海峡群岛对小型鲍鱼的叫法，使用范围极窄 |\n\n## 4. 影视名场面\n\n1. **Succession**（《继承之战》）— Logan Roy 在高端晚宴场景中点餐时提及鲍鱼，体现奢华生活方式。\n   > ⚠️ 符合角色说话风格的示范用法：\"The abalone is flown in from Tasmania — make sure it's not overcooked.\"\n\n2. **Downton Abbey**（《唐顿庄园》）— Mrs. Patmore 在厨房讨论宴会菜单时涉及珍贵食材。\n   > ⚠️ 符合角色说话风格的示范用法：\"They want abalone for the first course. Where on earth am I to find abalone in Yorkshire?\"\n\n3. **Friends**（《老友记》）— Monica 作为厨师炫耀食材知识。\n   > ⚠️ 符合角色说话风格的示范用法：\"Do you even know what abalone is? It's not something you microwave, Joey.\"\n\n## 5. 高频搭配\n\n- **abalone shell** — 鲍鱼壳，常用于装饰品或工艺品语境\n- **dried abalone** — 干鲍鱼，亚洲美食中的高端食材说法\n- **abalone steak** — 鲍鱼排，指将鲍鱼肉切片煎制的西式做法",
+          "at": "2026-08-07T08:00:09.021Z"
+        }
+      ]
+    },
+    "30f2fca9-da6a-44d5-9122-a941630ee29d": {
+      "id": "30f2fca9-da6a-44d5-9122-a941630ee29d",
+      "mode": "deepStudy",
+      "wordId": "1e77588349977751",
+      "en": "CD burner",
+      "zh": "刻录机",
+      "startedAt": "2026-08-07T08:00:55.435Z",
+      "updatedAt": "2026-08-07T08:00:55.441Z",
+      "messages": [
+        {
+          "role": "assistant",
+          "text": "## 1. 英英释义\n\n**noun** — A device or drive that can write (record) data, music, or other files onto a blank CD.\n\n## 2. 常用度 & 语域\n\n常见程度：**一般**（随技术过时，使用频率已下降，2000年代为高频词）\n语域：**中性**，日常科技用语\n\n## 3. 近义词辨析\n\n- **CD writer** — 更正式/技术性的说法，常见于产品规格说明。\n- **disc burner** — 泛指刻录设备，可包含 DVD/Blu-ray，范围更广。\n- **CD recorder** — 偏专业音频领域，强调录音功能，多用于音乐制作语境。\n\n## 4. 影视名场面\n\n- **The Office**（办公室） — Michael Scott — 在办公室试图为同事制作混音 CD 作为礼物时提到刻录机。\n  > \"Does anybody have a CD burner? I need to make a mix for the party.\" ⚠️ 符合角色说话风格的示范用法\n\n- **Friends**（老友记） — Chandler — 向Joey炫耀新电脑配置时提及。\n  > \"It's got a DVD drive, a CD burner, the works!\" ⚠️ 符合角色说话风格的示范用法\n\n- **Breaking Bad**（绝命毒师） — Jesse — 早期剧集中涉及翻录音乐的日常场景。\n  > \"I got a CD burner, I can hook you up with some tracks.\" ⚠️ 符合角色说话风格的示范用法\n\n## 5. 高频搭配\n\n- **external CD burner** — 外置刻录机，指通过 USB 连接的独立设备。\n- **burn a CD (with a CD burner)** — 用刻录机刻录光盘。\n- **built-in CD burner** — 内置刻录机，指电脑自带的刻录光驱。",
+          "at": "2026-08-07T08:00:55.441Z"
         }
       ]
     }
