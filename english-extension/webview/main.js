@@ -1673,6 +1673,20 @@ function decorateAiMessage(msgEl, rawText, sessionId, source) {
     const text = (st.textContent || '').trim();
     if (!looksLikeEnglishPhrase(text)) { continue; }
     st.dataset.aiDecorated = '1';
+
+    // 🇺🇸 🇬🇧 发音按钮 — 复用 audioBtns()，词库里有预生成就走 mp3，否则走 edge-tts 动态生成
+    const audioWrap = document.createElement('span');
+    audioWrap.className = 'ai-word-audio';
+    audioWrap.innerHTML = audioBtns(text);
+    for (const b of audioWrap.querySelectorAll('.audio-btn')) {
+      if (b.classList.contains('sent-audio')) {
+        b.addEventListener('click', () => playSentenceAudio(b));
+      } else {
+        b.addEventListener('click', () => playAudio(b.dataset.en, b.dataset.accent));
+      }
+    }
+    st.insertAdjacentElement('afterend', audioWrap);
+
     const pill = document.createElement('button');
     pill.className = 'tutor-add-pill';
     const alreadyAdded = tutorAddedEnLower.has(text.toLowerCase());
@@ -1684,7 +1698,7 @@ function decorateAiMessage(msgEl, rawText, sessionId, source) {
     if (alreadyAdded) { pill.classList.add('done'); pill.disabled = true; }
     pill.title = alreadyAdded ? '已经在词本里了' : '加到 📖 词本，同时收进 🤖 AI 查询过';
     pill.addEventListener('click', () => addAiWordToVocab(pill));
-    st.insertAdjacentElement('afterend', pill);
+    audioWrap.insertAdjacentElement('afterend', pill);
   }
 }
 

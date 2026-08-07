@@ -297,6 +297,29 @@ export async function generateStoryContext(en: string, zh: string): Promise<{ en
 
 /** Fun mode: 小红书 / social-media style English post (80-140 words). Lively,
  *  emoji-friendly, hooks, life-scenario. Target word woven in naturally. */
+const FUN_THEMES = [
+  '一段暧昧或约会日常（心动 / 已读不回 / 相亲吐槽）',
+  '通勤 / 打工人日常（早高峰、开会、摸鱼、同事八卦）',
+  '租房 / 合租 / 搬家日常',
+  '旅行 / city walk / 出片 / 拍照打卡',
+  '美剧英剧综艺追剧感想（不要剧透太深）',
+  '一次点外卖 / 探店 / 咖啡厅体验',
+  '健身 / 瑜伽 / 跑步 / 减脂心得',
+  '一次购物 / 消费主义反思（"我又被种草了" 或者 "拒绝多巴胺消费"）',
+  '女性主义相关的小观察（社交观察、职场性别现象、审美绑架、母职困境等，语气轻松不说教）',
+  '关系相关小感悟（friendship、界限感、情绪价值、亲密关系）',
+  '当代年轻人的心理话题（松弛感、内耗、精神稳定、i人e人、MBTI）',
+  '流行哲学 / 生活哲学（存在主义、极简主义、慢生活、断舍离、"活在当下"）',
+  '文化观察（Y2K、city pop、cottagecore、老钱风、多巴胺穿搭、亚文化梗）',
+  '一次小确幸 / 生活片段（一杯茶、下雨天、地铁上偷听）',
+  '一次搞砸了 / 尴尬瞬间 / 社死现场',
+  '和长辈或原生家庭的一次小碰撞',
+  '一次自我和解 / 自我发现（"其实我不需要 xxx"）',
+  'AI / 科技 / 数字生活（算法、朋友圈疲劳、社媒排毒）',
+  '从日常里看见的新科技（第一次用 AI、点外卖的机器人、无人便利店、AI 生成图、智能眼镜、可穿戴设备、家里的智能家居"造反"了……用生活视角，不要发布会腔）',
+  '从日常里看见的金融常识（第一次看懂账单、被扣的年费、信用卡积分、汇率波动影响留学生活、买菜时的通胀感、房租涨了、基金定投小心得，用生活视角、不给理财建议）',
+  '一次学习或成长顿悟（不要鸡汤）',
+];
 export async function generateFunContext(en: string, zh: string): Promise<{ en: string; zh: string } | null> {
   const model = await getModel();
   if (!model) { return null; }
@@ -304,14 +327,17 @@ export async function generateFunContext(en: string, zh: string): Promise<{ en: 
   const strictNote = isPhrase
     ? `**关键**：这个多词短语必须原封不动地出现在文中（可词形变化，不能拆开）。`
     : `**关键**：目标词必须原封不动地出现（可词形变化）。`;
+  const theme = FUN_THEMES[Math.floor(Math.random() * FUN_THEMES.length)];
   const prompt =
     `你是一位活泼的英语博主，风格类似 Instagram Reels / 小红书笔记。围绕英文词 "${en}"（意思：${zh}）` +
     `写一段 80-140 词的英文短帖。\n\n` +
+    `**本次主题（必须围绕这个角度写，不要写别的主题）**：${theme}\n\n` +
     `风格要求：\n` +
     `- 有钩子（第一句抓人眼球，像刷到笔记的感觉）\n` +
-    `- 生活化场景（约会、职场、旅行、看剧、小八卦……）\n` +
-    `- 短句多、语气活泼、可以用 emoji（1-3 个即可，不要泛滥）\n` +
-    `- 结尾可以有小反转或俏皮话\n\n` +
+    `- 第一人称、口语化，像真的在写笔记\n` +
+    `- 短句多、语气活泼，可以用 1-3 个 emoji（不要泛滥）\n` +
+    `- 结尾可以有小反转、俏皮话，或抛给读者一个提问\n` +
+    `- 不要说教、不要鸡汤腔、不要"以下是"这种旁白\n\n` +
     `${strictNote}\n\n` +
     `**输出格式（严格遵守，不要 JSON，不要 markdown 围栏，不要额外解释）**：\n` +
     `===EN===\n` +

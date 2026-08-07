@@ -809,6 +809,20 @@ textarea.quiz-input {
 }
 .tutor-add-pill:disabled { opacity: 0.75; cursor: default; }
 
+/* Compact inline audio buttons next to bolded English in AI messages. */
+.ai-word-audio {
+  display: inline-flex;
+  gap: 2px;
+  margin: 0 2px 0 4px;
+  vertical-align: baseline;
+}
+.ai-word-audio .audio-btn {
+  padding: 0 5px;
+  font-size: 11px;
+  line-height: 1.5;
+  border-radius: 8px;
+}
+
 /* ---------- Toast (bottom-right) ---------- */
 #toastHost {
   position: fixed;
