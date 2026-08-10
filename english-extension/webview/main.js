@@ -1411,23 +1411,39 @@ function runQuizSession(mode, words, resume) {
 
     const enRaw = String(w.en || '').trim();
     const tokens = contentTokens(enRaw);
-    let maskPattern = null;
+    // Ordered fallbacks: strict phrase → looser phrase (any words between) → last content word → first token
+    const maskPatterns = [];
     try {
       if (tokens.length >= 2) {
-        maskPattern = new RegExp(`\\b${tokens.map(escapeRegex).join('[-\\s]+')}[a-z]*\\b`, 'gi');
+        maskPatterns.push(new RegExp(`\\b${tokens.map(escapeRegex).join('[-\\s]+')}[a-z]*\\b`, 'gi'));
+        maskPatterns.push(new RegExp(`\\b${tokens.map(escapeRegex).join('[-\\s\\w]{1,15}?')}[a-z]*\\b`, 'gi'));
+        const last = tokens[tokens.length - 1];
+        maskPatterns.push(new RegExp(`\\b${escapeRegex(last)}[a-z]*\\b`, 'gi'));
+        maskPatterns.push(new RegExp(`\\b${escapeRegex(tokens[0])}[a-z]*\\b`, 'gi'));
       } else if (enRaw) {
-        maskPattern = new RegExp(`\\b${escapeRegex(enRaw)}[a-z]*\\b`, 'gi');
+        maskPatterns.push(new RegExp(`\\b${escapeRegex(enRaw)}[a-z]*\\b`, 'gi'));
       }
     } catch { /* ignore */ }
     const blank = '＿＿＿＿';
 
+    function pickPatternFor(en) {
+      for (const p of maskPatterns) {
+        p.lastIndex = 0;
+        if (p.test(en)) { p.lastIndex = 0; return p; }
+      }
+      return null;
+    }
     function maskText(en) {
-      if (!maskPattern) { return escapeHtml(en); }
-      return escapeHtml(en).replace(maskPattern, `<mark class="cloze-blank">${blank}</mark>`);
+      const p = pickPatternFor(en);
+      if (!p) {
+        return `${escapeHtml(en)} <mark class="cloze-blank">${blank}</mark> <span class="muted">(⚠ 未能在原文里定位目标词，末尾补一个空)</span>`;
+      }
+      return escapeHtml(en).replace(p, `<mark class="cloze-blank">${blank}</mark>`);
     }
     function highlightText(en) {
-      if (!maskPattern) { return escapeHtml(en); }
-      return escapeHtml(en).replace(maskPattern, '<mark class="cloze-answer">$&</mark>');
+      const p = pickPatternFor(en);
+      if (!p) { return escapeHtml(en); }
+      return escapeHtml(en).replace(p, '<mark class="cloze-answer">$&</mark>');
     }
 
     document.getElementById('clozeArea').innerHTML = `
