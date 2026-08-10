@@ -1,0 +1,587 @@
+{
+  "date": "2026-08-10",
+  "count": 83,
+  "items": [
+    {
+      "id": "b7627893c21a0b64",
+      "zh": "成人节(日本",
+      "old_en": "ADULTS DAY",
+      "new_en": "Adults Day",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "38ac99b165cbdaa3",
+      "zh": "反毒斗争",
+      "old_en": "ANTI-DRUG BATTLE",
+      "new_en": "Anti-drug Battle",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "5990b18869397b55",
+      "zh": "银行休假日(英国",
+      "old_en": "BANK HOLIDAY",
+      "new_en": "Bank Holiday",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "657ec3d84c495057",
+      "zh": "无偿献血",
+      "old_en": "BLOOD DONATION WITHOUT REPAYMENT",
+      "new_en": "Blood Donation Without Repayment",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "9afca41d0c1c1866",
+      "zh": "节礼日",
+      "old_en": "BOXING DAY",
+      "new_en": "Boxing Day",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "9d97f168df49458b",
+      "zh": "男孩节(日本",
+      "old_en": "BOY'S DAY",
+      "new_en": "Boy's Day",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "66ad05e50d368895",
+      "zh": "计算机辅助教学",
+      "old_en": "CAI/COMPUTER ASSISTED INSTRUCTION",
+      "new_en": "Cai/computer Assisted Instruction",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "3cd8d93904ff8b7e",
+      "zh": "中国加入世贸组织",
+      "old_en": "CHINA’S ENTRYSINTOSTHE WTO",
+      "new_en": "China’s Entrysintosthe Wto",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "4f97f55afd3046cd",
+      "zh": "中国的外资",
+      "old_en": "CHINA’S FOREIGN INVESTMENT",
+      "new_en": "China’s Foreign Investment",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "3933e1e4812e36e6",
+      "zh": "筷子节(日本",
+      "old_en": "CHOPSTICS DAY",
+      "new_en": "Chopstics Day",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "3c024ce1c7caa53b",
+      "zh": "圣诞节",
+      "old_en": "CHRISTMAS DAD",
+      "new_en": "Christmas Dad",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "388b98b21c09b9f6",
+      "zh": "圣诞除夕",
+      "old_en": "CHRISTMAS EVE",
+      "new_en": "Christmas Eve",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "d04be5e989ad0740",
+      "zh": "中国的大学英语教学",
+      "old_en": "COLLEGE ENGLISH TEACHING IN",
+      "new_en": "College English Teaching In",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "e7c57d92d2945cd7",
+      "zh": "大学英语考试",
+      "old_en": "COLLEGE ENGLISH TEST",
+      "new_en": "College English Test",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "e7999f32fc950f9f",
+      "zh": "中国的电脑",
+      "old_en": "COMPUTERS IN",
+      "new_en": "Computers In",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "600f296fba4ea501",
+      "zh": "深化(中国的)改革",
+      "old_en": "DEEPEN CHINA’S REFORM",
+      "new_en": "Deepen China’s Reform",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "eb65f50f7a0814fc",
+      "zh": "提倡创新精神",
+      "old_en": "DEVELOP OUR CREATIVE MIND",
+      "new_en": "Develop Our Creative Mind",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "82520d95ce92d9fe",
+      "zh": "西部开发",
+      "old_en": "DEVELOP WESTERN REGIONS",
+      "new_en": "Develop Western Regions",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "04107180e2db62f2",
+      "zh": "一次性筷子",
+      "old_en": "DISPOSABLE CHOPSTICKS",
+      "new_en": "Disposable Chopsticks",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "b2b6d9209ca78826",
+      "zh": "我们需要因特网吗",
+      "old_en": "DO WE NEED INTERNET",
+      "new_en": "Do We Need Internet",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "3c894c2ae11ceadf",
+      "zh": "电子词典",
+      "old_en": "ELECTRONIC DICTIONARIES",
+      "new_en": "Electronic Dictionaries",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "e3f01b2a45970787",
+      "zh": "拥抱新千年",
+      "old_en": "EMBRACING THE NEW MILLENNIUM",
+      "new_en": "Embracing the New Millennium",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "5d5b3ee11183d0fc",
+      "zh": "EQ：分两种，一种为教育商数EDUCATIONAL QUOTIENT，另一种情感商数",
+      "old_en": "EMOTIONAL QUOTIENT",
+      "new_en": "Emotional Quotient",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "38e4dd899d16909e",
+      "zh": "假文凭",
+      "old_en": "FAKE DIPLOMAS",
+      "new_en": "Fake Diplomas",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "cc78fe133399d634",
+      "zh": "父亲节(6月的第三个星期日",
+      "old_en": "FATHER'S DAY",
+      "new_en": "Father's Day",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "cbdd56d301018a40",
+      "zh": "一次误差",
+      "old_en": "FIRST-ORDER ERROR",
+      "new_en": "First-order Error",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "5aeee701385f7de0",
+      "zh": "食品节(新加坡",
+      "old_en": "FOOD FESTIVAL",
+      "new_en": "Food Festival",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "7e4820c13fcb48b6",
+      "zh": "愚人节",
+      "old_en": "FOOL'S DAY",
+      "new_en": "Fool's Day",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "b48d83dce1384ea4",
+      "zh": "跟踪审计",
+      "old_en": "FOOLOW-UP AUDITING",
+      "new_en": "Foolow-up Auditing",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "23148e6186ed1e2a",
+      "zh": "一次空气",
+      "old_en": "FRESH/PRIMARY AIR",
+      "new_en": "Fresh/primary Air",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "d36bb121a9da2f08",
+      "zh": "明天的因特网",
+      "old_en": "THE FUTURE TOMORROWS INTERNET",
+      "new_en": "The Future Tomorrows Internet",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "7482f6d25231f34f",
+      "zh": "粮食收购企业",
+      "old_en": "GRAIN COLLECTION AND STORAGE",
+      "new_en": "Grain Collection and Storage",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "ce2bbabc893653d6",
+      "zh": "国际儿童节",
+      "old_en": "INTERNATIONAL CHILDREN'S DAY",
+      "new_en": "International Children's Day",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "44371852f467cda5",
+      "zh": "国际劳动节",
+      "old_en": "INTERNATIONAL LABOUR DAY",
+      "new_en": "International Labour Day",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "90ab586af82f5b3a",
+      "zh": "国际护士节",
+      "old_en": "INTERNATIONAL NURSE DAY",
+      "new_en": "International Nurse Day",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "a9680a8bd298e16c",
+      "zh": "国际红十字日",
+      "old_en": "INTERNATIONAL RED-CROSS DAY",
+      "new_en": "International Red-cross Day",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "ba9a0362afcd44f3",
+      "zh": "国际秘书节",
+      "old_en": "INTERNATIONAL SECRETARY DAY",
+      "new_en": "International Secretary Day",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "7bb1ab5c8c959f5a",
+      "zh": "国际妇女节",
+      "old_en": "INTERNATIONAL WOMEN'S DAY",
+      "new_en": "International Women's Day",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "09a921c65ea3e053",
+      "zh": "中国的因特网",
+      "old_en": "INTERNET IN",
+      "new_en": "Internet In",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "c71c3e2613511026",
+      "zh": "电子邮件",
+      "old_en": "THE INTERNET E-MAIL",
+      "new_en": "The Internet E-mail",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "ca59ca19731b5033",
+      "zh": "社会治安情况",
+      "old_en": "LAW-AND-ORDER SITUATION",
+      "new_en": "Law-and-order Situation",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "743542a066fb42f4",
+      "zh": "学会如何学习",
+      "old_en": "LEARN HOW TO LEARN",
+      "new_en": "Learn How to Learn",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "9f522023ac9cfc28",
+      "zh": "开斋节(4月或5月，回历",
+      "old_en": "LESSER BAIRAM",
+      "new_en": "Lesser Bairam",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "8ecf0920149e7b7f",
+      "zh": "一次性收入",
+      "old_en": "LUMP-SUM PAYMENT",
+      "new_en": "Lump-sum Payment",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "562528b332b4c883",
+      "zh": "枫糖节(加拿大，3-4月",
+      "old_en": "MAPLE SUGAR FESTIVAL",
+      "new_en": "Maple Sugar Festival",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "a9a2aa22731f2307",
+      "zh": "高校合并",
+      "old_en": "THE MERGING OF UNIVERSITIES",
+      "new_en": "The Merging of Universities",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "95d74f3b508b7a47",
+      "zh": "仲夏节(北欧6月",
+      "old_en": "MID-SUMMER DAY",
+      "new_en": "Mid-summer Day",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "25d411e90f89ce2e",
+      "zh": "千年虫",
+      "old_en": "THE MILLENNIUM BUG",
+      "new_en": "The Millennium Bug",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "58797e77cfdbb3e6",
+      "zh": "母亲节(5月的第二个星期日",
+      "old_en": "MOTHER'S DAY",
+      "new_en": "Mother's Day",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "75b874db075a5daa",
+      "zh": "千禧年的梦想",
+      "old_en": "MY MILLENNIUM DREAMS",
+      "new_en": "My Millennium Dreams",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "661a8cc5fe7915f3",
+      "zh": "元旦",
+      "old_en": "NEW YEAR'S DAY",
+      "new_en": "New Year's Day",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "b0585d7e10d56b22",
+      "zh": "一次用包装",
+      "old_en": "NON-RETURNABLE CONTAINER",
+      "new_en": "Non-returnable Container",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "75bab66fa01de0cc",
+      "zh": "护士节",
+      "old_en": "NRUSE DAY",
+      "new_en": "Nruse Day",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "d13d70563bb1f660",
+      "zh": "敬老节(日本",
+      "old_en": "OLD PEOPLE'S DAY",
+      "new_en": "Old People's Day",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "77d34669553e620e",
+      "zh": "一次付清",
+      "old_en": "PAY IN FULL",
+      "new_en": "Pay in Full",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "6731ee4eaef12495",
+      "zh": "一次成像照片",
+      "old_en": "A POLAROID PICTURE",
+      "new_en": "A Polaroid Picture",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "6b21245a062c6748",
+      "zh": "一次污染",
+      "old_en": "PRIMARY POLLUTION",
+      "new_en": "Primary Pollution",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "af2c5f52ebfa8632",
+      "zh": "盗版问题",
+      "old_en": "PROBLEM OF PIRACY",
+      "new_en": "Problem of Piracy",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "dcecfc94cbe0e02a",
+      "zh": "南瓜节(北美",
+      "old_en": "PUMPKIN DAY",
+      "new_en": "Pumpkin Day",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "328ebe83f6da3804",
+      "zh": "素质教育",
+      "old_en": "QUALITY EDUCATION",
+      "new_en": "Quality Education",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "ef890fb87eeb3418",
+      "zh": "风险投资",
+      "old_en": "RISK INVESTMENT ( VENTURE CAPITAL",
+      "new_en": "Risk Investment ( Venture Capital",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "0acabd09961d547c",
+      "zh": "一次性杯子",
+      "old_en": "SANITARY CUP",
+      "new_en": "Sanitary Cup",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "3e6c072cb07a3e8e",
+      "zh": "性教育",
+      "old_en": "SEX EDUCATION",
+      "new_en": "Sex Education",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "6c712a3c11f67a4b",
+      "zh": "一次处理",
+      "old_en": "SINGLE/PRIMARY TREATMENT",
+      "new_en": "Single/primary Treatment",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "5add585906df5a69",
+      "zh": "一次用相机",
+      "old_en": "SINGLE-USE CAMERA",
+      "new_en": "Single-use Camera",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "285e71cdbf8f75ac",
+      "zh": "宋干节(泰国新年",
+      "old_en": "SONGKRAN FESTIVAL DAY",
+      "new_en": "Songkran Festival Day",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "1d7a959393a56e5a",
+      "zh": "留学海外",
+      "old_en": "STUDYING ABROAD",
+      "new_en": "Studying Abroad",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "0e930a3bfdf20468",
+      "zh": "可持续性发展",
+      "old_en": "SUSTAINABLE DEVELOPMENT",
+      "new_en": "Sustainable Development",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "0a2bdb707724499b",
+      "zh": "中国的人才流失",
+      "old_en": "THE TALENT FLIGHT IN",
+      "new_en": "The Talent Flight In",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "5ff242066b311ad5",
+      "zh": "教师节(中国",
+      "old_en": "TEACHER'S DAY",
+      "new_en": "Teacher's Day",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "0f752e81c19fec3b",
+      "zh": "旅游热",
+      "old_en": "TOURISM WAVE",
+      "new_en": "Tourism Wave",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "91fe15d38f867583",
+      "zh": "努力更新知识",
+      "old_en": "TRYING TO RENEW KNOWLEDGE",
+      "new_en": "Trying to Renew Knowledge",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "4c6b7413a47d659a",
+      "zh": "世界爱滋病日",
+      "old_en": "WORLD AIDS DAY",
+      "new_en": "World Aids Day",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "503d96e88f521f81",
+      "zh": "世界消费者权益日",
+      "old_en": "WORLD CONSUMER RIGHT DAY",
+      "new_en": "World Consumer Right Day",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "ee669c9243a27bf3",
+      "zh": "世界残疾日",
+      "old_en": "WORLD DISABLED DAY",
+      "new_en": "World Disabled Day",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "35df23d020e20eac",
+      "zh": "世界地球日",
+      "old_en": "WORLD EARTH DAY",
+      "new_en": "World Earth Day",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "43ec3ad1f075716a",
+      "zh": "世界粮食日",
+      "old_en": "WORLD GRAIN DAY",
+      "new_en": "World Grain Day",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "401d3cad14bdaf99",
+      "zh": "世界卫生日",
+      "old_en": "WORLD HEALTH DAY",
+      "new_en": "World Health Day",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "24e1c91ee00604e0",
+      "zh": "世界住房日(十月第一个星期一",
+      "old_en": "WORLD HOUSING DAY",
+      "new_en": "World Housing Day",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "a7be6f7333fbdcfe",
+      "zh": "世界无烟日",
+      "old_en": "WORLD NO-SMOKING DAY",
+      "new_en": "World No-smoking Day",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "9b59f34e4f5acea4",
+      "zh": "世界人口日",
+      "old_en": "WORLD POPULATION DAY",
+      "new_en": "World Population Day",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "636d35efb5c88fe4",
+      "zh": "世界邮政日",
+      "old_en": "WORLD POST DAY",
+      "new_en": "World Post Day",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    },
+    {
+      "id": "1f50876517280202",
+      "zh": "世界电信日",
+      "old_en": "WORLD TELECOMMUNICATIONS DAY",
+      "new_en": "World Telecommunications Day",
+      "_reason": "SHORT_ALL_CAPS_TERM"
+    }
+  ]
+}

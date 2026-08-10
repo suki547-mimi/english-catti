@@ -26,6 +26,7 @@ tools/_test_*.py
 
 # Daily state backups (git IS the backup)
 data/user_state.backup-*.json
+data/unified_vocab.backup-*.json
 
 # Daily LLM-generated reading corner articles (regenerated each day; noisy)
 data/reading_corner/daily/

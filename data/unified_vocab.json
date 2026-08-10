@@ -171,21 +171,6 @@
   "freq_rank": 6064
  },
  {
-  "id": "5d36a45188333dc3",
-  "zh": "市场准人的行政管理措施",
-  "en": "AAMA： Administrative Aspects of Market Access",
-  "headword": "aama",
-  "letter": "A",
-  "topic": "02-外经贸",
-  "sources": [
-   "02-外经贸",
-   "local-classified",
-   "07-世贸组织"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "fa7594d66b09f358",
   "zh": "",
   "en": "aaron",
@@ -222,20 +207,6 @@
   "topic": "旅游观光",
   "sources": [
    "catti3-syllabus-5000"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "358f565ac4a7fd73",
-  "zh": "亚太工商咨询理事会",
-  "en": "ABAC： APEC Business Advisory Council",
-  "headword": "abac",
-  "letter": "A",
-  "topic": "02-外经贸",
-  "sources": [
-   "02-外经贸",
-   "local-classified"
   ],
   "kind": "phrase",
   "phonetic": ""
@@ -319,20 +290,6 @@
   "kind": "word",
   "phonetic": "",
   "freq_rank": 9294
- },
- {
-  "id": "a22a43db1ea57cd5",
-  "zh": "亚太商业论坛",
-  "en": "ABF：APEC Business Forum",
-  "headword": "abf",
-  "letter": "A",
-  "topic": "02-外经贸",
-  "sources": [
-   "02-外经贸",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
  },
  {
   "id": "4da440e5c0ac7cbd",
@@ -1791,20 +1748,6 @@
   "freq_rank": 8470
  },
  {
-  "id": "640aadcbba2fffae",
-  "zh": "亚太通讯与数据系统",
-  "en": "ACDS：APEC Communications and Database System",
-  "headword": "acds",
-  "letter": "A",
-  "topic": "02-外经贸",
-  "sources": [
-   "02-外经贸",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "d17949d0d1036974",
   "zh": "",
   "en": "ace",
@@ -1831,20 +1774,6 @@
   "kind": "word",
   "phonetic": "",
   "freq_rank": 7203
- },
- {
-  "id": "bec664b08a80c4ff",
-  "zh": "我浑身酸痛",
-  "en": "42． I ache all over",
-  "headword": "ache",
-  "letter": "A",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
  },
  {
   "id": "5c214f5a5ec9d1ec",
@@ -2848,20 +2777,6 @@
   "freq_rank": 8882
  },
  {
-  "id": "2fb255acb1eebc03",
-  "zh": "亚洲开发银行",
-  "en": "ADB: Asian Development Bank",
-  "headword": "adb",
-  "letter": "A",
-  "topic": "02-外经贸",
-  "sources": [
-   "02-外经贸",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "1043e2c69f79b842",
   "zh": "给…的历史增加了新的一页",
   "en": "add a new page to the history of",
@@ -3750,7 +3665,7 @@
  {
   "id": "b7627893c21a0b64",
   "zh": "成人节(日本",
-  "en": "ADULTS DAY",
+  "en": "Adults Day",
   "headword": "adults",
   "letter": "A",
   "topic": "10-文化教育",
@@ -3934,48 +3849,6 @@
   "topic": "08-经济金融",
   "sources": [
    "08-经济金融",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "0dd8c505b156b6d4",
-  "zh": "自动取款机的利与弊",
-  "en": "ADVANTAGES AND DISADVANTAGES OF THE ATM",
-  "headword": "advantages",
-  "letter": "A",
-  "topic": "09-热门话题",
-  "sources": [
-   "09-热门话题",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "ed92c2a983ca2a9b",
-  "zh": "手机的利与弊",
-  "en": "ADVANTAGES AND DISADVANTAGES OF THE CELL PHONE",
-  "headword": "advantages",
-  "letter": "A",
-  "topic": "09-热门话题",
-  "sources": [
-   "09-热门话题",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "da13ebd5bbe81f9b",
-  "zh": "因特网的利与弊",
-  "en": "THE ADVANTAGES AND DISADVANTAGES OF INTERNET",
-  "headword": "advantages",
-  "letter": "A",
-  "topic": "09-热门话题",
-  "sources": [
-   "09-热门话题",
    "local-classified"
   ],
   "kind": "phrase",
@@ -4413,20 +4286,6 @@
   "freq_rank": 5254
  },
  {
-  "id": "5ad698b809da7d19",
-  "zh": "亚太经合组织经济领导人会议",
-  "en": "AELM： APEC Economic Leaders Meeting",
-  "headword": "aelm",
-  "letter": "A",
-  "topic": "02-外经贸",
-  "sources": [
-   "02-外经贸",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "b8e832b9848634c3",
   "zh": "航空商用无人运输系统",
   "en": "aerial commercial unmanned transport system",
@@ -4859,20 +4718,6 @@
    "chinadaily-daily-word"
   ],
   "kind": "term",
-  "phonetic": ""
- },
- {
-  "id": "31fe51501e092761",
-  "zh": "东盟自由贸易区",
-  "en": "AFTA：ASEAN Free Trade Area",
-  "headword": "afta",
-  "letter": "A",
-  "topic": "02-外经贸",
-  "sources": [
-   "02-外经贸",
-   "local-classified"
-  ],
-  "kind": "phrase",
   "phonetic": ""
  },
  {
@@ -8373,20 +8218,6 @@
   "phonetic": ""
  },
  {
-  "id": "cc48e25329060aa3",
-  "zh": "亚太经合组织部长级会议",
-  "en": "AMM：APEC MinisteriaI Meeting",
-  "headword": "amm",
-  "letter": "A",
-  "topic": "02-外经贸",
-  "sources": [
-   "02-外经贸",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "e985a47b66c77ce8",
   "zh": "该死的",
   "en": "D’amn",
@@ -9954,7 +9785,7 @@
  {
   "id": "38ac99b165cbdaa3",
   "zh": "反毒斗争",
-  "en": "ANTI-DRUG BATTLE",
+  "en": "Anti-drug Battle",
   "headword": "anti-drug",
   "letter": "A",
   "topic": "09-热门话题",
@@ -10376,20 +10207,6 @@
   "freq_rank": 3204
  },
  {
-  "id": "c01f87d9f45c973a",
-  "zh": "澳新紧密经济关系协定",
-  "en": "ANZCERTA： Closer Economic Relations Trade Agreement",
-  "headword": "anzcerta",
-  "letter": "A",
-  "topic": "02-外经贸",
-  "sources": [
-   "02-外经贸",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "b7dad533b6a011dd",
   "zh": "美国在线",
   "en": "AOL （America Online）",
@@ -10484,34 +10301,6 @@
   "freq_rank": 2095
  },
  {
-  "id": "071397ed41a233e5",
-  "zh": "亚太商业网络",
-  "en": "APB-Net：Asia-Pacific Business Network",
-  "headword": "apb-net",
-  "letter": "A",
-  "topic": "02-外经贸",
-  "sources": [
-   "02-外经贸",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "e1b8de985da463e2",
-  "zh": "亚太经济合作组织",
-  "en": "APEC：Asia-Pacific Economic Cooperation",
-  "headword": "apec",
-  "letter": "A",
-  "topic": "02-外经贸",
-  "sources": [
-   "02-外经贸",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "29a3b63fca0efc7e",
   "zh": "亚太能源研究中心",
   "en": "APERC",
@@ -10538,62 +10327,6 @@
   "kind": "word",
   "phonetic": "",
   "freq_rank": 4748
- },
- {
-  "id": "1836fcaadc450ded",
-  "zh": "亚太信息基础设施",
-  "en": "APII：Asia-Pacific Information Infrastructure",
-  "headword": "apii",
-  "letter": "A",
-  "topic": "02-外经贸",
-  "sources": [
-   "02-外经贸",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "bf71ce7d0503b2a3",
-  "zh": "亚太实验室认可合作",
-  "en": "APLAC： Pacific Laboratory Accreditation Cooperation",
-  "headword": "aplac",
-  "letter": "A",
-  "topic": "02-外经贸",
-  "sources": [
-   "02-外经贸",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "8558205dc007c149",
-  "zh": "亚太法定计量论坛",
-  "en": "APLMF： Pacific Legal Metrology Forum",
-  "headword": "aplmf",
-  "letter": "A",
-  "topic": "02-外经贸",
-  "sources": [
-   "02-外经贸",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "57883681fc2b1581",
-  "zh": "亚太计量程序",
-  "en": "APMP： Pacific Metrology Program",
-  "headword": "apmp",
-  "letter": "A",
-  "topic": "02-外经贸",
-  "sources": [
-   "02-外经贸",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
  },
  {
   "id": "77e4f8fdd285d1bc",
@@ -12999,20 +12732,6 @@
   "phonetic": ""
  },
  {
-  "id": "91c2c9ebbedaa4c2",
-  "zh": "亚欧会议",
-  "en": "ASEM：Asia-Europe Meeting",
-  "headword": "asem",
-  "letter": "A",
-  "topic": "02-外经贸",
-  "sources": [
-   "02-外经贸",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "a9d0831be24702d8",
   "zh": "灰烬",
   "en": "ash n.",
@@ -14253,20 +13972,6 @@
   "phonetic": ""
  },
  {
-  "id": "2783fc2032be3637",
-  "zh": "农业技术合作",
-  "en": "ATC：Agricultural Technical Cooperation",
-  "headword": "atc",
-  "letter": "A",
-  "topic": "02-外经贸",
-  "sources": [
-   "02-外经贸",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "faaee48fd6ed6433",
   "zh": "",
   "en": "ate",
@@ -15364,7 +15069,7 @@
  },
  {
   "id": "fdd2a42cc1362159",
-  "zh": "台湾当局",
+  "zh": "当局；官方；主管部门",
   "en": "AUTHORITIES",
   "headword": "authorities",
   "letter": "A",
@@ -17234,7 +16939,7 @@
  {
   "id": "5990b18869397b55",
   "zh": "银行休假日(英国",
-  "en": "BANK HOLIDAY",
+  "en": "Bank Holiday",
   "headword": "bank",
   "letter": "B",
   "topic": "10-文化教育",
@@ -19673,20 +19378,6 @@
   "topic": "健康",
   "sources": [
    "catti3-syllabus-5000"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "51e520169c7dfc7f",
-  "zh": "我工作进度落后了",
-  "en": "37． I’m behind in my work",
-  "headword": "behind",
-  "letter": "B",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
   ],
   "kind": "phrase",
   "phonetic": ""
@@ -22694,7 +22385,7 @@
  {
   "id": "657ec3d84c495057",
   "zh": "无偿献血",
-  "en": "BLOOD DONATION WITHOUT REPAYMENT",
+  "en": "Blood Donation Without Repayment",
   "headword": "blood",
   "letter": "B",
   "topic": "09-热门话题",
@@ -24600,7 +24291,7 @@
  {
   "id": "9afca41d0c1c1866",
   "zh": "节礼日",
-  "en": "BOXING DAY",
+  "en": "Boxing Day",
   "headword": "boxing",
   "letter": "B",
   "topic": "10-文化教育",
@@ -24654,7 +24345,7 @@
  {
   "id": "9d97f168df49458b",
   "zh": "男孩节(日本",
-  "en": "BOY'S DAY",
+  "en": "Boy's Day",
   "headword": "boy's",
   "letter": "B",
   "topic": "10-文化教育",
@@ -28845,8 +28536,8 @@
  {
   "id": "66ad05e50d368895",
   "zh": "计算机辅助教学",
-  "en": "CAI/COMPUTER ASSISTED INSTRUCTION",
-  "headword": "cai",
+  "en": "Cai/computer Assisted Instruction",
+  "headword": "cai/computer",
   "letter": "C",
   "topic": "09-热门话题",
   "sources": [
@@ -29641,34 +29332,6 @@
   "phonetic": ""
  },
  {
-  "id": "438e54265e990b6a",
-  "zh": "帮手；援助]?（你能帮个忙吗",
-  "en": "78． Can you give me a hand",
-  "headword": "can",
-  "letter": "C",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "128f74240096b593",
-  "zh": "传呼机不久将会被淘汰吗",
-  "en": "CAN BEEPERS BE SOON OUT OF USE",
-  "headword": "can",
-  "letter": "C",
-  "topic": "09-热门话题",
-  "sources": [
-   "09-热门话题",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "5d5b89ffd2f35d75",
   "zh": "请您说得慢些好吗",
   "en": "Can you speak slowly",
@@ -29715,62 +29378,6 @@
   "zh": "我不能再等了",
   "en": "I can’t wait",
   "headword": "can",
-  "letter": "C",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "020579e44b70497b",
-  "zh": "我想不通为什么",
-  "en": "106． I can't imagine why",
-  "headword": "can't",
-  "letter": "C",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "d704e0b71cb2aa0f",
-  "zh": "赶上] it.（我去不了/我赶不上",
-  "en": "121． I can't make",
-  "headword": "can't",
-  "letter": "C",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "40b2fc0ed5e95438",
-  "zh": "我无法单独处理这事",
-  "en": "151． I can't handle this alone",
-  "headword": "can't",
-  "letter": "C",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "74ccc8ef96c9ffb4",
-  "zh": "我承担/买不起",
-  "en": "186． I can't afford it",
-  "headword": "can't",
   "letter": "C",
   "topic": "20-常用口语",
   "sources": [
@@ -33948,20 +33555,6 @@
   "phonetic": ""
  },
  {
-  "id": "78b2b4744da885b9",
-  "zh": "渺茫的；微小的].（机会很小",
-  "en": "35． Chances are slim",
-  "headword": "chances",
-  "letter": "C",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "ac855e60da874238",
   "zh": "嫦娥",
   "en": "Chang’e, the Chinese moon goddess",
@@ -35727,8 +35320,8 @@
  {
   "id": "3cd8d93904ff8b7e",
   "zh": "中国加入世贸组织",
-  "en": "CHINA’S ENTRYSINTOSTHE WTO",
-  "headword": "china",
+  "en": "China’s Entrysintosthe Wto",
+  "headword": "china’s",
   "letter": "C",
   "topic": "09-热门话题",
   "sources": [
@@ -35741,8 +35334,8 @@
  {
   "id": "4f97f55afd3046cd",
   "zh": "中国的外资",
-  "en": "CHINA’S FOREIGN INVESTMENT",
-  "headword": "china",
+  "en": "China’s Foreign Investment",
+  "headword": "china’s",
   "letter": "C",
   "topic": "09-热门话题",
   "sources": [
@@ -37714,7 +37307,7 @@
  {
   "id": "3933e1e4812e36e6",
   "zh": "筷子节(日本",
-  "en": "CHOPSTICS DAY",
+  "en": "Chopstics Day",
   "headword": "chopstics",
   "letter": "C",
   "topic": "10-文化教育",
@@ -37894,7 +37487,7 @@
  {
   "id": "3c024ce1c7caa53b",
   "zh": "圣诞节",
-  "en": "CHRISTMAS DAD",
+  "en": "Christmas Dad",
   "headword": "christmas",
   "letter": "C",
   "topic": "10-文化教育",
@@ -37908,7 +37501,7 @@
  {
   "id": "388b98b21c09b9f6",
   "zh": "圣诞除夕",
-  "en": "CHRISTMAS EVE",
+  "en": "Christmas Eve",
   "headword": "christmas",
   "letter": "C",
   "topic": "10-文化教育",
@@ -41434,7 +41027,7 @@
  {
   "id": "d04be5e989ad0740",
   "zh": "中国的大学英语教学",
-  "en": "COLLEGE ENGLISH TEACHING IN",
+  "en": "College English Teaching In",
   "headword": "college",
   "letter": "C",
   "topic": "09-热门话题",
@@ -41448,7 +41041,7 @@
  {
   "id": "e7c57d92d2945cd7",
   "zh": "大学英语考试",
-  "en": "COLLEGE ENGLISH TEST",
+  "en": "College English Test",
   "headword": "college",
   "letter": "C",
   "topic": "09-热门话题",
@@ -44937,7 +44530,7 @@
  {
   "id": "e7999f32fc950f9f",
   "zh": "中国的电脑",
-  "en": "COMPUTERS IN",
+  "en": "Computers In",
   "headword": "computers",
   "letter": "C",
   "topic": "09-热门话题",
@@ -45495,20 +45088,6 @@
   "sources": [
    "catti3-syllabus-5000",
    "10-文化教育",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "b9bdad58d2fcd177",
-  "zh": "“峰会”(香港译“极峰会议",
-  "en": "”)”：(CONFERENCE",
-  "headword": "conference",
-  "letter": "C",
-  "topic": "09-热门话题",
-  "sources": [
-   "09-热门话题",
    "local-classified"
   ],
   "kind": "phrase",
@@ -50183,62 +49762,6 @@
   "freq_rank": 208
  },
  {
-  "id": "ce42de35af3670e7",
-  "zh": "我完全同意",
-  "en": "132． I couldn't agree more",
-  "headword": "couldn't",
-  "letter": "C",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "f797e8b8ebebe126",
-  "zh": "我不在乎",
-  "en": "181． I couldn't care less",
-  "headword": "couldn't",
-  "letter": "C",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "d02265f1580a0aeb",
-  "zh": "电话打不通",
-  "en": "23． I couldn't get through",
-  "headword": "couldn't",
-  "letter": "C",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "9cafeea6ec6f9d9a",
-  "zh": "避免；阻止] it.（我没办法",
-  "en": "29． I couldn't help",
-  "headword": "couldn't",
-  "letter": "C",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "0a20c6f14dca6fe8",
   "zh": "",
   "en": "council",
@@ -54480,20 +54003,6 @@
   "phonetic": ""
  },
  {
-  "id": "32dc27994df44bc5",
-  "zh": "“摇头丸",
-  "en": "”：DANCING OUTREACH",
-  "headword": "dancing",
-  "letter": "D",
-  "topic": "09-热门话题",
-  "sources": [
-   "09-热门话题",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "b83437d72ea98f82",
   "zh": "头皮屑",
   "en": "dandruff n.",
@@ -55090,20 +54599,6 @@
   "phonetic": ""
  },
  {
-  "id": "ce86eef5a0ce2c1f",
-  "zh": "白天越来越长了",
-  "en": "164． The days are getting longer",
-  "headword": "days",
-  "letter": "D",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "5312318be4aefc6b",
   "zh": "",
   "en": "dayton",
@@ -55541,20 +55036,6 @@
   "topic": "国际时事",
   "sources": [
    "catti3-syllabus-5000"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "bd63587ddd38e272",
-  "zh": "“三角债”：CHAIN DEBTS或",
-  "en": "DEBT CHAINS",
-  "headword": "debt",
-  "letter": "D",
-  "topic": "09-热门话题",
-  "sources": [
-   "09-热门话题",
-   "local-classified"
   ],
   "kind": "phrase",
   "phonetic": ""
@@ -56315,7 +55796,7 @@
  {
   "id": "600f296fba4ea501",
   "zh": "深化(中国的)改革",
-  "en": "DEEPEN CHINA’S REFORM",
+  "en": "Deepen China’s Reform",
   "headword": "deepen",
   "letter": "D",
   "topic": "09-热门话题",
@@ -60399,7 +59880,7 @@
  {
   "id": "eb65f50f7a0814fc",
   "zh": "提倡创新精神",
-  "en": "DEVELOP OUR CREATIVE MIND",
+  "en": "Develop Our Creative Mind",
   "headword": "develop",
   "letter": "D",
   "topic": "09-热门话题",
@@ -60413,7 +59894,7 @@
  {
   "id": "82520d95ce92d9fe",
   "zh": "西部开发",
-  "en": "DEVELOP WESTERN REGIONS",
+  "en": "Develop Western Regions",
   "headword": "develop",
   "letter": "D",
   "topic": "09-热门话题",
@@ -60590,20 +60071,6 @@
   "kind": "word",
   "phonetic": "",
   "freq_rank": 3182
- },
- {
-  "id": "e1cc945dc30bc9c6",
-  "zh": "发展经济还是保护环境",
-  "en": "DEVELOPING ECONOMY OR PROTECTING THE ENVIRONMENT",
-  "headword": "developing",
-  "letter": "D",
-  "topic": "09-热门话题",
-  "sources": [
-   "09-热门话题",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
  },
  {
   "id": "ca28c80f92f5dd2a",
@@ -63517,7 +62984,7 @@
  {
   "id": "04107180e2db62f2",
   "zh": "一次性筷子",
-  "en": "DISPOSABLE CHOPSTICKS",
+  "en": "Disposable Chopsticks",
   "headword": "disposable",
   "letter": "D",
   "topic": "09-热门话题",
@@ -64384,23 +63851,9 @@
   "phonetic": ""
  },
  {
-  "id": "06386c1052dab73f",
-  "zh": "你们有空缺吗",
-  "en": "45． Do you have any openings",
-  "headword": "do",
-  "letter": "D",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "b2b6d9209ca78826",
   "zh": "我们需要因特网吗",
-  "en": "DO WE NEED INTERNET",
+  "en": "Do We Need Internet",
   "headword": "do",
   "letter": "D",
   "topic": "09-热门话题",
@@ -64856,20 +64309,6 @@
   "kind": "word",
   "phonetic": "",
   "freq_rank": 7336
- },
- {
-  "id": "6c67678ce374d072",
-  "zh": "新的收费政策把学生拒之门外了吗",
-  "en": "DOES NEW TUITION POLICY KEEP STUDENTS AWAY",
-  "headword": "does",
-  "letter": "D",
-  "topic": "09-热门话题",
-  "sources": [
-   "09-热门话题",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
  },
  {
   "id": "ad550f6a7e624d39",
@@ -65329,76 +64768,6 @@
   "phonetic": ""
  },
  {
-  "id": "00913a860a29a9d9",
-  "zh": "别光摇头，想想办法",
-  "en": "134． Don't just shake you head",
-  "headword": "don't",
-  "letter": "D",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "a853a9db71219c84",
-  "zh": "别仓促/过早下结论",
-  "en": "135． Don't jump to conclusions",
-  "headword": "don't",
-  "letter": "D",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "c2394ad85f2742d9",
-  "zh": "别小看我",
-  "en": "145． Don't underestimate me",
-  "headword": "don't",
-  "letter": "D",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "5ea292bcc2628b0c",
-  "zh": "不要搅得我心烦",
-  "en": "157． Don't get on my nerves",
-  "headword": "don't",
-  "letter": "D",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "a077828b32caabf9",
-  "zh": "别自作聪明",
-  "en": "169． Don't look wise",
-  "headword": "don't",
-  "letter": "D",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "103a7db8693e6cb2",
   "zh": "不要逃避现实",
   "en": "173． Don't bury your head in the sand",
@@ -65427,62 +64796,6 @@
   "phonetic": ""
  },
  {
-  "id": "0a42afe156db9087",
-  "zh": "我不在乎熬夜",
-  "en": "184． I don't mind staying up late",
-  "headword": "don't",
-  "letter": "D",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "103d460a2ec466a0",
-  "zh": "不要给我任何理由",
-  "en": "191． Don't give me any excuses",
-  "headword": "don't",
-  "letter": "D",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "b0f0049ea159fe40",
-  "zh": "我觉得不能胜任那工作",
-  "en": "197． I don't feel up to that",
-  "headword": "don't",
-  "letter": "D",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "87c43acbeaca6f0a",
-  "zh": "别想给我洗脑",
-  "en": "206． Don't try to brainwash me",
-  "headword": "don't",
-  "letter": "D",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "ec08a16cb5071b14",
   "zh": "我今天运气不好",
   "en": "207． I don't seem to have any luck today",
@@ -65494,34 +64807,6 @@
    "local-classified"
   ],
   "kind": "sentence",
-  "phonetic": ""
- },
- {
-  "id": "4011fd75ed4704a2",
-  "zh": "别拐弯抹角了",
-  "en": "57． Don't beat around the bush",
-  "headword": "don't",
-  "letter": "D",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "794168ec75df3a48",
-  "zh": "误解].（不要误会我",
-  "en": "71． Don't get me wrong",
-  "headword": "don't",
-  "letter": "D",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
   "phonetic": ""
  },
  {
@@ -67119,20 +66404,6 @@
   "kind": "word",
   "phonetic": "",
   "freq_rank": 2023
- },
- {
-  "id": "65bf1bb551e84fa3",
-  "zh": "短信].（写封信给我",
-  "en": "64． Drop me a line",
-  "headword": "drop",
-  "letter": "D",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
  },
  {
   "id": "127478282f235991",
@@ -69887,20 +69158,6 @@
   "phonetic": ""
  },
  {
-  "id": "8ad441d41fa17659",
-  "zh": "教育应是应试教育还是素质教育",
-  "en": "EDUCATION: EXAMINATION-ORIENTED OR QUALITY-ORIENTED",
-  "headword": "education",
-  "letter": "E",
-  "topic": "09-热门话题",
-  "sources": [
-   "09-热门话题",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "b0d84ea24fe10f54",
   "zh": "教育委员会",
   "en": "Education Committee",
@@ -70658,20 +69915,6 @@
   "phonetic": ""
  },
  {
-  "id": "624141823b5fc992",
-  "zh": "“厄尔尼诺",
-  "en": "”：(EL NINO",
-  "headword": "el",
-  "letter": "E",
-  "topic": "09-热门话题",
-  "sources": [
-   "09-热门话题",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "610c3cd83b771e09",
   "zh": "详细谈论",
   "en": "elaborate on",
@@ -71075,7 +70318,7 @@
  {
   "id": "3c894c2ae11ceadf",
   "zh": "电子词典",
-  "en": "ELECTRONIC DICTIONARIES",
+  "en": "Electronic Dictionaries",
   "headword": "electronic",
   "letter": "E",
   "topic": "09-热门话题",
@@ -71800,23 +71043,9 @@
   "phonetic": ""
  },
  {
-  "id": "d19aaeca78729356",
-  "zh": "拥抱知识经济的新时代",
-  "en": "EMBRACING THE KNOWLEDGE ECONOMY AGE",
-  "headword": "embracing",
-  "letter": "E",
-  "topic": "09-热门话题",
-  "sources": [
-   "09-热门话题",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "e3f01b2a45970787",
   "zh": "拥抱新千年",
-  "en": "EMBRACING THE NEW MILLENNIUM",
+  "en": "Embracing the New Millennium",
   "headword": "embracing",
   "letter": "E",
   "topic": "09-热门话题",
@@ -72059,7 +71288,7 @@
  {
   "id": "5d5b3ee11183d0fc",
   "zh": "EQ：分两种，一种为教育商数EDUCATIONAL QUOTIENT，另一种情感商数",
-  "en": "EMOTIONAL QUOTIENT",
+  "en": "Emotional Quotient",
   "headword": "emotional",
   "letter": "E",
   "topic": "09-热门话题",
@@ -73655,20 +72884,6 @@
   "phonetic": ""
  },
  {
-  "id": "341746d9bab65768",
-  "zh": "保证重点指出",
-  "en": "ENSURE FUNDING FOR PRIORITY AREAS",
-  "headword": "ensure",
-  "letter": "E",
-  "topic": "09-热门话题",
-  "sources": [
-   "09-热门话题",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "398b530d8e7d781f",
   "zh": "保证重点支出",
   "en": "Ensure funding for priority areas",
@@ -74531,20 +73746,6 @@
   "kind": "word",
   "phonetic": "",
   "freq_rank": 4985
- },
- {
-  "id": "02bdc830b6e3c5b1",
-  "zh": "羡慕]you.（我羡慕你",
-  "en": "2． I envy",
-  "headword": "envy",
-  "letter": "E",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
  },
  {
   "id": "a1c1861126edddab",
@@ -76478,20 +75679,6 @@
   "phonetic": ""
  },
  {
-  "id": "264ce59b65301cf7",
-  "zh": "凡人皆有得意时",
-  "en": "190． Every dog has his day",
-  "headword": "every",
-  "letter": "E",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "2fde4e2bead80791",
   "zh": "有利必有弊",
   "en": "Every advantage has its disadvantage",
@@ -76756,20 +75943,6 @@
   "kind": "word",
   "phonetic": "",
   "freq_rank": 1263
- },
- {
-  "id": "f92bf6f809930849",
-  "zh": "一切都会很好",
-  "en": "158． Everything will be fine",
-  "headword": "everything",
-  "letter": "E",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
  },
  {
   "id": "a13a840684890eff",
@@ -77640,20 +76813,6 @@
   "topic": "旅游观光",
   "sources": [
    "catti3-syllabus-5000"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "23b91c1e3ae3927a",
-  "zh": "失陪一会儿",
-  "en": "111． Excuse me for a moment",
-  "headword": "excuse",
-  "letter": "E",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
   ],
   "kind": "phrase",
   "phonetic": ""
@@ -80486,7 +79645,7 @@
  {
   "id": "38e4dd899d16909e",
   "zh": "假文凭",
-  "en": "FAKE DIPLOMAS",
+  "en": "Fake Diplomas",
   "headword": "fake",
   "letter": "F",
   "topic": "09-热门话题",
@@ -80990,34 +80149,6 @@
   "phonetic": ""
  },
  {
-  "id": "cc36d317028f38a8",
-  "zh": "一点也不",
-  "en": "36． Far from it",
-  "headword": "far",
-  "letter": "F",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "38449b0d70d1e626",
-  "zh": "就我而言",
-  "en": "90． As far as I'm concerned",
-  "headword": "far",
-  "letter": "F",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "c01163f5d530c3c1",
   "zh": "眼不见，心不烦",
   "en": "Far from eye, far from heart",
@@ -81072,20 +80203,6 @@
   "kind": "word",
   "phonetic": "",
   "freq_rank": 9955
- },
- {
-  "id": "23385b3ffeb4f9e2",
-  "zh": "告别",
-  "en": "1999：FAREWELL TO THE SPECIAL YEAR 1999",
-  "headword": "farewell",
-  "letter": "F",
-  "topic": "09-热门话题",
-  "sources": [
-   "09-热门话题",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
  },
  {
   "id": "5a7d3b4ed29b1d52",
@@ -81392,7 +80509,7 @@
  {
   "id": "cc78fe133399d634",
   "zh": "父亲节(6月的第三个星期日",
-  "en": "FATHER'S DAY",
+  "en": "Father's Day",
   "headword": "father's",
   "letter": "F",
   "topic": "10-文化教育",
@@ -81998,20 +81115,6 @@
   "kind": "word",
   "phonetic": "",
   "freq_rank": 2521
- },
- {
-  "id": "6fdb0717370d5f9d",
-  "zh": "我觉得比以前年轻",
-  "en": "167． I feel younger than ever",
-  "headword": "feel",
-  "letter": "F",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
  },
  {
   "id": "bd91ae561ec20de6",
@@ -84371,7 +83474,7 @@
  {
   "id": "cbdd56d301018a40",
   "zh": "一次误差",
-  "en": "FIRST-ORDER ERROR",
+  "en": "First-order Error",
   "headword": "first-order",
   "letter": "F",
   "topic": "09-热门话题",
@@ -84730,20 +83833,6 @@
   "topic": "外交军事 / 中国特色政治",
   "sources": [
    "catti3-syllabus-5000"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "b68a15e78afa6504",
-  "zh": "“五讲四美",
-  "en": "”：FIVE STRESSES AND FOUR POINTS OF BEAUTY",
-  "headword": "five",
-  "letter": "F",
-  "topic": "09-热门话题",
-  "sources": [
-   "09-热门话题",
-   "local-classified"
   ],
   "kind": "phrase",
   "phonetic": ""
@@ -86185,7 +85274,7 @@
  {
   "id": "5aeee701385f7de0",
   "zh": "食品节(新加坡",
-  "en": "FOOD FESTIVAL",
+  "en": "Food Festival",
   "headword": "food",
   "letter": "F",
   "topic": "10-文化教育",
@@ -86376,23 +85465,9 @@
   "freq_rank": 3539
  },
  {
-  "id": "5866dcb66bb07454",
-  "zh": "傻瓜永远学不会",
-  "en": "219． A fool never learns",
-  "headword": "fool",
-  "letter": "F",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "7e4820c13fcb48b6",
   "zh": "愚人节",
-  "en": "FOOL'S DAY",
+  "en": "Fool's Day",
   "headword": "fool's",
   "letter": "F",
   "topic": "10-文化教育",
@@ -86420,7 +85495,7 @@
  {
   "id": "b48d83dce1384ea4",
   "zh": "跟踪审计",
-  "en": "FOOLOW-UP AUDITING",
+  "en": "Foolow-up Auditing",
   "headword": "foolow-up",
   "letter": "F",
   "topic": "09-热门话题",
@@ -87340,20 +86415,6 @@
   "freq_rank": 3063
  },
  {
-  "id": "1d99322195d169d8",
-  "zh": "原谅我食言",
-  "en": "142． Forgive me for breaking my promise",
-  "headword": "forgive",
-  "letter": "F",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "cd51d9190b04c55a",
   "zh": "",
   "en": "forgot",
@@ -87802,20 +86863,6 @@
   "topic": "生态自然环保",
   "sources": [
    "catti3-syllabus-5000"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "45529c3db78a4fb5",
-  "zh": "矿物燃料（煤、石油、天然气",
-  "en": "fossil fuels: coal, oil, and natural gas",
-  "headword": "fossil",
-  "letter": "F",
-  "topic": "05-环境保护",
-  "sources": [
-   "05-环境保护",
-   "local-classified"
   ],
   "kind": "phrase",
   "phonetic": ""
@@ -89103,8 +88150,8 @@
  {
   "id": "23148e6186ed1e2a",
   "zh": "一次空气",
-  "en": "FRESH/PRIMARY AIR",
-  "headword": "fresh",
+  "en": "Fresh/primary Air",
+  "headword": "fresh/primary",
   "letter": "F",
   "topic": "09-热门话题",
   "sources": [
@@ -90488,8 +89535,8 @@
  {
   "id": "d36bb121a9da2f08",
   "zh": "明天的因特网",
-  "en": "THE FUTURE TOMORROWS INTERNET",
-  "headword": "future",
+  "en": "The Future Tomorrows Internet",
+  "headword": "the",
   "letter": "F",
   "topic": "09-热门话题",
   "sources": [
@@ -95890,7 +94937,7 @@
  {
   "id": "7482f6d25231f34f",
   "zh": "粮食收购企业",
-  "en": "GRAIN COLLECTION AND STORAGE",
+  "en": "Grain Collection and Storage",
   "headword": "grain",
   "letter": "G",
   "topic": "09-热门话题",
@@ -100533,76 +99580,6 @@
   "freq_rank": 5591
  },
  {
-  "id": "22ff08b63a980233",
-  "zh": "是否考虑在家呆着",
-  "en": "137． Have you thought about staying home",
-  "headword": "have",
-  "letter": "H",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "59a0e3d0c662de26",
-  "zh": "我别无选择",
-  "en": "174． I have no other choice",
-  "headword": "have",
-  "letter": "H",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "3f79b4138aecab3d",
-  "zh": "我轻微发烧",
-  "en": "218． I have a slight fever",
-  "headword": "have",
-  "letter": "H",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "65921ebbb91d7ff9",
-  "zh": "我流鼻涕",
-  "en": "43． I have a runny nose",
-  "headword": "have",
-  "letter": "H",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "9f980b01e337f72a",
-  "zh": "我喜欢吃甜食",
-  "en": "53． I have a sweet tooth",
-  "headword": "have",
-  "letter": "H",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "fd5e1d82449ca12c",
   "zh": "祝旅途愉快",
   "en": "Have a good trip",
@@ -101081,20 +100058,6 @@
   "phonetic": ""
  },
  {
-  "id": "545f51faabea41fb",
-  "zh": "他使我蒙羞",
-  "en": "189． He puts me to shame",
-  "headword": "he",
-  "letter": "H",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "27d57bcd494c9265",
   "zh": "他没空",
   "en": "He doesn’t have time",
@@ -101372,34 +100335,6 @@
    "local-classified"
   ],
   "kind": "sentence",
-  "phonetic": ""
- },
- {
-  "id": "9ae449a5ca22058e",
-  "zh": "他到处都去过了",
-  "en": "193． He's been everywhere",
-  "headword": "he's",
-  "letter": "H",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "dadbb51358076f67",
-  "zh": "他落伍了/跟不上时代了",
-  "en": "93． He's behind the times",
-  "headword": "he's",
-  "letter": "H",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
   "phonetic": ""
  },
  {
@@ -104491,34 +103426,6 @@
   "freq_rank": 6926
  },
  {
-  "id": "4a683b9319bab712",
-  "zh": "他的论点站不住脚",
-  "en": "162． His argument doesn't hold water",
-  "headword": "his",
-  "letter": "H",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "6cd76bba28318e34",
-  "zh": "他的想法很幼稚",
-  "en": "204． His idea is childish",
-  "headword": "his",
-  "letter": "H",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "26970d7ad0226619",
   "zh": "24日 西班牙国王陛下日",
   "en": "His Majesty the King's Day (SPAIN",
@@ -105989,20 +104896,6 @@
   "phonetic": ""
  },
  {
-  "id": "73e3495bf792ce2d",
-  "zh": "希望没有冒犯你",
-  "en": "98． I hope I didn't offend you",
-  "headword": "hope",
-  "letter": "H",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "c6d4280433f730a7",
   "zh": "希望工程",
   "en": "Hope Project",
@@ -106999,34 +105892,6 @@
   "phonetic": ""
  },
  {
-  "id": "c1c538557d805516",
-  "zh": "我怎么称呼你",
-  "en": "15． How do I address you",
-  "headword": "how",
-  "letter": "H",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "1aef656d5fc96555",
-  "zh": "你们营业到多晚",
-  "en": "221． How late are you open",
-  "headword": "how",
-  "letter": "H",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "f39b2b970a3d5d4e",
   "zh": "你好吗",
   "en": "How are you doing",
@@ -107812,20 +106677,6 @@
   "freq_rank": 2713
  },
  {
-  "id": "28f60d1cfbdfabc5",
-  "zh": "网上求职",
-  "en": "HUNTING FOR A JOB ON INTERNET",
-  "headword": "hunting",
-  "letter": "H",
-  "topic": "09-热门话题",
-  "sources": [
-   "09-热门话题",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "babfe7f05ae7646a",
   "zh": "",
   "en": "huntington",
@@ -108261,34 +107112,6 @@
   "phonetic": ""
  },
  {
-  "id": "5c65af595df20ed1",
-  "zh": "我会考虑这件事的",
-  "en": "113． I'll consider this matter",
-  "headword": "i'll",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "2d67d4580ef19694",
-  "zh": "我会想办法的",
-  "en": "114． I'll do something about it",
-  "headword": "i'll",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "6e3eca50b971bc2f",
   "zh": "我会来的。我向你保证",
   "en": "138． I'll come. I give you my word",
@@ -108300,20 +107123,6 @@
    "local-classified"
   ],
   "kind": "sentence",
-  "phonetic": ""
- },
- {
-  "id": "24c768c8ce15fa9c",
-  "zh": "我会赔偿的",
-  "en": "140． I'll make it up to you",
-  "headword": "i'll",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
   "phonetic": ""
  },
  {
@@ -108331,118 +107140,6 @@
   "phonetic": ""
  },
  {
-  "id": "ceecf9aa37e77824",
-  "zh": "我将期待这一天",
-  "en": "34． I'll be looking forward to it",
-  "headword": "i'll",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "6eb0ee834d6eac15",
-  "zh": "我会留意的",
-  "en": "67． I'll keep my ears open",
-  "headword": "i'll",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "246876b8ff0c675f",
-  "zh": "恐怕我不行",
-  "en": "116． I'm afraid I can't",
-  "headword": "i'm",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "61aa2b1ac52ea9ce",
-  "zh": "很想] to see you.（我真想见你",
-  "en": "117． I'm dying",
-  "headword": "i'm",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "ecdbedd36ad303c9",
-  "zh": "过奖了",
-  "en": "118． I'm flattered",
-  "headword": "i'm",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "84e9effa1b1f9dc7",
-  "zh": "我没心情",
-  "en": "119． I'm not in the mood",
-  "headword": "i'm",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "5bb83ea7ec03f580",
-  "zh": "我怕极了",
-  "en": "120． I'm so scared",
-  "headword": "i'm",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "400b4890483aa777",
-  "zh": "我总是很准时",
-  "en": "127． I'm always punctual",
-  "headword": "i'm",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "047a6877b96d3ca5",
   "zh": "十分抱歉",
   "en": "141． I'm very / really / terribly / awfully / extremely sorry",
@@ -108454,20 +107151,6 @@
    "local-classified"
   ],
   "kind": "sentence",
-  "phonetic": ""
- },
- {
-  "id": "c8be5712e67b49ef",
-  "zh": "我迷死李小龙了",
-  "en": "14． I'm mad about Bruce Lee",
-  "headword": "i'm",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
   "phonetic": ""
  },
  {
@@ -108485,20 +107168,6 @@
   "phonetic": ""
  },
  {
-  "id": "54a5478285681d34",
-  "zh": "我生自己的气",
-  "en": "198． I'm mad at myself",
-  "headword": "i'm",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "c0b0ce3c9135831b",
   "zh": "我厌倦每天上学",
   "en": "202． I'm tired of going to school day after day",
@@ -108513,164 +107182,10 @@
   "phonetic": ""
  },
  {
-  "id": "04d9f5caf673f083",
-  "zh": "我来这里出差",
-  "en": "222． I'm here on business",
-  "headword": "i'm",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "cd61a694d3e11c2f",
-  "zh": "极其厌烦] with him.（我受够他了",
-  "en": "47． I'm fed up",
-  "headword": "i'm",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "a2b3071a8d653d61",
-  "zh": "我今天心神不宁",
-  "en": "52． I'm not myself today",
-  "headword": "i'm",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "54ca6a985bd80e77",
-  "zh": "着手；从事] it.（我正在努力",
-  "en": "62． I'm working on",
-  "headword": "i'm",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "a1e13a8b1f1d8383",
-  "zh": "我觉得不舒服/精神不好/情绪低落",
-  "en": "70． I'm feeling under the weather",
-  "headword": "i'm",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "cd3696e4101c38be",
-  "zh": "我压力很大",
-  "en": "72． I'm under a lot of pressure",
-  "headword": "i'm",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "5bc46a532574f08a",
-  "zh": "使…高兴；讨…喜欢].（我很容易取悦/相处",
-  "en": "88． I'm easy to please",
-  "headword": "i'm",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "b0f12b1152f777b4",
-  "zh": "我全搞混了",
-  "en": "91． I'm all mixed up",
-  "headword": "i'm",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "5babcf0678518cf2",
-  "zh": "我时间紧迫",
-  "en": "94． I'm pressed for time",
-  "headword": "i'm",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "022a0265263f3310",
-  "zh": "忙得不可开交；深陷于某事物中] in work.（我忙死了",
-  "en": "95． I'm up to my ears",
-  "headword": "i'm",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "2b6420f253b9ada7",
   "zh": "着迷的；狂热爱好的] about rock music. （我对摇滚乐很着迷",
   "en": "I'm crazy",
   "headword": "i'm",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "311aa0fa3686a3c7",
-  "zh": "久仰大名",
-  "en": "144． I've heard so much about you",
-  "headword": "i've",
   "letter": "I",
   "topic": "20-常用口语",
   "sources": [
@@ -109306,20 +107821,6 @@
   "kind": "word",
   "phonetic": "",
   "freq_rank": 5239
- },
- {
-  "id": "95ce2f9279f226db",
-  "zh": "处在某人的位置].（如果我是你的话",
-  "en": "75． If I were in your shoes",
-  "headword": "if",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
  },
  {
   "id": "710417ff86cfade0",
@@ -110827,20 +109328,6 @@
   "phonetic": ""
  },
  {
-  "id": "fc691359e812dd8d",
-  "zh": "教学、科研、生产的\"三结合",
-  "en": "3-in-1 combination\" involving teaching, research, and production",
-  "headword": "in-",
-  "letter": "I",
-  "topic": "10-文化教育",
-  "sources": [
-   "10-文化教育",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "2c3adc556537db91",
   "zh": "彻底、深入的",
   "en": "in-depth adj.",
@@ -111618,20 +110105,6 @@
   "topic": "外交军事",
   "sources": [
    "catti3-syllabus-5000"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "144e716260d49529",
-  "zh": "“减员增效",
-  "en": "”：INCREASE EFFICIENCY BY DOWNSIZING STAFF",
-  "headword": "increase",
-  "letter": "I",
-  "topic": "09-热门话题",
-  "sources": [
-   "09-热门话题",
-   "local-classified"
   ],
   "kind": "phrase",
   "phonetic": ""
@@ -116744,7 +115217,7 @@
  {
   "id": "ce2bbabc893653d6",
   "zh": "国际儿童节",
-  "en": "INTERNATIONAL CHILDREN'S DAY",
+  "en": "International Children's Day",
   "headword": "international",
   "letter": "I",
   "topic": "10-文化教育",
@@ -116758,7 +115231,7 @@
  {
   "id": "44371852f467cda5",
   "zh": "国际劳动节",
-  "en": "INTERNATIONAL LABOUR DAY",
+  "en": "International Labour Day",
   "headword": "international",
   "letter": "I",
   "topic": "10-文化教育",
@@ -116772,7 +115245,7 @@
  {
   "id": "90ab586af82f5b3a",
   "zh": "国际护士节",
-  "en": "INTERNATIONAL NURSE DAY",
+  "en": "International Nurse Day",
   "headword": "international",
   "letter": "I",
   "topic": "10-文化教育",
@@ -116786,7 +115259,7 @@
  {
   "id": "a9680a8bd298e16c",
   "zh": "国际红十字日",
-  "en": "INTERNATIONAL RED-CROSS DAY",
+  "en": "International Red-cross Day",
   "headword": "international",
   "letter": "I",
   "topic": "10-文化教育",
@@ -116800,7 +115273,7 @@
  {
   "id": "ba9a0362afcd44f3",
   "zh": "国际秘书节",
-  "en": "INTERNATIONAL SECRETARY DAY",
+  "en": "International Secretary Day",
   "headword": "international",
   "letter": "I",
   "topic": "10-文化教育",
@@ -116814,7 +115287,7 @@
  {
   "id": "7bb1ab5c8c959f5a",
   "zh": "国际妇女节",
-  "en": "INTERNATIONAL WOMEN'S DAY",
+  "en": "International Women's Day",
   "headword": "international",
   "letter": "I",
   "topic": "10-文化教育",
@@ -117514,7 +115987,7 @@
  {
   "id": "09a921c65ea3e053",
   "zh": "中国的因特网",
-  "en": "INTERNET IN",
+  "en": "Internet In",
   "headword": "internet",
   "letter": "I",
   "topic": "09-热门话题",
@@ -117556,8 +116029,8 @@
  {
   "id": "c71c3e2613511026",
   "zh": "电子邮件",
-  "en": "THE INTERNET E-MAIL",
-  "headword": "internet",
+  "en": "The Internet E-mail",
+  "headword": "the",
   "letter": "I",
   "topic": "09-热门话题",
   "sources": [
@@ -119673,202 +118146,6 @@
   "freq_rank": 9780
  },
  {
-  "id": "06036bd85a020d20",
-  "zh": "小事情；不足挂齿",
-  "en": "101． It’s nothing",
-  "headword": "it",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "ecf45a1fa1ef1b91",
-  "zh": "说来话长",
-  "en": "102． It’s a long story",
-  "headword": "it",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "8b535a189c8cefbd",
-  "zh": "请客、款待] this time.（这次我请客",
-  "en": "10． It’s my treat",
-  "headword": "it",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "4c46260c3340134f",
-  "zh": "疼死啦",
-  "en": "124． It hurts like hell",
-  "headword": "it",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "34840c3f4d6323bd",
-  "zh": "无能为力",
-  "en": "125． It can't be helped",
-  "headword": "it",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "9e609337e9b98a36",
-  "zh": "似乎不象是那样",
-  "en": "156． It doesn't seem like that",
-  "headword": "it",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "f367ed35f0826c1a",
-  "zh": "迫；迫使] me crazy.（它把握*疯了",
-  "en": "20． It drives[*",
-  "headword": "it",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "a2dabc7132625029",
-  "zh": "没什么差别/无所谓",
-  "en": "46． It doesn't make any difference",
-  "headword": "it",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "39f9590154364f53",
-  "zh": "坏了；不动了",
-  "en": "49． It doesn't work",
-  "headword": "it",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "cf61dd28ee721218",
-  "zh": "我忘了",
-  "en": "60． It slipped my mind",
-  "headword": "it",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "13bd485f986b99f7",
-  "zh": "那是微不足道的",
-  "en": "68． It isn't much",
-  "headword": "it",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "6b6112e5a796735f",
-  "zh": "毫无意义",
-  "en": "74． It doesn't make any sense",
-  "headword": "it",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "203f0a9c8d5568cb",
-  "zh": "不会花很长时间的",
-  "en": "99． It won't take much time",
-  "headword": "it",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "b67dc5a1ad7fc797",
-  "zh": "世界真小",
-  "en": "9． It’s a small world",
-  "headword": "it",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "c14c6028c622ea86",
   "zh": "信息技术",
   "en": "IT",
@@ -120347,90 +118624,6 @@
   "phonetic": ""
  },
  {
-  "id": "198535ce2126f79d",
-  "zh": "我会想起来的",
-  "en": "81． It'll come to me",
-  "headword": "it'll",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "c1ffdbcf06788637",
-  "zh": "好久不见了",
-  "en": "100． It's been a long time",
-  "headword": "it's",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "eb8f25e0963c10f8",
-  "zh": "时间差不多了",
-  "en": "103． It's about time",
-  "headword": "it's",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "7a7bcf69b6043edb",
-  "zh": "难以置信",
-  "en": "104． It's incredible",
-  "headword": "it's",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "d98b5ebb04fe19be",
-  "zh": "难说",
-  "en": "105． It's hard to say",
-  "headword": "it's",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "d2cd93aad42239dc",
-  "zh": "真烦人",
-  "en": "147． It's very annoying",
-  "headword": "it's",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "1bbf5985cd1f865a",
   "zh": "事关生死",
   "en": "176． It's a matter of life and death",
@@ -120442,76 +118635,6 @@
    "local-classified"
   ],
   "kind": "sentence",
-  "phonetic": ""
- },
- {
-  "id": "06fb78f78bbfcf34",
-  "zh": "下着倾盆大雨",
-  "en": "199． It's raining cats and dogs",
-  "headword": "it's",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "a6b3252eabee58da",
-  "zh": "由你决定",
-  "en": "1． It's up to you",
-  "headword": "it's",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "6885e06845042d6a",
-  "zh": "麻烦的事（人）].（那真是件麻烦事",
-  "en": "38． It's a pain in the neck",
-  "headword": "it's",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "2130763e81281916",
-  "zh": "这是不可能的",
-  "en": "44． It's out of the question",
-  "headword": "it's",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "aad8d0c2b85d020e",
-  "zh": "悬而未决].（尚未确定",
-  "en": "58． It's up in the air",
-  "headword": "it's",
-  "letter": "I",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
   "phonetic": ""
  },
  {
@@ -123769,20 +121892,6 @@
   "freq_rank": 9217
  },
  {
-  "id": "0ac23c24b79d7f5e",
-  "zh": "记住那件事",
-  "en": "32． Keep that in mind",
-  "headword": "keep",
-  "letter": "K",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "422f1b2cbf66c10b",
   "zh": "身体好，学习好，工作好",
   "en": "Keep fit, study hard and work well",
@@ -125080,20 +123189,6 @@
   "kind": "word",
   "phonetic": "",
   "freq_rank": 9810
- },
- {
-  "id": "c89c38a66a951b9a",
-  "zh": "“拳头产品",
-  "en": "”：KNOCKOUT PRODUCT",
-  "headword": "knockout",
-  "letter": "K",
-  "topic": "09-热门话题",
-  "sources": [
-   "09-热门话题",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
  },
  {
   "id": "2a9658130f4215f7",
@@ -127441,7 +125536,7 @@
  {
   "id": "ca59ca19731b5033",
   "zh": "社会治安情况",
-  "en": "LAW-AND-ORDER SITUATION",
+  "en": "Law-and-order Situation",
   "headword": "law-and-order",
   "letter": "L",
   "topic": "09-热门话题",
@@ -128059,7 +126154,7 @@
  {
   "id": "743542a066fb42f4",
   "zh": "学会如何学习",
-  "en": "LEARN HOW TO LEARN",
+  "en": "Learn How to Learn",
   "headword": "learn",
   "letter": "L",
   "topic": "09-热门话题",
@@ -128985,7 +127080,7 @@
  {
   "id": "9f522023ac9cfc28",
   "zh": "开斋节(4月或5月，回历",
-  "en": "LESSER BAIRAM",
+  "en": "Lesser Bairam",
   "headword": "lesser",
   "letter": "L",
   "topic": "10-文化教育",
@@ -129133,104 +127228,6 @@
    "local-classified"
   ],
   "kind": "sentence",
-  "phonetic": ""
- },
- {
-  "id": "791aa5a3041ae9e8",
-  "zh": "让我们摈弃前嫌",
-  "en": "143． Let's forgive and forget",
-  "headword": "let's",
-  "letter": "L",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "6cfa8c669a93e2e1",
-  "zh": "今晚让我们乐一乐",
-  "en": "227． Let's have fun tonight",
-  "headword": "let's",
-  "letter": "L",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "0c49f6ef1738d0e5",
-  "zh": "让我们保持联系",
-  "en": "27． Let's keep in touch",
-  "headword": "let's",
-  "letter": "L",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "5cc250d2de160c0f",
-  "zh": "决定或同意暂时或永久停止（进行某事",
-  "en": "28． Let's call it a day",
-  "headword": "let's",
-  "letter": "L",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "ecea3f17033a7bf8",
-  "zh": "要点/核心问题].（让我们来谈要点",
-  "en": "31． Let's get to the point",
-  "headword": "let's",
-  "letter": "L",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "95e53378c10074ce",
-  "zh": "我们边喝边谈",
-  "en": "86． Let's talk over coffee",
-  "headword": "let's",
-  "letter": "L",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "8378f32392e3a1ee",
-  "zh": "让我们热烈鼓掌",
-  "en": "89． Let's give him a big hand",
-  "headword": "let's",
-  "letter": "L",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
   "phonetic": ""
  },
  {
@@ -129899,20 +127896,6 @@
   "topic": "19-谚语",
   "sources": [
    "19-谚语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "e94167f0e8c11c17",
-  "zh": "为了地球上的生命",
-  "en": "1997） For Life on Earth",
-  "headword": "life",
-  "letter": "L",
-  "topic": "05-环境保护",
-  "sources": [
-   "05-环境保护",
    "local-classified"
   ],
   "kind": "phrase",
@@ -133237,20 +131220,6 @@
   "phonetic": ""
  },
  {
-  "id": "98ae598ad9193a72",
-  "zh": "展望廿一世纪",
-  "en": "LOOKING FORWARD TO THE 21ST CENTURY",
-  "headword": "looking",
-  "letter": "L",
-  "topic": "09-热门话题",
-  "sources": [
-   "09-热门话题",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "5e91a0e7bd04b2d2",
   "zh": "",
   "en": "looks",
@@ -134355,7 +132324,7 @@
  {
   "id": "8ecf0920149e7b7f",
   "zh": "一次性收入",
-  "en": "LUMP-SUM PAYMENT",
+  "en": "Lump-sum Payment",
   "headword": "lump-sum",
   "letter": "L",
   "topic": "09-热门话题",
@@ -137450,7 +135419,7 @@
  {
   "id": "562528b332b4c883",
   "zh": "枫糖节(加拿大，3-4月",
-  "en": "MAPLE SUGAR FESTIVAL",
+  "en": "Maple Sugar Festival",
   "headword": "maple",
   "letter": "M",
   "topic": "10-文化教育",
@@ -139417,20 +137386,6 @@
   "topic": "健康",
   "sources": [
    "catti3-syllabus-5000"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "05038264a850a5a1",
-  "zh": "对某人而言难以想象/理解/估计] me.（我对数学无能为力",
-  "en": "59． Math is beyond",
-  "headword": "math",
-  "letter": "M",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
   ],
   "kind": "phrase",
   "phonetic": ""
@@ -141568,8 +139523,8 @@
  {
   "id": "a9a2aa22731f2307",
   "zh": "高校合并",
-  "en": "THE MERGING OF UNIVERSITIES",
-  "headword": "merging",
+  "en": "The Merging of Universities",
+  "headword": "the",
   "letter": "M",
   "topic": "09-热门话题",
   "sources": [
@@ -142652,7 +140607,7 @@
  {
   "id": "95d74f3b508b7a47",
   "zh": "仲夏节(北欧6月",
-  "en": "MID-SUMMER DAY",
+  "en": "Mid-summer Day",
   "headword": "mid-summer",
   "letter": "M",
   "topic": "10-文化教育",
@@ -142726,20 +140681,6 @@
   "topic": "科技",
   "sources": [
    "catti3-syllabus-5000"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "9e49a36d7d164785",
-  "zh": "乐器数字接口",
-  "en": "MIDI：Musical Instrument Digital Interface",
-  "headword": "midi",
-  "letter": "M",
-  "topic": "14-电脑网络",
-  "sources": [
-   "14-电脑网络",
-   "local-classified"
   ],
   "kind": "phrase",
   "phonetic": ""
@@ -143112,20 +141053,6 @@
   "phonetic": ""
  },
  {
-  "id": "93121debbacba8b9",
-  "zh": "“军嫂",
-  "en": "”：(MILITARY SPOUSE",
-  "headword": "military",
-  "letter": "M",
-  "topic": "09-热门话题",
-  "sources": [
-   "09-热门话题",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "1fb2ba3f5c4f8c7b",
   "zh": "民兵",
   "en": "the militia",
@@ -143209,8 +141136,8 @@
  {
   "id": "25d411e90f89ce2e",
   "zh": "千年虫",
-  "en": "THE MILLENNIUM BUG",
-  "headword": "millennium",
+  "en": "The Millennium Bug",
+  "headword": "the",
   "letter": "M",
   "topic": "09-热门话题",
   "sources": [
@@ -144888,20 +142815,6 @@
   "phonetic": ""
  },
  {
-  "id": "34998ded700f70b8",
-  "zh": "“移动电话”：本系CELLULAR(有时简作CEL)或",
-  "en": "MOBILE(TELE)PHONE",
-  "headword": "mobile",
-  "letter": "M",
-  "topic": "09-热门话题",
-  "sources": [
-   "09-热门话题",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "f61590e6b5b2389b",
   "zh": "手机入网费",
   "en": "mobile access fee",
@@ -146048,20 +143961,6 @@
   "phonetic": ""
  },
  {
-  "id": "a87f41b320eceb9b",
-  "zh": "钱乃身外之物",
-  "en": "178． Money will come and go",
-  "headword": "money",
-  "letter": "M",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "3a93642d97d17905",
   "zh": "钱不是万能的",
   "en": "Money isn't everything",
@@ -147169,7 +145068,7 @@
  {
   "id": "58797e77cfdbb3e6",
   "zh": "母亲节(5月的第二个星期日",
-  "en": "MOTHER'S DAY",
+  "en": "Mother's Day",
   "headword": "mother's",
   "letter": "M",
   "topic": "10-文化教育",
@@ -147782,34 +145681,6 @@
   "freq_rank": 4334
  },
  {
-  "id": "3598d258971df7a3",
-  "zh": "多媒体个人电脑",
-  "en": "MPC: Multimedia Personal Computer",
-  "headword": "mpc",
-  "letter": "M",
-  "topic": "14-电脑网络",
-  "sources": [
-   "14-电脑网络",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "a5384b2197d21b41",
-  "zh": "运动图像专家组",
-  "en": "MPEG:Motion Picture Experts Group",
-  "headword": "mpeg",
-  "letter": "M",
-  "topic": "14-电脑网络",
-  "sources": [
-   "14-电脑网络",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "fa3c76594cd57f4c",
   "zh": "",
   "en": "mpegs",
@@ -148073,20 +145944,6 @@
   "kind": "word",
   "phonetic": "",
   "freq_rank": 9934
- },
- {
-  "id": "212b723844096fa8",
-  "zh": "“传销",
-  "en": "”：MULTI LEVEL MARKETING",
-  "headword": "multi",
-  "letter": "M",
-  "topic": "09-热门话题",
-  "sources": [
-   "09-热门话题",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
  },
  {
   "id": "00457241dfa68bf0",
@@ -148913,20 +146770,6 @@
   "phonetic": ""
  },
  {
-  "id": "333a568b24e5c3df",
-  "zh": "层层转包和违法分包",
-  "en": "MUTLTI-LEVEL CONTRACTING AND ILLEGAL SUBCONTRACTING",
-  "headword": "mutlti-level",
-  "letter": "M",
-  "topic": "09-热门话题",
-  "sources": [
-   "09-热门话题",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "f94c490f62c921fd",
   "zh": "羊肉",
   "en": "mutton",
@@ -149219,51 +147062,9 @@
   "freq_rank": 5458
  },
  {
-  "id": "28f6aab08a7cd8d9",
-  "zh": "请便、别客气",
-  "en": "25． Be my guest",
-  "headword": "my",
-  "letter": "M",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "c772b8926a86bfeb",
-  "zh": "我在流口水了",
-  "en": "40． My mouth is watering",
-  "headword": "my",
-  "letter": "M",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "75b874db075a5daa",
   "zh": "千禧年的梦想",
-  "en": "MY MILLENNIUM DREAMS",
-  "headword": "my",
-  "letter": "M",
-  "topic": "09-热门话题",
-  "sources": [
-   "09-热门话题",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "016c2e13248bc553",
-  "zh": "兼职工作",
-  "en": "MY VIEW ON A PART-TIME JOB",
+  "en": "My Millennium Dreams",
   "headword": "my",
   "letter": "M",
   "topic": "09-热门话题",
@@ -151921,20 +149722,6 @@
   "freq_rank": 9095
  },
  {
-  "id": "dbbbf2ff85f6a16c",
-  "zh": "网络计算机",
-  "en": "NC: Network Computer",
-  "headword": "nc",
-  "letter": "N",
-  "topic": "14-电脑网络",
-  "sources": [
-   "14-电脑网络",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "3a58779373ab4290",
   "zh": "",
   "en": "ncaa",
@@ -152129,20 +149916,6 @@
   "phonetic": ""
  },
  {
-  "id": "73ab14a05bf3ebb7",
-  "zh": "不分上下",
-  "en": "69． Neck and neck",
-  "headword": "neck",
-  "letter": "N",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "c417d3793b3c398e",
   "zh": "并驾齐驱；不分上下",
   "en": "neck and neck adj.",
@@ -152182,20 +149955,6 @@
   "kind": "word",
   "phonetic": "",
   "freq_rank": 6411
- },
- {
-  "id": "d8f5ee3a0e929784",
-  "zh": "我需要零钱",
-  "en": "205． I need small change",
-  "headword": "need",
-  "letter": "N",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
  },
  {
   "id": "c74bcea9045cd832",
@@ -153042,7 +150801,7 @@
  {
   "id": "661a8cc5fe7915f3",
   "zh": "元旦",
-  "en": "NEW YEAR'S DAY",
+  "en": "New Year's Day",
   "headword": "new",
   "letter": "N",
   "topic": "10-文化教育",
@@ -154840,7 +152599,7 @@
  {
   "id": "b0585d7e10d56b22",
   "zh": "一次用包装",
-  "en": "NON-RETURNABLE CONTAINER",
+  "en": "Non-returnable Container",
   "headword": "non-returnable",
   "letter": "N",
   "topic": "09-热门话题",
@@ -155426,20 +153185,6 @@
   "freq_rank": 1010
  },
  {
-  "id": "2b12923535e65a57",
-  "zh": "什么都不对劲儿",
-  "en": "177． Nothing works",
-  "headword": "nothing",
-  "letter": "N",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "8576b5d66906ddfb",
   "zh": "不入虎穴，焉得虎子",
   "en": "Nothing brave, nothing have",
@@ -155901,7 +153646,7 @@
  {
   "id": "75bab66fa01de0cc",
   "zh": "护士节",
-  "en": "NRUSE DAY",
+  "en": "Nruse Day",
   "headword": "nruse",
   "letter": "N",
   "topic": "10-文化教育",
@@ -157308,20 +155053,6 @@
   "phonetic": ""
  },
  {
-  "id": "e82212ad31c08acd",
-  "zh": "原始设备制造商",
-  "en": "OEM：Original Equipment Manufacturer",
-  "headword": "oem",
-  "letter": "O",
-  "topic": "14-电脑网络",
-  "sources": [
-   "14-电脑网络",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "1a2163bbced9560a",
   "zh": "下网",
   "en": "off line",
@@ -158018,7 +155749,7 @@
  {
   "id": "d13d70563bb1f660",
   "zh": "敬老节(日本",
-  "en": "OLD PEOPLE'S DAY",
+  "en": "Old People's Day",
   "headword": "old",
   "letter": "O",
   "topic": "10-文化教育",
@@ -159253,20 +156984,6 @@
   "topic": "经济与改革",
   "sources": [
    "catti3-syllabus-5000"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "7d85e9cfe08a0e25",
-  "zh": "“开放",
-  "en": "”：OPEN TO THE OUTSIDE WORLD",
-  "headword": "open",
-  "letter": "O",
-  "topic": "09-热门话题",
-  "sources": [
-   "09-热门话题",
-   "local-classified"
   ],
   "kind": "phrase",
   "phonetic": ""
@@ -161157,20 +158874,6 @@
   "phonetic": ""
  },
  {
-  "id": "5f5895168900aeab",
-  "zh": "我们的地球、居住地、家园",
-  "en": "1996） Our Earth, Our Habitat, Our Home",
-  "headword": "our",
-  "letter": "O",
-  "topic": "05-环境保护",
-  "sources": [
-   "05-环境保护",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "7bc91b2f546740ee",
   "zh": "拯救地球就是拯救未来",
   "en": "1999） Our Earth - Our Future - Just Save It",
@@ -161733,20 +159436,6 @@
   "freq_rank": 6214
  },
  {
-  "id": "90962f43718e93f7",
-  "zh": "休想",
-  "en": "77． Over my dead body",
-  "headword": "over",
-  "letter": "O",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "773e45dda97e5c02",
   "zh": "超前消费",
   "en": "over-consuming, excessive consumption",
@@ -162055,20 +159744,6 @@
   "topic": "经济与改革",
   "sources": [
    "catti3-syllabus-5000"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "1554c0a9eff77291",
-  "zh": "“外资",
-  "en": "”：OVERSEAS INVESTMENTS",
-  "headword": "overseas",
-  "letter": "O",
-  "topic": "09-热门话题",
-  "sources": [
-   "09-热门话题",
-   "local-classified"
   ],
   "kind": "phrase",
   "phonetic": ""
@@ -165326,7 +163001,7 @@
  {
   "id": "77d34669553e620e",
   "zh": "一次付清",
-  "en": "PAY IN FULL",
+  "en": "Pay in Full",
   "headword": "pay",
   "letter": "P",
   "topic": "09-热门话题",
@@ -165878,20 +163553,6 @@
   "topic": "中国特色政治",
   "sources": [
    "catti3-syllabus-5000"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "b94c393133bbd270",
-  "zh": "桃花节(日本女孩节",
-  "en": "PEACH FLOWER FESTIVAL (DOLL'S FESTIVAL",
-  "headword": "peach",
-  "letter": "P",
-  "topic": "10-文化教育",
-  "sources": [
-   "10-文化教育",
-   "local-classified"
   ],
   "kind": "phrase",
   "phonetic": ""
@@ -171237,20 +168898,6 @@
   "phonetic": ""
  },
  {
-  "id": "c34643a6abc3cf23",
-  "zh": "即插即用",
-  "en": "PNP：Plug and Play",
-  "headword": "pnp",
-  "letter": "P",
-  "topic": "14-电脑网络",
-  "sources": [
-   "14-电脑网络",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "c422a86dc977bdb2",
   "zh": "",
   "en": "po",
@@ -171599,8 +169246,8 @@
  {
   "id": "6731ee4eaef12495",
   "zh": "一次成像照片",
-  "en": "A POLAROID PICTURE",
-  "headword": "polaroid",
+  "en": "A Polaroid Picture",
+  "headword": "a",
   "letter": "P",
   "topic": "09-热门话题",
   "sources": [
@@ -172972,34 +170619,6 @@
   "kind": "word",
   "phonetic": "",
   "freq_rank": 2867
- },
- {
-  "id": "73005c9bebb91b96",
-  "zh": "家教的利与弊",
-  "en": "POSITIVE AND NEGATIVE ASPECTS OF HOME TUTORING",
-  "headword": "positive",
-  "letter": "P",
-  "topic": "09-热门话题",
-  "sources": [
-   "09-热门话题",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "c7d293a25a712355",
-  "zh": "因特网的利与弊",
-  "en": "POSITIVE AND NEGATIVE ASPECTS OF INTERNET",
-  "headword": "positive",
-  "letter": "P",
-  "topic": "09-热门话题",
-  "sources": [
-   "09-热门话题",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
  },
  {
   "id": "e831726b425734a1",
@@ -175294,20 +172913,6 @@
   "phonetic": ""
  },
  {
-  "id": "448764ae581ff49d",
-  "zh": "防止“重点支出重点浪费",
-  "en": "” prevent “more waste in more expenditures”",
-  "headword": "prevent",
-  "letter": "P",
-  "topic": "04-政治政府",
-  "sources": [
-   "04-政治政府",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "f3ad6f2a4837da46",
   "zh": "",
   "en": "preventing",
@@ -175603,7 +173208,7 @@
  {
   "id": "6b21245a062c6748",
   "zh": "一次污染",
-  "en": "PRIMARY POLLUTION",
+  "en": "Primary Pollution",
   "headword": "primary",
   "letter": "P",
   "topic": "09-热门话题",
@@ -176612,7 +174217,7 @@
  {
   "id": "af2c5f52ebfa8632",
   "zh": "盗版问题",
-  "en": "PROBLEM OF PIRACY",
+  "en": "Problem of Piracy",
   "headword": "problem",
   "letter": "P",
   "topic": "09-热门话题",
@@ -178074,20 +175679,6 @@
   "topic": "教育",
   "sources": [
    "catti3-syllabus-5000"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "bc317d4b69630456",
-  "zh": "高等教育“211工程",
-  "en": "” the “211” Project for higher education",
-  "headword": "project",
-  "letter": "P",
-  "topic": "04-政治政府",
-  "sources": [
-   "04-政治政府",
-   "local-classified"
   ],
   "kind": "phrase",
   "phonetic": ""
@@ -180513,7 +178104,7 @@
  {
   "id": "dcecfc94cbe0e02a",
   "zh": "南瓜节(北美",
-  "en": "PUMPKIN DAY",
+  "en": "Pumpkin Day",
   "headword": "pumpkin",
   "letter": "P",
   "topic": "10-文化教育",
@@ -181603,7 +179194,7 @@
  {
   "id": "328ebe83f6da3804",
   "zh": "素质教育",
-  "en": "QUALITY EDUCATION",
+  "en": "Quality Education",
   "headword": "quality",
   "letter": "Q",
   "topic": "09-热门话题",
@@ -181880,20 +179471,6 @@
   "topic": "文化艺术娱乐",
   "sources": [
    "catti3-syllabus-5000"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "94edd4ea047e0d6b",
-  "zh": "“第三产业”：(THIRD/TERTIARY INDUSTRY,SERVICE SECTOR,THIRD SEQUENCE OF ENTERPRISES)79.“第四产业",
-  "en": "”：(QUATERNARY/INFORMATION INDUSTRY",
-  "headword": "quaternary",
-  "letter": "Q",
-  "topic": "09-热门话题",
-  "sources": [
-   "09-热门话题",
-   "local-classified"
   ],
   "kind": "phrase",
   "phonetic": ""
@@ -185831,20 +183408,6 @@
   "kind": "word",
   "phonetic": "",
   "freq_rank": 4576
- },
- {
-  "id": "2e08c8a1d0de846a",
-  "zh": "减负",
-  "en": "REDUCTION OF STUDENTS’STUDY LOAD",
-  "headword": "reduction",
-  "letter": "R",
-  "topic": "09-热门话题",
-  "sources": [
-   "09-热门话题",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
  },
  {
   "id": "602a6c13dd630f5b",
@@ -192569,7 +190132,7 @@
  {
   "id": "ef890fb87eeb3418",
   "zh": "风险投资",
-  "en": "RISK INVESTMENT ( VENTURE CAPITAL",
+  "en": "Risk Investment ( Venture Capital",
   "headword": "risk",
   "letter": "R",
   "topic": "09-热门话题",
@@ -195968,7 +193531,7 @@
  {
   "id": "0acabd09961d547c",
   "zh": "一次性杯子",
-  "en": "SANITARY CUP",
+  "en": "Sanitary Cup",
   "headword": "sanitary",
   "letter": "S",
   "topic": "09-热门话题",
@@ -201856,7 +199419,7 @@
  {
   "id": "3e6c072cb07a3e8e",
   "zh": "性教育",
-  "en": "SEX EDUCATION",
+  "en": "Sex Education",
   "headword": "sex",
   "letter": "S",
   "topic": "09-热门话题",
@@ -202670,76 +200233,6 @@
   "kind": "word",
   "phonetic": "",
   "freq_rank": 7829
- },
- {
-  "id": "835f737d2278d456",
-  "zh": "她让我头疼",
-  "en": "146． She gives me a headache",
-  "headword": "she",
-  "letter": "S",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "bc991cba4a486495",
-  "zh": "她使我厌烦",
-  "en": "18． She turns me off",
-  "headword": "she",
-  "letter": "S",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "2c986e971563eaec",
-  "zh": "她卧病在床",
-  "en": "217． She is sick in bed",
-  "headword": "she",
-  "letter": "S",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "780d3aea514ab635",
-  "zh": "出席；露面].（她一直没有出现",
-  "en": "21． She never showed up",
-  "headword": "she",
-  "letter": "S",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "bf77215ef1c290f5",
-  "zh": "她满面忧伤",
-  "en": "225． She looks blue",
-  "headword": "she",
-  "letter": "S",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
  },
  {
   "id": "8aff78b5783662f3",
@@ -204960,8 +202453,8 @@
  {
   "id": "6c712a3c11f67a4b",
   "zh": "一次处理",
-  "en": "SINGLE/PRIMARY TREATMENT",
-  "headword": "single",
+  "en": "Single/primary Treatment",
+  "headword": "single/primary",
   "letter": "S",
   "topic": "09-热门话题",
   "sources": [
@@ -205121,7 +202614,7 @@
  {
   "id": "5add585906df5a69",
   "zh": "一次用相机",
-  "en": "SINGLE-USE CAMERA",
+  "en": "Single-use Camera",
   "headword": "single-use",
   "letter": "S",
   "topic": "09-热门话题",
@@ -205749,20 +203242,6 @@
   "freq_rank": 7573
  },
  {
-  "id": "5486d1d41f3880d3",
-  "zh": "天空的云越来越多了",
-  "en": "200． The sky is getting very cloudy",
-  "headword": "sky",
-  "letter": "S",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "42415704a2a7ca9c",
   "zh": "劫机",
   "en": "skyjacking n.",
@@ -206039,20 +203518,6 @@
   "kind": "word",
   "phonetic": "",
   "freq_rank": 6310
- },
- {
-  "id": "460a5b663f5646c2",
-  "zh": "爬格子”",
-  "en": "slink ink “",
-  "headword": "slink",
-  "letter": "S",
-  "topic": "16-新闻经典",
-  "sources": [
-   "16-新闻经典",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
  },
  {
   "id": "e33ed7508a3a1d55",
@@ -206864,20 +204329,6 @@
   "freq_rank": 9835
  },
  {
-  "id": "d52b010956109428",
-  "zh": "目前为止，一切都好",
-  "en": "19． So far so good",
-  "headword": "so",
-  "letter": "S",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "af7bd1475d92d710",
   "zh": "马马虎虎",
   "en": "So so",
@@ -207187,20 +204638,6 @@
   "topic": "中国特色政治",
   "sources": [
    "catti3-syllabus-5000"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "a8d33a558d0afb24",
-  "zh": "社会保障“三条保障线”制度",
-  "en": "social security system of “three guarantees”",
-  "headword": "social",
-  "letter": "S",
-  "topic": "01-社会发展",
-  "sources": [
-   "01-社会发展",
-   "local-classified"
   ],
   "kind": "phrase",
   "phonetic": ""
@@ -208419,20 +205856,6 @@
   "phonetic": ""
  },
  {
-  "id": "7863060f2f31a950",
-  "zh": "发生/出现].（有点事/出事了",
-  "en": "30． Something's come up",
-  "headword": "something's",
-  "letter": "S",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "d7aa323b69cc5aba",
   "zh": "",
   "en": "sometimes",
@@ -208531,7 +205954,7 @@
  {
   "id": "285e71cdbf8f75ac",
   "zh": "宋干节(泰国新年",
-  "en": "SONGKRAN FESTIVAL DAY",
+  "en": "Songkran Festival Day",
   "headword": "songkran",
   "letter": "S",
   "topic": "10-文化教育",
@@ -208654,34 +206077,6 @@
   "phonetic": ""
  },
  {
-  "id": "03cb795394138ca3",
-  "zh": "越快越好",
-  "en": "11． The sooner the better",
-  "headword": "sooner",
-  "letter": "S",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "7fcb0ce45661daf7",
-  "zh": "迟早会的",
-  "en": "66． Sooner or later",
-  "headword": "sooner",
-  "letter": "S",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "aa80ac9002dd6996",
   "zh": "",
   "en": "soonest",
@@ -208771,20 +206166,6 @@
   "topic": "文化艺术娱乐",
   "sources": [
    "catti3-syllabus-5000"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "6615465643517acb",
-  "zh": "抱歉打扰你。[事前",
-  "en": "126． Sorry to bother you",
-  "headword": "sorry",
-  "letter": "S",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
   ],
   "kind": "phrase",
   "phonetic": ""
@@ -213349,20 +210730,6 @@
   "phonetic": ""
  },
  {
-  "id": "a61ceb1cd6e35b5a",
-  "zh": "请别管这事",
-  "en": "133． Stay out of this matter, please",
-  "headword": "stay",
-  "letter": "S",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "a6b169ce61e6de2d",
   "zh": "在……下榻",
   "en": "stay at v.",
@@ -216000,20 +213367,6 @@
   "freq_rank": 734
  },
  {
-  "id": "3c73ff7953fff1b2",
-  "zh": "三维摄影室",
-  "en": "3D Studio: Three Dimension Studio",
-  "headword": "studio",
-  "letter": "S",
-  "topic": "14-电脑网络",
-  "sources": [
-   "14-电脑网络",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "ef8806a4e9df7e16",
   "zh": "",
   "en": "studios",
@@ -216043,7 +213396,7 @@
  {
   "id": "1d7a959393a56e5a",
   "zh": "留学海外",
-  "en": "STUDYING ABROAD",
+  "en": "Studying Abroad",
   "headword": "studying",
   "letter": "S",
   "topic": "09-热门话题",
@@ -219136,7 +216489,7 @@
  {
   "id": "0e930a3bfdf20468",
   "zh": "可持续性发展",
-  "en": "SUSTAINABLE DEVELOPMENT",
+  "en": "Sustainable Development",
   "headword": "sustainable",
   "letter": "S",
   "topic": "09-热门话题",
@@ -219321,20 +216674,6 @@
   "kind": "word",
   "phonetic": "",
   "freq_rank": 9995
- },
- {
-  "id": "2bf1f48d80220c0b",
-  "zh": "我发誓不告诉任何人",
-  "en": "139． I swear I'll never tell anyone",
-  "headword": "swear",
-  "letter": "S",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
  },
  {
   "id": "4d9afc58dfe6309c",
@@ -220881,34 +218220,6 @@
   "phonetic": ""
  },
  {
-  "id": "ca297af9c6f9387c",
-  "zh": "慢慢来/别着急",
-  "en": "13． Take your time",
-  "headword": "take",
-  "letter": "T",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "8cf1918cc481f1d2",
-  "zh": "轻松一点；别紧张；放松放松；再见",
-  "en": "87． Take it easy",
-  "headword": "take",
-  "letter": "T",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "42150879bd450958",
   "zh": "防范和化解金融风险",
   "en": "Take precautions against and reduce financial risks",
@@ -221174,8 +218485,8 @@
  {
   "id": "0a2bdb707724499b",
   "zh": "中国的人才流失",
-  "en": "THE TALENT FLIGHT IN",
-  "headword": "talent",
+  "en": "The Talent Flight In",
+  "headword": "the",
   "letter": "T",
   "topic": "09-热门话题",
   "sources": [
@@ -221757,20 +219068,6 @@
   "freq_rank": 8169
  },
  {
-  "id": "98f147974d60dbf3",
-  "zh": "达标活动",
-  "en": "target hitting\" activities",
-  "headword": "target",
-  "letter": "T",
-  "topic": "09-热门话题",
-  "sources": [
-   "09-热门话题",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "4ce0e918ea2cb50b",
   "zh": "目标语",
   "en": "target language",
@@ -222338,40 +219635,12 @@
  {
   "id": "5ff242066b311ad5",
   "zh": "教师节(中国",
-  "en": "TEACHER'S DAY",
+  "en": "Teacher's Day",
   "headword": "teacher's",
   "letter": "T",
   "topic": "10-文化教育",
   "sources": [
    "10-文化教育",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "6243cdfb31d55239",
-  "zh": "课堂是以教师为中心还是以学生为中心",
-  "en": "A TEACHER-CENTERED CLASS OR A STUDENT-CENTERED CLASS",
-  "headword": "teacher-centered",
-  "letter": "T",
-  "topic": "09-热门话题",
-  "sources": [
-   "09-热门话题",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "57ebc5950a03c8b8",
-  "zh": "教师，国家的未来",
-  "en": "TEACHERS, A NATION’S FUTURE",
-  "headword": "teachers",
-  "letter": "T",
-  "topic": "09-热门话题",
-  "sources": [
-   "09-热门话题",
    "local-classified"
   ],
   "kind": "phrase",
@@ -223421,20 +220690,6 @@
   "topic": "13-常见职位",
   "sources": [
    "13-常见职位",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "0da8e4c1485ff2a1",
-  "zh": "把你的烦恼告诉我",
-  "en": "214． Tell me about you trouble",
-  "headword": "tell",
-  "letter": "T",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
    "local-classified"
   ],
   "kind": "phrase",
@@ -224856,62 +222111,6 @@
   "phonetic": ""
  },
  {
-  "id": "9cfa6464abe546b7",
-  "zh": "不可能",
-  "en": "107． That can't be",
-  "headword": "that",
-  "letter": "T",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "3f555759119441cc",
-  "zh": "那电影糟透了",
-  "en": "136． That was a lousy movie",
-  "headword": "that",
-  "letter": "T",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "156b613977756e6f",
-  "zh": "那提醒了我",
-  "en": "208． That reminds me",
-  "headword": "that",
-  "letter": "T",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "32ae9b78021a31c1",
-  "zh": "太危险了/千钧一发",
-  "en": "33． That was a close call",
-  "headword": "that",
-  "letter": "T",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "824628aa22f49b92",
   "zh": "这样的事情经常发生",
   "en": "That happens",
@@ -224995,34 +222194,6 @@
   "phonetic": ""
  },
  {
-  "id": "fcf85a0b18c7ef79",
-  "zh": "真了不起",
-  "en": "108． That's really something",
-  "headword": "that's",
-  "letter": "T",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "24e204fd3aa17baa",
-  "zh": "那不象是他的风格",
-  "en": "22． That's not like him",
-  "headword": "that's",
-  "letter": "T",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "db6733a27b39c1cf",
   "zh": "",
   "en": "thats",
@@ -225035,20 +222206,6 @@
   "kind": "word",
   "phonetic": "",
   "freq_rank": 6150
- },
- {
-  "id": "392c8580a9bffb8b",
-  "zh": "污染者负担的政策",
-  "en": "“the-polluters-pay” policy",
-  "headword": "the-polluters-pay",
-  "letter": "T",
-  "topic": "05-环境保护",
-  "sources": [
-   "05-环境保护",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
  },
  {
   "id": "bb07b0cdca86b963",
@@ -225915,34 +223072,6 @@
   "phonetic": ""
  },
  {
-  "id": "f5e1a844922801b6",
-  "zh": "我觉得这是个合理的价钱",
-  "en": "187． I think it's a reasonable price",
-  "headword": "think",
-  "letter": "T",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "18b8b11362196e7a",
-  "zh": "别放在心上",
-  "en": "51． Think nothing of it",
-  "headword": "think",
-  "letter": "T",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "4a242e51a64ebcbb",
   "zh": "我认为是这样的",
   "en": "I think so",
@@ -226117,34 +223246,6 @@
   "topic": "10-文化教育",
   "sources": [
    "10-文化教育",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "b48b9f905cfb8b18",
-  "zh": "这是明天的日程安排",
-  "en": "220． This is the schedule for tomorrow",
-  "headword": "this",
-  "letter": "T",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "c401ab87d80574ec",
-  "zh": "这牛奶变质了",
-  "en": "56． This milk has gone bad",
-  "headword": "this",
-  "letter": "T",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
    "local-classified"
   ],
   "kind": "phrase",
@@ -226479,20 +223580,6 @@
   "topic": "科技",
   "sources": [
    "catti3-syllabus-5000"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "65352b99f08ed9e1",
-  "zh": "“三通”的现译文",
-  "en": "THREE LINKS：LINK OF TRADE，TRAVEL AND POST",
-  "headword": "three",
-  "letter": "T",
-  "topic": "09-热门话题",
-  "sources": [
-   "09-热门话题",
-   "local-classified"
   ],
   "kind": "phrase",
   "phonetic": ""
@@ -227142,20 +224229,6 @@
   "freq_rank": 7799
  },
  {
-  "id": "aaadb8a89a881972",
-  "zh": "豆腐干”(文章",
-  "en": "thumbnail n．“",
-  "headword": "thumbnail",
-  "letter": "T",
-  "topic": "16-新闻经典",
-  "sources": [
-   "16-新闻经典",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "9eadc389a7ae8692",
   "zh": "",
   "en": "thumbnails",
@@ -227731,34 +224804,6 @@
   "topic": "经济与改革",
   "sources": [
    "catti3-syllabus-5000"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "00138d4190e7a145",
-  "zh": "暂时；暂且；目前",
-  "en": "55． For the time being",
-  "headword": "time",
-  "letter": "T",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "7f8440e3b4633d21",
-  "zh": "时间会证明的",
-  "en": "83． Time will tell",
-  "headword": "time",
-  "letter": "T",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
   ],
   "kind": "phrase",
   "phonetic": ""
@@ -229371,7 +226416,7 @@
  {
   "id": "0f752e81c19fec3b",
   "zh": "旅游热",
-  "en": "TOURISM WAVE",
+  "en": "Tourism Wave",
   "headword": "tourism",
   "letter": "T",
   "topic": "09-热门话题",
@@ -232813,7 +229858,7 @@
  {
   "id": "91fe15d38f867583",
   "zh": "努力更新知识",
-  "en": "TRYING TO RENEW KNOWLEDGE",
+  "en": "Trying to Renew Knowledge",
   "headword": "trying",
   "letter": "T",
   "topic": "09-热门话题",
@@ -239057,20 +236102,6 @@
   "freq_rank": 8980
  },
  {
-  "id": "737d2caeb85ad77b",
-  "zh": "视频图形阵列",
-  "en": "VGA:Video Graphics Array",
-  "headword": "vga",
-  "letter": "V",
-  "topic": "14-电脑网络",
-  "sources": [
-   "14-电脑网络",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "bbe384ac9877c299",
   "zh": "",
   "en": "vhs",
@@ -242056,20 +239087,6 @@
   "phonetic": ""
  },
  {
-  "id": "9ede96ad7b5567ae",
-  "zh": "我又不是三岁小孩",
-  "en": "7． I wasn't born yesterday",
-  "headword": "wasn't",
-  "letter": "W",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "7335127d75e246e3",
   "zh": "废物处理",
   "en": "waste disposal n.",
@@ -242646,20 +239663,6 @@
   "phonetic": ""
  },
  {
-  "id": "8028d701a4ef8d71",
-  "zh": "消磨；打发（时间）].（我们有三十分钟空闲时间",
-  "en": "79． We have thirty minutes to kill",
-  "headword": "we",
-  "letter": "W",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "2ee0ba2bf599602f",
   "zh": "好东西，失去了才明白",
   "en": "We know not what is good until we have lost it",
@@ -242752,20 +239755,6 @@
   "topic": "04-政治政府",
   "sources": [
    "04-政治政府",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "709f8d6d852c44bd",
-  "zh": "我们处境相同",
-  "en": "39． We're in the same boat",
-  "headword": "we're",
-  "letter": "W",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
    "local-classified"
   ],
   "kind": "phrase",
@@ -243797,118 +240786,6 @@
   "freq_rank": 9002
  },
  {
-  "id": "e91044314ab56038",
-  "zh": "你在说些什么",
-  "en": "115． What are you talking about",
-  "headword": "what",
-  "letter": "W",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "e1946c2375fb33c9",
-  "zh": "请再说一次名字好吗",
-  "en": "16． What was your name again",
-  "headword": "what",
-  "letter": "W",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "34516b37eaf7ba40",
-  "zh": "你的记性是怎么搞的",
-  "en": "171． What happened to you memory",
-  "headword": "what",
-  "letter": "W",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "ba6bba5ad206f5c3",
-  "zh": "你到底在做什么",
-  "en": "209． What the hell are you doing",
-  "headword": "what",
-  "letter": "W",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "d07738fccb3d8e05",
-  "zh": "什么事让你如此兴奋",
-  "en": "213． What are you so excited about",
-  "headword": "what",
-  "letter": "W",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "4b4c800522dc8965",
-  "zh": "什么风把你吹到北京来的",
-  "en": "224． What brings you to Beijing",
-  "headword": "what",
-  "letter": "W",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "3b452116d1e940de",
-  "zh": "你推荐什么",
-  "en": "41． What do you recommend",
-  "headword": "what",
-  "letter": "W",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "1c29ffafdc9ad64b",
-  "zh": "消遣、娱乐]?（你做什么消遣",
-  "en": "8． What do you do for relaxation",
-  "headword": "what",
-  "letter": "W",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "f08d305ad8afbb59",
   "zh": "何为新世纪的好老师",
   "en": "WHAT IS A GOOD TEACHER IN THE NEXT CENTURY",
@@ -244035,90 +240912,6 @@
   "phonetic": ""
  },
  {
-  "id": "be54a34e29c64dfc",
-  "zh": "什么事那么匆忙",
-  "en": "130． What's the rush",
-  "headword": "what's",
-  "letter": "W",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "2a42a6e67e93875f",
-  "zh": "有什么好笑的",
-  "en": "131． What's so funny/",
-  "headword": "what's",
-  "letter": "W",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "3b25e579a6a84db9",
-  "zh": "什么在困扰你",
-  "en": "194． What's bothering you",
-  "headword": "what's",
-  "letter": "W",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "852b76ad861a1338",
-  "zh": "香港以什么闻名",
-  "en": "223． What's Hong Kong famous for",
-  "headword": "what's",
-  "letter": "W",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "2c8e5729a73dda36",
-  "zh": "今天天气如何",
-  "en": "5． What's the weather like today",
-  "headword": "what's",
-  "letter": "W",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "afd46f432fccebb5",
-  "zh": "这是关于哪方面的",
-  "en": "76． What's this regarding",
-  "headword": "what's",
-  "letter": "W",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "1414a4a204a4ae16",
   "zh": "生米煮成熟饭了",
   "en": "What's done cannot be undone",
@@ -244141,20 +240934,6 @@
   "topic": "19-谚语",
   "sources": [
    "19-谚语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "9df754b9ffae9c62",
-  "zh": "随便你",
-  "en": "80． Whatever you say",
-  "headword": "whatever",
-  "letter": "W",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
    "local-classified"
   ],
   "kind": "phrase",
@@ -244326,34 +241105,6 @@
   "kind": "word",
   "phonetic": "",
   "freq_rank": 4745
- },
- {
-  "id": "59690956ec68b801",
-  "zh": "请问洗手间在哪里",
-  "en": "4． Where can I wash my hands",
-  "headword": "where",
-  "letter": "W",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "e658b8df6cde4ce2",
-  "zh": "朝…方向行进]? （你要到哪里去",
-  "en": "6． Where are you headed",
-  "headword": "where",
-  "letter": "W",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
  },
  {
   "id": "2878f1a62549f7a5",
@@ -244538,20 +241289,6 @@
   "phonetic": ""
  },
  {
-  "id": "293915edc2339340",
-  "zh": "“白皮书”：WHITE PAPER(不是",
-  "en": "WHITE COVER BOOK",
-  "headword": "white",
-  "letter": "W",
-  "topic": "09-热门话题",
-  "sources": [
-   "09-热门话题",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "0837914a30d8f8fc",
   "zh": "白露",
   "en": "White Dew",
@@ -244672,48 +241409,6 @@
   "topic": "社会",
   "sources": [
    "catti3-syllabus-5000"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "66120cf09f93c533",
-  "zh": "你以为你是谁",
-  "en": "154． Who do you think you are",
-  "headword": "who",
-  "letter": "W",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "5dbeb7a2bd7bdbab",
-  "zh": "该怪谁",
-  "en": "195． Who is to blame",
-  "headword": "who",
-  "letter": "W",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "1a6ed51c44cf4f66",
-  "zh": "我应该去见谁",
-  "en": "203． Who am I supposed to see",
-  "headword": "who",
-  "letter": "W",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
   ],
   "kind": "phrase",
   "phonetic": ""
@@ -245210,20 +241905,6 @@
   "kind": "word",
   "phonetic": "",
   "freq_rank": 9883
- },
- {
-  "id": "fbd9bd3659eb2554",
-  "zh": "见机行事；临时现做].（我会见机行事的；到时候再说",
-  "en": "84． I will play it by ear",
-  "headword": "will",
-  "letter": "W",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
  },
  {
   "id": "bbc3bc1bc8e7f129",
@@ -245861,20 +242542,6 @@
   "phonetic": ""
  },
  {
-  "id": "8e956e8da3939f31",
-  "zh": "不行。）[委婉表达法",
-  "en": "129． I wish I could",
-  "headword": "wish",
-  "letter": "W",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "92465436185e822f",
   "zh": "当家作主的愿望",
   "en": "the wish to be the masters of our country",
@@ -246269,34 +242936,6 @@
   "zh": "我赢了",
   "en": "I won",
   "headword": "won",
-  "letter": "W",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "a72b5a9b3242e719",
-  "zh": "相信；接受] you story.（我不信你那一套",
-  "en": "123． I won't buy",
-  "headword": "won't",
-  "letter": "W",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "472e175c6bdaf2ad",
-  "zh": "我不知道他出什么事了",
-  "en": "160． I wonder what happened to him",
-  "headword": "wonder",
   "letter": "W",
   "topic": "20-常用口语",
   "sources": [
@@ -246978,7 +243617,7 @@
  {
   "id": "4c6b7413a47d659a",
   "zh": "世界爱滋病日",
-  "en": "WORLD AIDS DAY",
+  "en": "World Aids Day",
   "headword": "world",
   "letter": "W",
   "topic": "10-文化教育",
@@ -246992,7 +243631,7 @@
  {
   "id": "503d96e88f521f81",
   "zh": "世界消费者权益日",
-  "en": "WORLD CONSUMER RIGHT DAY",
+  "en": "World Consumer Right Day",
   "headword": "world",
   "letter": "W",
   "topic": "10-文化教育",
@@ -247006,7 +243645,7 @@
  {
   "id": "ee669c9243a27bf3",
   "zh": "世界残疾日",
-  "en": "WORLD DISABLED DAY",
+  "en": "World Disabled Day",
   "headword": "world",
   "letter": "W",
   "topic": "10-文化教育",
@@ -247020,7 +243659,7 @@
  {
   "id": "35df23d020e20eac",
   "zh": "世界地球日",
-  "en": "WORLD EARTH DAY",
+  "en": "World Earth Day",
   "headword": "world",
   "letter": "W",
   "topic": "10-文化教育",
@@ -247034,7 +243673,7 @@
  {
   "id": "43ec3ad1f075716a",
   "zh": "世界粮食日",
-  "en": "WORLD GRAIN DAY",
+  "en": "World Grain Day",
   "headword": "world",
   "letter": "W",
   "topic": "10-文化教育",
@@ -247048,7 +243687,7 @@
  {
   "id": "401d3cad14bdaf99",
   "zh": "世界卫生日",
-  "en": "WORLD HEALTH DAY",
+  "en": "World Health Day",
   "headword": "world",
   "letter": "W",
   "topic": "10-文化教育",
@@ -247062,7 +243701,7 @@
  {
   "id": "24e1c91ee00604e0",
   "zh": "世界住房日(十月第一个星期一",
-  "en": "WORLD HOUSING DAY",
+  "en": "World Housing Day",
   "headword": "world",
   "letter": "W",
   "topic": "10-文化教育",
@@ -247076,7 +243715,7 @@
  {
   "id": "a7be6f7333fbdcfe",
   "zh": "世界无烟日",
-  "en": "WORLD NO-SMOKING DAY",
+  "en": "World No-smoking Day",
   "headword": "world",
   "letter": "W",
   "topic": "10-文化教育",
@@ -247090,7 +243729,7 @@
  {
   "id": "9b59f34e4f5acea4",
   "zh": "世界人口日",
-  "en": "WORLD POPULATION DAY",
+  "en": "World Population Day",
   "headword": "world",
   "letter": "W",
   "topic": "10-文化教育",
@@ -247104,7 +243743,7 @@
  {
   "id": "636d35efb5c88fe4",
   "zh": "世界邮政日",
-  "en": "WORLD POST DAY",
+  "en": "World Post Day",
   "headword": "world",
   "letter": "W",
   "topic": "10-文化教育",
@@ -247118,7 +243757,7 @@
  {
   "id": "1f50876517280202",
   "zh": "世界电信日",
-  "en": "WORLD TELECOMMUNICATIONS DAY",
+  "en": "World Telecommunications Day",
   "headword": "world",
   "letter": "W",
   "topic": "10-文化教育",
@@ -247676,20 +244315,6 @@
   "kind": "word",
   "phonetic": "",
   "freq_rank": 8085
- },
- {
-  "id": "748cc6baf7c28c6d",
-  "zh": "喜欢] a cop of coffee?（要被咖啡吗",
-  "en": "17． Would you care for",
-  "headword": "would",
-  "letter": "W",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
  },
  {
   "id": "84358437a79a42fc",
@@ -249077,62 +245702,6 @@
   "phonetic": ""
  },
  {
-  "id": "2e13998fbeeb6993",
-  "zh": "你确信吗",
-  "en": "109． Are you sure",
-  "headword": "you",
-  "letter": "Y",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "a1a54343414a5ae0",
-  "zh": "你疯了吗",
-  "en": "110． Are you crazy",
-  "headword": "you",
-  "letter": "Y",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "ae005124e3bd581e",
-  "zh": "不知道/谁也没把握",
-  "en": "122． You can never tell",
-  "headword": "you",
-  "letter": "Y",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "ce32182d4b667f6a",
-  "zh": "交给我来办",
-  "en": "128． You may leave it to me",
-  "headword": "you",
-  "letter": "Y",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "00c12acc1ee33243",
   "zh": "你让我感到羞愧",
   "en": "149． You made me feel ashamed of myself",
@@ -249158,146 +245727,6 @@
    "local-classified"
   ],
   "kind": "sentence",
-  "phonetic": ""
- },
- {
-  "id": "6f78ba786fb9d65a",
-  "zh": "我保证",
-  "en": "182． You have my word",
-  "headword": "you",
-  "letter": "Y",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "0990db4ba2e19051",
-  "zh": "你逃不掉惩罚的",
-  "en": "201． You won't get away with this",
-  "headword": "you",
-  "letter": "Y",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "fce67c05ddf044b7",
-  "zh": "你似乎有很严重的事",
-  "en": "211． You look very serious about something",
-  "headword": "you",
-  "letter": "Y",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "27531f115633dd5d",
-  "zh": "指望；依赖] us.（你可以信赖我们",
-  "en": "48． You can count on",
-  "headword": "you",
-  "letter": "Y",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "5c092d0089008221",
-  "zh": "使人感到满意和愉快] everyone.（你不可能讨好每一个人",
-  "en": "61． You can't please",
-  "headword": "you",
-  "letter": "Y",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "f3774268506361d7",
-  "zh": "当然",
-  "en": "63． You bet",
-  "headword": "you",
-  "letter": "Y",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "f7686b6f4a88f388",
-  "zh": "同某人开玩笑；取笑]?（你在开我玩笑吗",
-  "en": "65． Are you pulling my leg",
-  "headword": "you",
-  "letter": "Y",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "5aac044ae641c42b",
-  "zh": "具体地（说出来）] it!（你说出来",
-  "en": "82． You name",
-  "headword": "you",
-  "letter": "Y",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "ec09bdf61f46da03",
-  "zh": "利用] it.（你应该好好利用这个机会",
-  "en": "85． You should take advantage of",
-  "headword": "you",
-  "letter": "Y",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "5ebe8bc9ed734ef7",
-  "zh": "你不能这么对我",
-  "en": "96． You can't do this to me",
-  "headword": "you",
-  "letter": "Y",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
   "phonetic": ""
  },
  {
@@ -249539,76 +245968,6 @@
   "phonetic": ""
  },
  {
-  "id": "4d331f910ca2a18a",
-  "zh": "你在白费口舌",
-  "en": "155． You're wasting you breath",
-  "headword": "you're",
-  "letter": "Y",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "756ee00adf2efd41",
-  "zh": "你太过分了",
-  "en": "172． You're going too far",
-  "headword": "you're",
-  "letter": "Y",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "31f36ef7aa1784e8",
-  "zh": "你太直率了",
-  "en": "185． You're too outspoken",
-  "headword": "you're",
-  "letter": "Y",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "fb2a499803cb35f0",
-  "zh": "听你的",
-  "en": "73． You're the boss",
-  "headword": "you're",
-  "letter": "Y",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
-  "id": "a0e5ed6a7f74218b",
-  "zh": "你一定要想办法",
-  "en": "165． You've got to do something",
-  "headword": "you've",
-  "letter": "Y",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
- },
- {
   "id": "0eaaf896bbffaf12",
   "zh": "少壮不努力，老大徒伤悲",
   "en": "A young idler, an old beggar",
@@ -249635,20 +245994,6 @@
   "kind": "word",
   "phonetic": "",
   "freq_rank": 5422
- },
- {
-  "id": "3433dd80875528f4",
-  "zh": "你的表情透露了一切",
-  "en": "163． Your face tells it all",
-  "headword": "your",
-  "letter": "Y",
-  "topic": "20-常用口语",
-  "sources": [
-   "20-常用口语",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
  },
  {
   "id": "ebb5311a352ee9c5",
@@ -249691,20 +246036,6 @@
   "kind": "word",
   "phonetic": "",
   "freq_rank": 1602
- },
- {
-  "id": "ab75331c391f8d56",
-  "zh": "廿一世纪的青年人",
-  "en": "THE YOUTH AND THE 21ST CENTURY",
-  "headword": "youth",
-  "letter": "Y",
-  "topic": "09-热门话题",
-  "sources": [
-   "09-热门话题",
-   "local-classified"
-  ],
-  "kind": "phrase",
-  "phonetic": ""
  },
  {
   "id": "2138c46224d7fe1a",

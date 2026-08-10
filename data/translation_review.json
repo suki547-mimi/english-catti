@@ -1,0 +1,3246 @@
+{
+  "total_flagged": 493,
+  "shown": 200,
+  "items": [
+    {
+      "id": "016c2e13248bc553",
+      "en": "MY VIEW ON A PART-TIME JOB",
+      "zh": "兼职工作",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 7.5,
+      "reasons": [
+        "length mismatch zh=4chars en=6words",
+        "en has preposition",
+        "zh noun-tail '工作'",
+        "suspect topic '09-热门话题'",
+        "en ALL CAPS"
+      ]
+    },
+    {
+      "id": "bce3081f36f51bfd",
+      "en": "advance with the times",
+      "zh": "与时俱进",
+      "topic": "04-政治政府",
+      "sources": [
+        "04-政治政府",
+        "local-classified"
+      ],
+      "score": 7.0,
+      "reasons": [
+        "length mismatch zh=4chars en=4words",
+        "en verb-head 'advance'",
+        "en has preposition",
+        "suspect topic '04-政治政府'"
+      ]
+    },
+    {
+      "id": "341746d9bab65768",
+      "en": "ENSURE FUNDING FOR PRIORITY AREAS",
+      "zh": "保证重点指出",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 7.0,
+      "reasons": [
+        "length mismatch zh=6chars en=5words",
+        "en verb-head 'ensure'",
+        "en has preposition",
+        "suspect topic '09-热门话题'",
+        "en ALL CAPS"
+      ]
+    },
+    {
+      "id": "f47cc42d32543c0f",
+      "en": "make/create something out of nothing",
+      "zh": "无中生有",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 7.0,
+      "reasons": [
+        "length mismatch zh=4chars en=6words",
+        "en verb-head 'make'",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "a5d6b128858e9041",
+      "en": "make/go the rounds of the wards",
+      "zh": "查房",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 7.0,
+      "reasons": [
+        "length mismatch zh=2chars en=7words",
+        "en verb-head 'make'",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "a4316d22988af35c",
+      "en": "put a label on",
+      "zh": "扣帽子",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 7.0,
+      "reasons": [
+        "length mismatch zh=3chars en=4words",
+        "en verb-head 'put'",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "8a0de17d945e0127",
+      "en": "put under centralized management by specialized departments",
+      "zh": "归口管理",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 7.0,
+      "reasons": [
+        "length mismatch zh=4chars en=7words",
+        "en verb-head 'put'",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "ce5d9566bf02c090",
+      "en": "put/lay one’s card on the table",
+      "zh": "摊牌",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 7.0,
+      "reasons": [
+        "length mismatch zh=2chars en=8words",
+        "en verb-head 'put'",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "67773b4c31cf2e0b",
+      "en": "a state with an adequate legal system",
+      "zh": "法制国家",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 6.5,
+      "reasons": [
+        "length mismatch zh=4chars en=7words",
+        "en has preposition",
+        "zh noun-tail '国家'",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "cce4b9d6d768d81d",
+      "en": "building redundant project; duplication of similar projects",
+      "zh": "重复建设",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 6.5,
+      "reasons": [
+        "length mismatch zh=4chars en=7words",
+        "en has preposition",
+        "zh noun-tail '建设'",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "cf7e54db9c8544c0",
+      "en": "construction of a clean and honest administration",
+      "zh": "廉政建设",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 6.5,
+      "reasons": [
+        "length mismatch zh=4chars en=7words",
+        "en has preposition",
+        "zh noun-tail '建设'",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "5a2e5a9ba6f7f2a3",
+      "en": "try to curry favor with",
+      "zh": "拉关系",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 6.5,
+      "reasons": [
+        "length mismatch zh=3chars en=5words",
+        "en has preposition",
+        "zh noun-tail '关系'",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "ec66b2a78be2045d",
+      "en": "a country under the rule of law",
+      "zh": "法治国家",
+      "topic": "中国特色政治",
+      "sources": [
+        "catti3-syllabus-5000",
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 6.5,
+      "reasons": [
+        "length mismatch zh=4chars en=7words",
+        "en has preposition",
+        "zh noun-tail '国家'",
+        "suspect topic '中国特色政治'"
+      ]
+    },
+    {
+      "id": "8c0a060def887d7d",
+      "en": "have a go (at sth",
+      "zh": "试一下",
+      "topic": "03-改革开放",
+      "sources": [
+        "03-改革开放",
+        "local-classified"
+      ],
+      "score": 6.0,
+      "reasons": [
+        "length mismatch zh=3chars en=5words",
+        "en verb-head 'have'",
+        "en has preposition"
+      ]
+    },
+    {
+      "id": "0ad50538ccdf5b08",
+      "en": "promote fair distribution of social wealth",
+      "zh": "促进公平分配",
+      "topic": "04-政治政府",
+      "sources": [
+        "04-政治政府",
+        "local-classified"
+      ],
+      "score": 6.0,
+      "reasons": [
+        "length mismatch zh=6chars en=6words",
+        "en verb-head 'promote'",
+        "en has preposition",
+        "suspect topic '04-政治政府'"
+      ]
+    },
+    {
+      "id": "23385b3ffeb4f9e2",
+      "en": "1999：FAREWELL TO THE SPECIAL YEAR 1999",
+      "zh": "告别",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 6.0,
+      "reasons": [
+        "length mismatch zh=2chars en=5words",
+        "en has preposition",
+        "suspect topic '09-热门话题'",
+        "en ALL CAPS"
+      ]
+    },
+    {
+      "id": "28f60d1cfbdfabc5",
+      "en": "HUNTING FOR A JOB ON INTERNET",
+      "zh": "网上求职",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 6.0,
+      "reasons": [
+        "length mismatch zh=4chars en=6words",
+        "en has preposition",
+        "suspect topic '09-热门话题'",
+        "en ALL CAPS"
+      ]
+    },
+    {
+      "id": "2e08c8a1d0de846a",
+      "en": "REDUCTION OF STUDENTS’STUDY LOAD",
+      "zh": "减负",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 6.0,
+      "reasons": [
+        "length mismatch zh=2chars en=5words",
+        "en has preposition",
+        "suspect topic '09-热门话题'",
+        "en ALL CAPS"
+      ]
+    },
+    {
+      "id": "a9a2aa22731f2307",
+      "en": "THE MERGING OF UNIVERSITIES",
+      "zh": "高校合并",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 6.0,
+      "reasons": [
+        "length mismatch zh=4chars en=4words",
+        "en has preposition",
+        "suspect topic '09-热门话题'",
+        "en ALL CAPS"
+      ]
+    },
+    {
+      "id": "6855b84cda013ac6",
+      "en": "cultivate one's taste (temperament",
+      "zh": "陶冶情操",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 6.0,
+      "reasons": [
+        "length mismatch zh=4chars en=4words",
+        "en verb-head 'cultivate'",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "c330f7c5ad6fe14c",
+      "en": "have a concubine (originally a Cantonese expression",
+      "zh": "包二奶",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 6.0,
+      "reasons": [
+        "length mismatch zh=3chars en=7words",
+        "en verb-head 'have'",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "7d2296761f7c7f84",
+      "en": "have a honeymoon trip",
+      "zh": "旅行结婚",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 6.0,
+      "reasons": [
+        "length mismatch zh=4chars en=4words",
+        "en verb-head 'have'",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "0d8369f371d9efd5",
+      "en": "make government affairs public",
+      "zh": "政务公开",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 6.0,
+      "reasons": [
+        "length mismatch zh=4chars en=4words",
+        "en verb-head 'make'",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "a3856b40f248516c",
+      "en": "make hay while the sun shines",
+      "zh": "莫失良机",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 6.0,
+      "reasons": [
+        "length mismatch zh=4chars en=6words",
+        "en verb-head 'make'",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "b68a15e78afa6504",
+      "en": "”：FIVE STRESSES AND FOUR POINTS OF BEAUTY",
+      "zh": "“五讲四美",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 6.0,
+      "reasons": [
+        "length mismatch zh=4chars en=7words",
+        "en has preposition",
+        "suspect topic '09-热门话题'",
+        "en ALL CAPS"
+      ]
+    },
+    {
+      "id": "144e716260d49529",
+      "en": "”：INCREASE EFFICIENCY BY DOWNSIZING STAFF",
+      "zh": "“减员增效",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 6.0,
+      "reasons": [
+        "length mismatch zh=4chars en=5words",
+        "en has preposition",
+        "suspect topic '09-热门话题'",
+        "en ALL CAPS"
+      ]
+    },
+    {
+      "id": "7d85e9cfe08a0e25",
+      "en": "”：OPEN TO THE OUTSIDE WORLD",
+      "zh": "“开放",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 6.0,
+      "reasons": [
+        "length mismatch zh=2chars en=5words",
+        "en has preposition",
+        "suspect topic '09-热门话题'",
+        "en ALL CAPS"
+      ]
+    },
+    {
+      "id": "7c99355129d8a514",
+      "en": "Let the cat out of the bag",
+      "zh": "泄漏天机",
+      "topic": "19-谚语",
+      "sources": [
+        "19-谚语",
+        "local-classified"
+      ],
+      "score": 6.0,
+      "reasons": [
+        "length mismatch zh=4chars en=7words",
+        "en verb-head 'let'",
+        "en has preposition"
+      ]
+    },
+    {
+      "id": "19d13d3d353e23fc",
+      "en": "Put your shoulder to the wheel",
+      "zh": "鼎力相助",
+      "topic": "19-谚语",
+      "sources": [
+        "19-谚语",
+        "local-classified"
+      ],
+      "score": 6.0,
+      "reasons": [
+        "length mismatch zh=4chars en=6words",
+        "en verb-head 'put'",
+        "en has preposition"
+      ]
+    },
+    {
+      "id": "f3b0321a51503840",
+      "en": "Set a thief to catch a thief",
+      "zh": "以贼捉贼",
+      "topic": "19-谚语",
+      "sources": [
+        "19-谚语",
+        "local-classified"
+      ],
+      "score": 6.0,
+      "reasons": [
+        "length mismatch zh=4chars en=7words",
+        "en verb-head 'set'",
+        "en has preposition"
+      ]
+    },
+    {
+      "id": "b30cbfaa54412ef2",
+      "en": "combat corruption and build a clean government",
+      "zh": "反腐倡廉",
+      "topic": "中国特色政治",
+      "sources": [
+        "catti3-syllabus-5000",
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 6.0,
+      "reasons": [
+        "length mismatch zh=4chars en=7words",
+        "en verb-head 'combat'",
+        "suspect topic '中国特色政治'"
+      ]
+    },
+    {
+      "id": "e8435c872e64ebfb",
+      "en": "seek truth from facts",
+      "zh": "实事求是",
+      "topic": "中国特色政治",
+      "sources": [
+        "catti3-syllabus-5000",
+        "03-改革开放",
+        "local-classified",
+        "19-谚语"
+      ],
+      "score": 6.0,
+      "reasons": [
+        "length mismatch zh=4chars en=4words",
+        "en verb-head 'seek'",
+        "suspect topic '中国特色政治'"
+      ]
+    },
+    {
+      "id": "b0c0c43e0b0e255a",
+      "en": "take the entrance exams for postgraduate schools",
+      "zh": "考研",
+      "topic": "教育",
+      "sources": [
+        "catti3-syllabus-5000",
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 6.0,
+      "reasons": [
+        "length mismatch zh=2chars en=7words",
+        "en verb-head 'take'",
+        "en has preposition"
+      ]
+    },
+    {
+      "id": "ff3404a95a7da54d",
+      "en": "strive for a relatively comfortable life",
+      "zh": "奔小康",
+      "topic": "社会",
+      "sources": [
+        "catti3-syllabus-5000",
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 6.0,
+      "reasons": [
+        "length mismatch zh=3chars en=6words",
+        "en verb-head 'strive'",
+        "en has preposition"
+      ]
+    },
+    {
+      "id": "a6867aa3ca0928e7",
+      "en": "be innovation-minded; to have a creative mind",
+      "zh": "创新精神",
+      "topic": "01-社会发展",
+      "sources": [
+        "01-社会发展",
+        "local-classified"
+      ],
+      "score": 5.5,
+      "reasons": [
+        "length mismatch zh=4chars en=7words",
+        "en has preposition",
+        "zh noun-tail '精神'"
+      ]
+    },
+    {
+      "id": "d2ad76f538cf3993",
+      "en": "Reform of medical insurance system",
+      "zh": "医保制度改革",
+      "topic": "04-政治政府",
+      "sources": [
+        "04-政治政府",
+        "local-classified"
+      ],
+      "score": 5.5,
+      "reasons": [
+        "length mismatch zh=6chars en=5words",
+        "en has preposition",
+        "zh noun-tail '改革'",
+        "suspect topic '04-政治政府'"
+      ]
+    },
+    {
+      "id": "58ff9750c8432fca",
+      "en": "our ability to service debt",
+      "zh": "财政偿还能力",
+      "topic": "04-政治政府",
+      "sources": [
+        "04-政治政府",
+        "local-classified"
+      ],
+      "score": 5.5,
+      "reasons": [
+        "length mismatch zh=6chars en=5words",
+        "en has preposition",
+        "zh noun-tail '能力'",
+        "suspect topic '04-政治政府'"
+      ]
+    },
+    {
+      "id": "916cd48e846e08bb",
+      "en": "proceed with confidence",
+      "zh": "坚定信心",
+      "topic": "04-政治政府",
+      "sources": [
+        "04-政治政府",
+        "local-classified"
+      ],
+      "score": 5.5,
+      "reasons": [
+        "en verb-head 'proceed'",
+        "en has preposition",
+        "zh noun-tail '信心'",
+        "suspect topic '04-政治政府'"
+      ]
+    },
+    {
+      "id": "bf81017d94cc2a66",
+      "en": "reform of the financial system",
+      "zh": "金融体制改革",
+      "topic": "04-政治政府",
+      "sources": [
+        "04-政治政府",
+        "local-classified"
+      ],
+      "score": 5.5,
+      "reasons": [
+        "length mismatch zh=6chars en=5words",
+        "en has preposition",
+        "zh noun-tail '改革'",
+        "suspect topic '04-政治政府'"
+      ]
+    },
+    {
+      "id": "1406475edea94bf6",
+      "en": "landscaping design for environmental purposes",
+      "zh": "美化环境",
+      "topic": "05-环境保护",
+      "sources": [
+        "05-环境保护",
+        "local-classified"
+      ],
+      "score": 5.5,
+      "reasons": [
+        "length mismatch zh=4chars en=5words",
+        "en has preposition",
+        "zh noun-tail '环境'"
+      ]
+    },
+    {
+      "id": "3c19802f8893ae8b",
+      "en": "consciousness of risk prevention",
+      "zh": "风险意识",
+      "topic": "08-经济金融",
+      "sources": [
+        "08-经济金融",
+        "local-classified"
+      ],
+      "score": 5.5,
+      "reasons": [
+        "length mismatch zh=4chars en=4words",
+        "en has preposition",
+        "zh noun-tail '意识'"
+      ]
+    },
+    {
+      "id": "c4aa7ce144863ce3",
+      "en": "intensify reform; deepen one’s commitment to reform",
+      "zh": "深化改革",
+      "topic": "08-经济金融",
+      "sources": [
+        "08-经济金融",
+        "local-classified"
+      ],
+      "score": 5.5,
+      "reasons": [
+        "length mismatch zh=4chars en=8words",
+        "en has preposition",
+        "zh noun-tail '改革'"
+      ]
+    },
+    {
+      "id": "600f296fba4ea501",
+      "en": "DEEPEN CHINA’S REFORM",
+      "zh": "深化(中国的)改革",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.5,
+      "reasons": [
+        "en verb-head 'deepen'",
+        "zh noun-tail '改革'",
+        "suspect topic '09-热门话题'",
+        "en ALL CAPS"
+      ]
+    },
+    {
+      "id": "8bc107e001a531d0",
+      "en": "capacity to earn foreign exchange through exports",
+      "zh": "出口创汇能力",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.5,
+      "reasons": [
+        "length mismatch zh=6chars en=7words",
+        "en has preposition",
+        "zh noun-tail '能力'",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "b6f99328c007e16a",
+      "en": "city's landscaping plan; urban planning",
+      "zh": "城市规划",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.5,
+      "reasons": [
+        "length mismatch zh=4chars en=5words",
+        "zh noun-tail '规划'",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "179725ff3227184d",
+      "en": "grain and oil rationing registration",
+      "zh": "粮油关系",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.5,
+      "reasons": [
+        "length mismatch zh=4chars en=5words",
+        "zh noun-tail '关系'",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "03472f0a47d567ad",
+      "en": "networking through petticoat influence",
+      "zh": "裙带关系",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.5,
+      "reasons": [
+        "length mismatch zh=4chars en=4words",
+        "zh noun-tail '关系'",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "b2c2db044e96add3",
+      "en": "professional dedication; professional ethics",
+      "zh": "敬业精神",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.5,
+      "reasons": [
+        "length mismatch zh=4chars en=4words",
+        "zh noun-tail '精神'",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "196b46f7a74a77fe",
+      "en": "reverse the tide, turn the table",
+      "zh": "扭转局面",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.5,
+      "reasons": [
+        "length mismatch zh=4chars en=6words",
+        "zh noun-tail '局面'",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "edc1df956f7f79e1",
+      "en": "round-off work; wind-up work",
+      "zh": "扫尾工作",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.5,
+      "reasons": [
+        "length mismatch zh=4chars en=4words",
+        "zh noun-tail '工作'",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "c8c83e27d9f68a41",
+      "en": "the mobilization for national defense",
+      "zh": "国防动员体制",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.5,
+      "reasons": [
+        "length mismatch zh=6chars en=5words",
+        "en has preposition",
+        "zh noun-tail '体制'",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "5fa434c4534b3b72",
+      "en": "coordinated and balanced program of development",
+      "zh": "协调发展",
+      "topic": "10-文化教育",
+      "sources": [
+        "10-文化教育",
+        "local-classified"
+      ],
+      "score": 5.5,
+      "reasons": [
+        "length mismatch zh=4chars en=6words",
+        "en has preposition",
+        "zh noun-tail '发展'"
+      ]
+    },
+    {
+      "id": "4529a8f25b617938",
+      "en": "doordinated and balanced program of development",
+      "zh": "协调发展",
+      "topic": "10-文化教育",
+      "sources": [
+        "10-文化教育",
+        "local-classified"
+      ],
+      "score": 5.5,
+      "reasons": [
+        "length mismatch zh=4chars en=6words",
+        "en has preposition",
+        "zh noun-tail '发展'"
+      ]
+    },
+    {
+      "id": "6c8f1900f1396b04",
+      "en": "guideline(s)/guiding principle(s) for education",
+      "zh": "教育方针",
+      "topic": "10-文化教育",
+      "sources": [
+        "10-文化教育",
+        "local-classified"
+      ],
+      "score": 5.5,
+      "reasons": [
+        "length mismatch zh=4chars en=7words",
+        "en has preposition",
+        "zh noun-tail '方针'"
+      ]
+    },
+    {
+      "id": "9a0bd95ec6fa1fc2",
+      "en": "preferential policy / policy in favor of",
+      "zh": "倾斜政策",
+      "topic": "15-科学技术",
+      "sources": [
+        "15-科学技术",
+        "local-classified"
+      ],
+      "score": 5.5,
+      "reasons": [
+        "length mismatch zh=4chars en=6words",
+        "en has preposition",
+        "zh noun-tail '政策'"
+      ]
+    },
+    {
+      "id": "3c6584073c19ee3f",
+      "en": "lift off poverty; cast off poverty",
+      "zh": "脱贫",
+      "topic": "01-社会发展",
+      "sources": [
+        "01-社会发展",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=2chars en=6words",
+        "en verb-head 'lift'"
+      ]
+    },
+    {
+      "id": "3ffa8cd183a46fe1",
+      "en": "take the preemptive opportunities",
+      "zh": "抢得先机",
+      "topic": "02-外经贸",
+      "sources": [
+        "02-外经贸",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=4words",
+        "en verb-head 'take'"
+      ]
+    },
+    {
+      "id": "398b530d8e7d781f",
+      "en": "Ensure funding for priority areas",
+      "zh": "保证重点支出",
+      "topic": "03-改革开放",
+      "sources": [
+        "03-改革开放",
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=6chars en=5words",
+        "en verb-head 'ensure'",
+        "en has preposition"
+      ]
+    },
+    {
+      "id": "1860043cf64c5814",
+      "en": "Ministry of Civil Affairs",
+      "zh": "民政部",
+      "topic": "04-政治政府",
+      "sources": [
+        "04-政治政府",
+        "06-机关机构",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=3chars en=4words",
+        "en has preposition",
+        "suspect topic '04-政治政府'"
+      ]
+    },
+    {
+      "id": "b172d448dd244ea7",
+      "en": "Ministry of Foreign Affairs",
+      "zh": "外交部",
+      "topic": "04-政治政府",
+      "sources": [
+        "04-政治政府",
+        "06-机关机构",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=3chars en=4words",
+        "en has preposition",
+        "suspect topic '04-政治政府'"
+      ]
+    },
+    {
+      "id": "dc4702f270462e45",
+      "en": "Ministry of National Defence",
+      "zh": "国防部",
+      "topic": "04-政治政府",
+      "sources": [
+        "04-政治政府",
+        "06-机关机构",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=3chars en=4words",
+        "en has preposition",
+        "suspect topic '04-政治政府'"
+      ]
+    },
+    {
+      "id": "c5f10cab71bfe38f",
+      "en": "Ministry of Public Security",
+      "zh": "公安部",
+      "topic": "04-政治政府",
+      "sources": [
+        "04-政治政府",
+        "06-机关机构",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=3chars en=4words",
+        "en has preposition",
+        "suspect topic '04-政治政府'"
+      ]
+    },
+    {
+      "id": "c08de915bb373b36",
+      "en": "Ministry of Water Resources",
+      "zh": "水利部",
+      "topic": "04-政治政府",
+      "sources": [
+        "04-政治政府",
+        "06-机关机构",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=3chars en=4words",
+        "en has preposition",
+        "suspect topic '04-政治政府'"
+      ]
+    },
+    {
+      "id": "9f9760855d968670",
+      "en": "black market transaction in foreign exchanges",
+      "zh": "黑市交易",
+      "topic": "04-政治政府",
+      "sources": [
+        "04-政治政府",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=6words",
+        "en has preposition",
+        "suspect topic '04-政治政府'"
+      ]
+    },
+    {
+      "id": "cd26e8b174c1a44b",
+      "en": "increase efficiency by downsizing payrolls",
+      "zh": "减人增效",
+      "topic": "04-政治政府",
+      "sources": [
+        "04-政治政府",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=5words",
+        "en has preposition",
+        "suspect topic '04-政治政府'"
+      ]
+    },
+    {
+      "id": "f5e24da0bf68de26",
+      "en": "no longer engage in trade",
+      "zh": "不再经商",
+      "topic": "04-政治政府",
+      "sources": [
+        "04-政治政府",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=5words",
+        "en has preposition",
+        "suspect topic '04-政治政府'"
+      ]
+    },
+    {
+      "id": "5b7e4b7ee52152f0",
+      "en": "price hikes for exorbitant profits",
+      "zh": "牟取暴利",
+      "topic": "04-政治政府",
+      "sources": [
+        "04-政治政府",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=5words",
+        "en has preposition",
+        "suspect topic '04-政治政府'"
+      ]
+    },
+    {
+      "id": "9a27396165ecfc64",
+      "en": "regions inhabited by ethnic groups",
+      "zh": "民族地区",
+      "topic": "04-政治政府",
+      "sources": [
+        "04-政治政府",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=5words",
+        "en has preposition",
+        "suspect topic '04-政治政府'"
+      ]
+    },
+    {
+      "id": "4bee9ab1886a4c24",
+      "en": "the problem of employment",
+      "zh": "就业问题",
+      "topic": "04-政治政府",
+      "sources": [
+        "04-政治政府",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=4words",
+        "en has preposition",
+        "suspect topic '04-政治政府'"
+      ]
+    },
+    {
+      "id": "4975bf6f0f9bf10d",
+      "en": "turn the country green",
+      "zh": "绿化祖国",
+      "topic": "05-环境保护",
+      "sources": [
+        "05-环境保护",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=4words",
+        "en verb-head 'turn'"
+      ]
+    },
+    {
+      "id": "ed92c2a983ca2a9b",
+      "en": "ADVANTAGES AND DISADVANTAGES OF THE CELL PHONE",
+      "zh": "手机的利与弊",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=6chars en=7words",
+        "en has preposition",
+        "suspect topic '09-热门话题'",
+        "en ALL CAPS"
+      ]
+    },
+    {
+      "id": "0b5510650d7767ab",
+      "en": "Compendium of Materia Medica",
+      "zh": "本草纲目",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=4words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "eb1ed9b6aa14cb70",
+      "en": "Courtesy calls for reciprocity",
+      "zh": "礼尚往来",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=4words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "eec6350309334434",
+      "en": "Dear John letter (from woman to man",
+      "zh": "断交信",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=3chars en=7words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "bf6e68136d353c7f",
+      "en": "Heroes of the Marshes; Water Margins",
+      "zh": "水浒传",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=3chars en=6words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "98ae598ad9193a72",
+      "en": "LOOKING FORWARD TO THE 21ST CENTURY",
+      "zh": "展望廿一世纪",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=6chars en=6words",
+        "en has preposition",
+        "suspect topic '09-热门话题'",
+        "en ALL CAPS"
+      ]
+    },
+    {
+      "id": "2c23505ec733f280",
+      "en": "Life begins at forty",
+      "zh": "四十不惑",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=4words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "6004b9d845486305",
+      "en": "MC (master of ceremonies",
+      "zh": "司仪",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=2chars en=4words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "73005c9bebb91b96",
+      "en": "POSITIVE AND NEGATIVE ASPECTS OF HOME TUTORING",
+      "zh": "家教的利与弊",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=6chars en=7words",
+        "en has preposition",
+        "suspect topic '09-热门话题'",
+        "en ALL CAPS"
+      ]
+    },
+    {
+      "id": "97d83345339f617d",
+      "en": "People's Liberation Army garrison in Hong Kong",
+      "zh": "驻港部队",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=7words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "5af29bd85a7534a7",
+      "en": "Strange Tales of a Lonely Studio",
+      "zh": "聊斋志异",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=6words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "65352b99f08ed9e1",
+      "en": "THREE LINKS：LINK OF TRADE，TRAVEL AND POST",
+      "zh": "“三通”的现译文",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=6chars en=8words",
+        "en has preposition",
+        "suspect topic '09-热门话题'",
+        "en ALL CAPS"
+      ]
+    },
+    {
+      "id": "2e64e43507dc3a1f",
+      "en": "The Romance of West Chamber",
+      "zh": "西厢记",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=3chars en=5words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "4508fc18dd2bc8a5",
+      "en": "The Romance of the Three Kingdoms",
+      "zh": "三国演义",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=6words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "3cdde9d83a40f1e6",
+      "en": "Time and tide wait for no man",
+      "zh": "时不我待",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "19-谚语",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=7words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "cb9e50a50e03d7d6",
+      "en": "abuse of power for personal gains",
+      "zh": "以权谋私",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=6words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "c32995a39d8372ff",
+      "en": "achievements-related wages; wages based on benefits",
+      "zh": "效益工资",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=6words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "6676fec06f847408",
+      "en": "alleviate burdens on sb",
+      "zh": "减负",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=2chars en=4words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "dced40b189885ab8",
+      "en": "an association of fellow provincials or townsmen",
+      "zh": "同乡会",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=3chars en=7words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "d9a322d90cc2e339",
+      "en": "argue for the sake of arguing; bicker",
+      "zh": "抬杠",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=2chars en=7words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "3047de9dca1217b8",
+      "en": "attract/bid for/invite investments (from overseas",
+      "zh": "招商引资",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=7words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "006ba9dd620d09cc",
+      "en": "barriers/ blockage to inter-regional trading",
+      "zh": "篱笆墙",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=3chars en=5words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "cec0ad7fe9af597f",
+      "en": "be disappointed in love; be jilted",
+      "zh": "失恋",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=2chars en=6words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "fe9afd0136a15104",
+      "en": "be driven to drastic alternatives",
+      "zh": "逼上梁山",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=5words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "caef061699cac8e2",
+      "en": "build a nationally advanced clean city",
+      "zh": "创建卫生城市",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=6chars en=6words",
+        "en verb-head 'build'",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "ceca9b1cfcbf8834",
+      "en": "burn the midnight oil; work over night",
+      "zh": "开夜车",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=3chars en=7words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "c0c425b9d17e5082",
+      "en": "class for further studies",
+      "zh": "进修班",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified",
+        "10-文化教育"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=3chars en=4words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "6dcac5bc59a1497b",
+      "en": "clearance sale; be on sale",
+      "zh": "甩卖",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=2chars en=5words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "cc7094eb290e112c",
+      "en": "cling to, shadow, thunder on one's trail",
+      "zh": "紧追",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=2chars en=7words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "1aeb79af4cf1f850",
+      "en": "commercially minded people; people with business sense",
+      "zh": "经济头脑",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=7words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "7410c6c9135ebbfa",
+      "en": "conglomeration and merger of enterprises",
+      "zh": "联合兼并",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=5words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "4ea5420b24bc9c91",
+      "en": "consulting on the study abroad",
+      "zh": "留学咨询",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=5words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "57b94408257d310f",
+      "en": "contract for labor and materials",
+      "zh": "包工包料",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=5words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "6e24db752281e436",
+      "en": "county upgraded to city",
+      "zh": "县改市",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=3chars en=4words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "0648d64d8ed4dfb3",
+      "en": "crack down on counterfeit goods",
+      "zh": "打假",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=2chars en=5words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "03f30fd24bf70ce1",
+      "en": "crack down on speculation and profiteering",
+      "zh": "打黑",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=2chars en=6words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "3070025ac325ae71",
+      "en": "crime by taking advantage of duty",
+      "zh": "职务犯罪",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=6words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "10028c19b1e0a632",
+      "en": "desertification of land; desert encroachment",
+      "zh": "土地沙化",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=5words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "2f3c439a7a880b36",
+      "en": "draw water to one's mill",
+      "zh": "唯利是图",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=5words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "791cb601696f672f",
+      "en": "education for all-around development, quality-oriented education",
+      "zh": "素质教育",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=6words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "f5eb947f1851fdc1",
+      "en": "enterprises running in the red/under deficit",
+      "zh": "亏损企业",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=7words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "db3d5f186d62da46",
+      "en": "enterprises running under their production capacity",
+      "zh": "开工不足",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=6words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "c997d0deac87b8b6",
+      "en": "enterprises with internal connections",
+      "zh": "内联企业",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=4words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "9ce16ad98ce4ba23",
+      "en": "farmers' frenzied hunt for work in cities",
+      "zh": "民工潮",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=3chars en=7words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "16b7ecf2aa71a9f8",
+      "en": "function in an acting capacity",
+      "zh": "代职",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=2chars en=5words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "106beaf465e71bdb",
+      "en": "fundamental realities of the country",
+      "zh": "基本国情",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=5words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "afe07dc36276c896",
+      "en": "global system for mobile communications",
+      "zh": "全球通",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=3chars en=5words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "800d1ab1729cda5a",
+      "en": "head of a household",
+      "zh": "户主",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=2chars en=4words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "50a184ed31db086f",
+      "en": "hypocrite; a wolf in sheep's clothing",
+      "zh": "伪君子",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=3chars en=6words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "792677bd6fbe1005",
+      "en": "incidence (of criminal cases",
+      "zh": "发案率",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=3chars en=4words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "c568f3ef7273f583",
+      "en": "inscriptions on animal bones or tortoise shells",
+      "zh": "甲骨文",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=3chars en=7words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "5285076a08cce3ce",
+      "en": "leading enterprise; flagship of the industry",
+      "zh": "龙头老大",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=6words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "4f644e9290351001",
+      "en": "medical services at state expense",
+      "zh": "公费医疗",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=5words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "bb2193585ac2b4d0",
+      "en": "operators who work with paging centers",
+      "zh": "寻呼小姐",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=6words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "c4e89320c72844f8",
+      "en": "organizations at the grass-roots level",
+      "zh": "基层组织",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=5words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "2c6e2716d563fc19",
+      "en": "participate in the management of State affairs",
+      "zh": "参政、议政",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=7words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "6d300875a50f0eff",
+      "en": "peel off (bad) assets of a company",
+      "zh": "资产剥离",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=7words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "c98331ec3320284a",
+      "en": "people out of the loop",
+      "zh": "圈外人士",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=5words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "14289dceafa48c91",
+      "en": "plunge into the commercial sea",
+      "zh": "下海",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=2chars en=5words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "19eb16c9ea1a81d2",
+      "en": "point of penetration; breakthrough point",
+      "zh": "切入点",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=3chars en=5words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "54834bd1c1cf4b53",
+      "en": "pour oil on troubled waters",
+      "zh": "息事宁人",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=5words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "3b21af5bf32643c9",
+      "en": "prices fluctuating in response to market conditions",
+      "zh": "随行就市",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=7words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "3c10c37e0e0b9b24",
+      "en": "product in excessive supply",
+      "zh": "长线产品",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=4words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "97a2c22914754a8f",
+      "en": "reap undeserved profit from; encroach upon",
+      "zh": "染指",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=2chars en=6words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "e5fa81c474b7532e",
+      "en": "receipt or invoice) in duplicate",
+      "zh": "一式两联",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=5words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "59e60c256318002c",
+      "en": "refuse to take passengers",
+      "zh": "拒载",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=2chars en=4words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "fd159f5ebfe74da0",
+      "en": "reposition of redundant personnel",
+      "zh": "分流",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=2chars en=4words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "be109cab606239de",
+      "en": "shacks; family that live in shacks",
+      "zh": "棚户",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=2chars en=6words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "81bad811ec78e05d",
+      "en": "show off; in the limelight",
+      "zh": "出风头",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=3chars en=5words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "ddea8f2e2ab609fc",
+      "en": "show special preference (favor) to …",
+      "zh": "情有独钟",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=5words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "3bbec01d71d23f93",
+      "en": "speculative reselling of tickets",
+      "zh": "倒票",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=2chars en=4words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "4828a4c1b4754286",
+      "en": "spread technological knowledge to farmers",
+      "zh": "技术下乡",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=5words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "bf5b6bfb1b12dace",
+      "en": "stew in one’s own juice",
+      "zh": "自作自受",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=6words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "40727ae23b54db18",
+      "en": "strip the gold medal of somebody",
+      "zh": "剥夺冠军",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=6words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "2e576b19eeb8ae7d",
+      "en": "survival of the fittest",
+      "zh": "优胜劣汰",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=4words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "9b1d137f3d3a6056",
+      "en": "system of tax distribution",
+      "zh": "分税制",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=3chars en=4words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "d1e67e7d25e4af83",
+      "en": "teach students according to their aptitude",
+      "zh": "因材施教",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=6words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "f3650e05c4f18856",
+      "en": "the Classic of Mountains and Rivers",
+      "zh": "山海经",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=3chars en=6words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "d27b8bfefee4b51d",
+      "en": "the craze for graduate school",
+      "zh": "考研热",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=3chars en=5words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "12c21b2fc1a66dab",
+      "en": "the mainstay of the economy",
+      "zh": "主体经济",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=5words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "9f7be5302f0e93e4",
+      "en": "to be a vendor",
+      "zh": "练摊",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=2chars en=4words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "abf8daac697a4326",
+      "en": "to get on the Internet",
+      "zh": "上网",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=2chars en=5words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "789353ad02c0963b",
+      "en": "to sneak through without a ticket",
+      "zh": "逃票",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=2chars en=6words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "13692478f3498da6",
+      "en": "to swindle money out of our customers",
+      "zh": "宰（客",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=2chars en=7words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "769c243af844928f",
+      "en": "work contracted to households",
+      "zh": "包干到户",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=4words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "cef52f1317faf294",
+      "en": "worker at the production line",
+      "zh": "一线员工",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=5words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "d525cc40c41b46a6",
+      "en": "year-on-year; on an annual basis",
+      "zh": "年同比",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=3chars en=5words",
+        "en has preposition",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "5f794aa55365a628",
+      "en": "promote the application of research findings",
+      "zh": "推广科研成果",
+      "topic": "15-科学技术",
+      "sources": [
+        "15-科学技术",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=6chars en=6words",
+        "en verb-head 'promote'",
+        "en has preposition"
+      ]
+    },
+    {
+      "id": "ac96e6e4ef80bd71",
+      "en": "Let sleeping dogs lie",
+      "zh": "别惹麻烦",
+      "topic": "19-谚语",
+      "sources": [
+        "19-谚语",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=4words",
+        "en verb-head 'let'"
+      ]
+    },
+    {
+      "id": "62e35c6fb6df7531",
+      "en": "Make hay while the sun shines",
+      "zh": "良机勿失",
+      "topic": "19-谚语",
+      "sources": [
+        "19-谚语",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=6words",
+        "en verb-head 'make'"
+      ]
+    },
+    {
+      "id": "b4a6005d50390527",
+      "en": "Make your enemy your friend",
+      "zh": "化敌为友",
+      "topic": "19-谚语",
+      "sources": [
+        "19-谚语",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=5words",
+        "en verb-head 'make'"
+      ]
+    },
+    {
+      "id": "21ecf70d61f7a5e2",
+      "en": "Put the cart before the horse",
+      "zh": "本末倒置",
+      "topic": "19-谚语",
+      "sources": [
+        "19-谚语",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=6words",
+        "en verb-head 'put'"
+      ]
+    },
+    {
+      "id": "a61ceb1cd6e35b5a",
+      "en": "133． Stay out of this matter, please",
+      "zh": "请别管这事",
+      "topic": "20-常用口语",
+      "sources": [
+        "20-常用口语",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=5chars en=6words",
+        "en verb-head 'stay'",
+        "en has preposition"
+      ]
+    },
+    {
+      "id": "209ba913a667a9c4",
+      "en": "Give me a hand",
+      "zh": "帮我一下",
+      "topic": "20-常用口语",
+      "sources": [
+        "20-常用口语",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=4words",
+        "en verb-head 'give'"
+      ]
+    },
+    {
+      "id": "814b20c84f621607",
+      "en": "a high degree of autonomy",
+      "zh": "高度自治",
+      "topic": "中国特色政治",
+      "sources": [
+        "catti3-syllabus-5000",
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=5words",
+        "en has preposition",
+        "suspect topic '中国特色政治'"
+      ]
+    },
+    {
+      "id": "7ad09c51b9059627",
+      "en": "democracy at the grassroots level",
+      "zh": "基层民主",
+      "topic": "中国特色政治",
+      "sources": [
+        "catti3-syllabus-5000",
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 5.0,
+      "reasons": [
+        "length mismatch zh=4chars en=5words",
+        "en has preposition",
+        "suspect topic '中国特色政治'"
+      ]
+    },
+    {
+      "id": "6057bdd63df384b1",
+      "en": "educational status; education received",
+      "zh": "教育程度",
+      "topic": "01-社会发展",
+      "sources": [
+        "01-社会发展",
+        "local-classified",
+        "10-文化教育"
+      ],
+      "score": 4.5,
+      "reasons": [
+        "length mismatch zh=4chars en=4words",
+        "zh noun-tail '程度'"
+      ]
+    },
+    {
+      "id": "475a05987722342f",
+      "en": "quality of life; the living standards",
+      "zh": "人民生活水平",
+      "topic": "01-社会发展",
+      "sources": [
+        "01-社会发展",
+        "local-classified"
+      ],
+      "score": 4.5,
+      "reasons": [
+        "length mismatch zh=6chars en=6words",
+        "en has preposition",
+        "zh noun-tail '水平'"
+      ]
+    },
+    {
+      "id": "86f82f3f452efc27",
+      "en": "change the method of operation",
+      "zh": "转化经营机制",
+      "topic": "02-外经贸",
+      "sources": [
+        "02-外经贸",
+        "local-classified"
+      ],
+      "score": 4.5,
+      "reasons": [
+        "length mismatch zh=6chars en=5words",
+        "en has preposition",
+        "zh noun-tail '机制'"
+      ]
+    },
+    {
+      "id": "7a42e84a9412d652",
+      "en": "reporting system; income declaration system",
+      "zh": "申报制度",
+      "topic": "02-外经贸",
+      "sources": [
+        "02-外经贸",
+        "07-世贸组织",
+        "local-classified"
+      ],
+      "score": 4.5,
+      "reasons": [
+        "length mismatch zh=4chars en=5words",
+        "zh noun-tail '制度'"
+      ]
+    },
+    {
+      "id": "ea60a3d7f164e3ec",
+      "en": "The contract system for governing projects",
+      "zh": "合同管理制度",
+      "topic": "03-改革开放",
+      "sources": [
+        "03-改革开放",
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 4.5,
+      "reasons": [
+        "length mismatch zh=6chars en=6words",
+        "en has preposition",
+        "zh noun-tail '制度'"
+      ]
+    },
+    {
+      "id": "6ca6173d10a45c02",
+      "en": "The monitoring system for projects",
+      "zh": "工程监理制度",
+      "topic": "03-改革开放",
+      "sources": [
+        "03-改革开放",
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 4.5,
+      "reasons": [
+        "length mismatch zh=6chars en=5words",
+        "en has preposition",
+        "zh noun-tail '制度'"
+      ]
+    },
+    {
+      "id": "03bdf0cbf01c9564",
+      "en": "The principles for commercial credit",
+      "zh": "商业信贷原则",
+      "topic": "03-改革开放",
+      "sources": [
+        "03-改革开放",
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 4.5,
+      "reasons": [
+        "length mismatch zh=6chars en=5words",
+        "en has preposition",
+        "zh noun-tail '原则'"
+      ]
+    },
+    {
+      "id": "fc57ee2010905c5b",
+      "en": "The system of exchange settlement and sales",
+      "zh": "结售汇制度",
+      "topic": "03-改革开放",
+      "sources": [
+        "03-改革开放",
+        "local-classified",
+        "08-经济金融",
+        "09-热门话题"
+      ],
+      "score": 4.5,
+      "reasons": [
+        "length mismatch zh=5chars en=7words",
+        "en has preposition",
+        "zh noun-tail '制度'"
+      ]
+    },
+    {
+      "id": "e4a9728a72570c7b",
+      "en": "pursue the strategy of sustainable development",
+      "zh": "推行可持续发展战略",
+      "topic": "05-环境保护",
+      "sources": [
+        "05-环境保护",
+        "local-classified"
+      ],
+      "score": 4.5,
+      "reasons": [
+        "en verb-head 'pursue'",
+        "en has preposition",
+        "zh noun-tail '战略'"
+      ]
+    },
+    {
+      "id": "5d0f115ccc97abb6",
+      "en": "domicile system, residence registration system",
+      "zh": "户口管理制度",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 4.5,
+      "reasons": [
+        "length mismatch zh=6chars en=5words",
+        "zh noun-tail '制度'",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "5fedd2d818e31b94",
+      "en": "optical, mechanical and electronic integration",
+      "zh": "光机电一体化",
+      "topic": "09-热门话题",
+      "sources": [
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 4.5,
+      "reasons": [
+        "length mismatch zh=6chars en=5words",
+        "zh noun-tail '一体化'",
+        "suspect topic '09-热门话题'"
+      ]
+    },
+    {
+      "id": "6b6112e5a796735f",
+      "en": "74． It doesn't make any sense",
+      "zh": "毫无意义",
+      "topic": "20-常用口语",
+      "sources": [
+        "20-常用口语",
+        "local-classified"
+      ],
+      "score": 4.5,
+      "reasons": [
+        "length mismatch zh=4chars en=5words",
+        "zh noun-tail '意义'"
+      ]
+    },
+    {
+      "id": "25693d66852e4686",
+      "en": "It doesn’t matter",
+      "zh": "没关系",
+      "topic": "20-常用口语",
+      "sources": [
+        "20-常用口语",
+        "local-classified"
+      ],
+      "score": 4.5,
+      "reasons": [
+        "length mismatch zh=3chars en=4words",
+        "zh noun-tail '关系'"
+      ]
+    },
+    {
+      "id": "9aa6c8ac3accd08b",
+      "en": "foster integration with the global economy",
+      "zh": "促进全球经济一体化",
+      "topic": "经济与改革",
+      "sources": [
+        "catti3-syllabus-5000",
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 4.5,
+      "reasons": [
+        "en verb-head 'foster'",
+        "en has preposition",
+        "zh noun-tail '一体化'"
+      ]
+    },
+    {
+      "id": "94a63a06c1d4526a",
+      "en": "a neighborhood for low-income families",
+      "zh": "安居小区",
+      "topic": "01-社会发展",
+      "sources": [
+        "01-社会发展",
+        "local-classified"
+      ],
+      "score": 4.0,
+      "reasons": [
+        "length mismatch zh=4chars en=5words",
+        "en has preposition"
+      ]
+    },
+    {
+      "id": "f62f667c3fd7963d",
+      "en": "cost of living; income maintenance; subsistence cost",
+      "zh": "生活费用",
+      "topic": "01-社会发展",
+      "sources": [
+        "01-社会发展",
+        "local-classified"
+      ],
+      "score": 4.0,
+      "reasons": [
+        "length mismatch zh=4chars en=7words",
+        "en has preposition"
+      ]
+    },
+    {
+      "id": "092556567f927a15",
+      "en": "direction of public opinion",
+      "zh": "舆论导向",
+      "topic": "01-社会发展",
+      "sources": [
+        "01-社会发展",
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 4.0,
+      "reasons": [
+        "length mismatch zh=4chars en=4words",
+        "en has preposition"
+      ]
+    },
+    {
+      "id": "2f77dafda5139ba4",
+      "en": "guarantee of unemployment insurance benefits",
+      "zh": "失业保险",
+      "topic": "01-社会发展",
+      "sources": [
+        "01-社会发展",
+        "local-classified"
+      ],
+      "score": 4.0,
+      "reasons": [
+        "length mismatch zh=4chars en=5words",
+        "en has preposition"
+      ]
+    },
+    {
+      "id": "788bae6a798e7f88",
+      "en": "housing project for low-income families",
+      "zh": "安居工程",
+      "topic": "01-社会发展",
+      "sources": [
+        "01-社会发展",
+        "local-classified",
+        "09-热门话题"
+      ],
+      "score": 4.0,
+      "reasons": [
+        "length mismatch zh=4chars en=5words",
+        "en has preposition"
+      ]
+    },
+    {
+      "id": "c7f98d44909c7790",
+      "en": "promote good prenatal and postnatal care",
+      "zh": "搞好优生优育",
+      "topic": "01-社会发展",
+      "sources": [
+        "01-社会发展",
+        "local-classified"
+      ],
+      "score": 4.0,
+      "reasons": [
+        "length mismatch zh=6chars en=6words",
+        "en verb-head 'promote'"
+      ]
+    },
+    {
+      "id": "3193a31a1a3ab27a",
+      "en": "rate of solved criminal cases",
+      "zh": "破案率",
+      "topic": "01-社会发展",
+      "sources": [
+        "01-社会发展",
+        "local-classified"
+      ],
+      "score": 4.0,
+      "reasons": [
+        "length mismatch zh=3chars en=5words",
+        "en has preposition"
+      ]
+    },
+    {
+      "id": "cb45b2df6bb6d895",
+      "en": "supervision by public opinion",
+      "zh": "舆论监督",
+      "topic": "01-社会发展",
+      "sources": [
+        "01-社会发展",
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 4.0,
+      "reasons": [
+        "length mismatch zh=4chars en=4words",
+        "en has preposition"
+      ]
+    },
+    {
+      "id": "ca5f8f6915413443",
+      "en": "training for specific posts",
+      "zh": "定向培训",
+      "topic": "01-社会发展",
+      "sources": [
+        "01-社会发展",
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 4.0,
+      "reasons": [
+        "length mismatch zh=4chars en=4words",
+        "en has preposition"
+      ]
+    },
+    {
+      "id": "a8a50c979dee8202",
+      "en": "increase in the same pace",
+      "zh": "同步增长",
+      "topic": "02-外经贸",
+      "sources": [
+        "02-外经贸",
+        "local-classified"
+      ],
+      "score": 4.0,
+      "reasons": [
+        "length mismatch zh=4chars en=5words",
+        "en has preposition"
+      ]
+    },
+    {
+      "id": "d8700209e150b763",
+      "en": "modality of foreign aid",
+      "zh": "外援方式",
+      "topic": "02-外经贸",
+      "sources": [
+        "02-外经贸",
+        "local-classified"
+      ],
+      "score": 4.0,
+      "reasons": [
+        "length mismatch zh=4chars en=4words",
+        "en has preposition"
+      ]
+    },
+    {
+      "id": "020e6b3d00cc2888",
+      "en": "overstaffing in (government) organizations",
+      "zh": "机构臃肿",
+      "topic": "02-外经贸",
+      "sources": [
+        "02-外经贸",
+        "local-classified",
+        "09-热门话题"
+      ],
+      "score": 4.0,
+      "reasons": [
+        "length mismatch zh=4chars en=4words",
+        "en has preposition"
+      ]
+    },
+    {
+      "id": "f3be7721cf9ad8f7",
+      "en": "scale economy/ economies of scale",
+      "zh": "规模经济",
+      "topic": "02-外经贸",
+      "sources": [
+        "02-外经贸",
+        "local-classified"
+      ],
+      "score": 4.0,
+      "reasons": [
+        "length mismatch zh=4chars en=5words",
+        "en has preposition"
+      ]
+    },
+    {
+      "id": "bc38b8e947f1c7f5",
+      "en": "substitution of tax payment for profit delivery",
+      "zh": "利改税",
+      "topic": "02-外经贸",
+      "sources": [
+        "02-外经贸",
+        "08-经济金融",
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 4.0,
+      "reasons": [
+        "length mismatch zh=3chars en=7words",
+        "en has preposition"
+      ]
+    },
+    {
+      "id": "94d50c0504ed7e16",
+      "en": "Transform administrative fees into taxes",
+      "zh": "费改税",
+      "topic": "03-改革开放",
+      "sources": [
+        "03-改革开放",
+        "08-经济金融",
+        "09-热门话题",
+        "local-classified"
+      ],
+      "score": 4.0,
+      "reasons": [
+        "length mismatch zh=3chars en=5words",
+        "en has preposition"
+      ]
+    },
+    {
+      "id": "40882399e078c291",
+      "en": "international balance of payments",
+      "zh": "国际收支",
+      "topic": "03-改革开放",
+      "sources": [
+        "03-改革开放",
+        "local-classified",
+        "08-经济金融"
+      ],
+      "score": 4.0,
+      "reasons": [
+        "length mismatch zh=4chars en=4words",
+        "en has preposition"
+      ]
+    },
+    {
+      "id": "32835987f8e8049c",
+      "en": "lead one to a blind alley",
+      "zh": "引入歧途",
+      "topic": "03-改革开放",
+      "sources": [
+        "03-改革开放",
+        "local-classified"
+      ],
+      "score": 4.0,
+      "reasons": [
+        "length mismatch zh=4chars en=6words",
+        "en has preposition"
+      ]
+    },
+    {
+      "id": "ee8613f66c5e1807",
+      "en": "means of livelihood/subsistence",
+      "zh": "生活资料",
+      "topic": "03-改革开放",
+      "sources": [
+        "03-改革开放",
+        "local-classified"
+      ],
+      "score": 4.0,
+      "reasons": [
+        "length mismatch zh=4chars en=4words",
+        "en has preposition"
+      ]
+    },
+    {
+      "id": "aab5cf90034fc287",
+      "en": "Ministry of Land and Resources",
+      "zh": "国土资源部",
+      "topic": "04-政治政府",
+      "sources": [
+        "04-政治政府",
+        "06-机关机构",
+        "local-classified"
+      ],
+      "score": 4.0,
+      "reasons": [
+        "length mismatch zh=5chars en=5words",
+        "en has preposition",
+        "suspect topic '04-政治政府'"
+      ]
+    },
+    {
+      "id": "7a42c9e4fd3bb76e",
+      "en": "Ministry of Science and Technology",
+      "zh": "科学技术部",
+      "topic": "04-政治政府",
+      "sources": [
+        "04-政治政府",
+        "06-机关机构",
+        "local-classified"
+      ],
+      "score": 4.0,
+      "reasons": [
+        "length mismatch zh=5chars en=5words",
+        "en has preposition",
+        "suspect topic '04-政治政府'"
+      ]
+    }
+  ]
+}
