@@ -814,6 +814,7 @@ async function findContextForWord(w) {
       target,
     };
     contextCache.set(w.id, ctx);
+    persistWordContext(w.id, 'short', ctx.en, ctx.zh);
     return ctx;
   }
 
@@ -823,10 +824,17 @@ async function findContextForWord(w) {
     if (m && m.result && m.result.en && m.result.zh) {
       const ctx = { ...m.result, source: 'llm', target };
       contextCache.set(w.id, ctx);
+      persistWordContext(w.id, 'short', ctx.en, ctx.zh);
       return ctx;
     }
   } catch (e) { /* ignore */ }
   return null;
+}
+
+/** Fire-and-forget save so Gate-3 review can recall the exact learn-day passages. */
+function persistWordContext(wordId, mode, en, zh) {
+  if (!wordId || !en) { return; }
+  try { vscode.postMessage({ type: 'saveWordContext', wordId, mode, en, zh: zh || '' }); } catch { /* ignore */ }
 }
 
 function escapeRegex(s) {
@@ -863,6 +871,7 @@ function prefetchContextMode(w, mode) {
           source: mode === 'story' ? 'llm-story' : 'llm-fun',
           target: w.en,
         });
+        persistWordContext(w.id, mode, resp.result.en, resp.result.zh);
       }
     })
     .catch(() => { /* ignore */ })
@@ -907,6 +916,7 @@ async function loadContextInto(box, w, mode = 'short') {
         if (resp && resp.result && resp.result.en) {
           ctx = { en: resp.result.en, zh: resp.result.zh, source: mode === 'story' ? 'llm-story' : 'llm-fun', target: w.en };
           setCachedMode(w.id, mode, ctx);
+          persistWordContext(w.id, mode, ctx.en, ctx.zh);
         }
       }
     }
@@ -1079,6 +1089,9 @@ let reviewMode = 'ebbinghaus';   // 'ebbinghaus' | 'score'
 
 async function renderReview() {
   const content = document.getElementById('content');
+  const q = state.reviewQueue;
+  const isResume = q && Array.isArray(q.words) && q.idx < q.words.length;
+  if (isResume) { reviewMode = q.mode; }
   content.innerHTML = `
     <h2>🔁 复习</h2>
     <div class="letter-tabs" style="border-bottom:none; margin-bottom:16px">
@@ -1089,9 +1102,20 @@ async function renderReview() {
   `;
   for (const b of content.querySelectorAll('[data-mode]')) {
     b.addEventListener('click', () => {
-      reviewMode = b.dataset.mode;
+      const newMode = b.dataset.mode;
+      if (state.reviewQueue && state.reviewQueue.mode !== newMode) {
+        if (!confirm('切换模式会放弃当前复习进度，继续吗？')) { return; }
+        state.reviewQueue = null;
+      }
+      reviewMode = newMode;
       renderReview();
     });
+  }
+  if (isResume) {
+    const body = document.getElementById('reviewBody');
+    body.innerHTML = `<div id="reviewArea"></div>`;
+    runQuizSession(q.mode, q.words, { idx: q.idx, correct: q.correct, incorrect: q.incorrect });
+    return;
   }
   if (reviewMode === 'ebbinghaus') { renderEbbinghausOverview(); }
   else { renderScoreOverview(); }
@@ -1202,13 +1226,20 @@ async function runScoreSession(poolItems) {
  *   Gate 4: Sentence writing (grammar + usage LLM grade)             — done
  *   Gate 5: Context cloze from corpus sentence (fallback: LLM-gen)   — done
  */
-function runQuizSession(mode, words) {
-  let idx = 0;
-  let correct = 0, incorrect = 0;
+function runQuizSession(mode, words, resume) {
+  let idx = resume?.idx || 0;
+  let correct = resume?.correct || 0;
+  let incorrect = resume?.incorrect || 0;
   const wordIds = words.map((w) => w.id);
   const area = document.getElementById('reviewArea');
 
+  function persistQueue() {
+    state.reviewQueue = { mode, words, idx, correct, incorrect };
+  }
+  persistQueue();
+
   function finish() {
+    state.reviewQueue = null;
     // Ebbinghaus persists session stats; 🎲 自由练习 does not.
     if (mode === 'ebbinghaus') {
       vscode.postMessage({ type: 'finishEbbinghausSession', wordIds, correct, incorrect });
@@ -1229,6 +1260,9 @@ function runQuizSession(mode, words) {
     if (mode === 'ebbinghaus') {
       vscode.postMessage({ type: 'recordEbbinghausReview', wordId: w.id, en: w.en, zh: w.zh, gate, pass });
     }
+    // Advance the resume checkpoint past this already-graded card so tabbing
+    // away between "submit" and clicking 下一个 doesn't cause re-grading.
+    state.reviewQueue = { mode, words, idx: idx + 1, correct, incorrect };
     document.getElementById('res').innerHTML = `
       <div class="result-box">
         <p class="${pass ? 'result-ok' : 'result-bad'}"><b>${pass ? '✓ 正确' : '✗ 需改进'}</b>：${escapeHtml(feedback || '')}</p>
@@ -1245,7 +1279,7 @@ function runQuizSession(mode, words) {
       </div>
     `;
     wireAudioButtons(document.getElementById('res'));
-    document.getElementById('next').addEventListener('click', () => { idx++; show(); });
+    document.getElementById('next').addEventListener('click', () => { idx++; persistQueue(); show(); });
     document.getElementById('reviewDeep').addEventListener('click', () => {
       openDeepStudy(w);
       document.getElementById('reviewDeep').classList.add('chip-active');
@@ -1331,51 +1365,112 @@ function runQuizSession(mode, words) {
     document.getElementById('ans').addEventListener('keydown', (e) => { if (e.key === 'Enter') { submit(); } });
   }
 
-  // ---------- Gate 3: Collocation cloze ----------
+  // ---------- Gate 3: 三风格填空 (short / fun / story cloze) ----------
   async function renderGate3(w, gate) {
-    // Do NOT reveal w.en (that IS the answer) and don't spoon-feed w.zh either
-    // — the LLM-generated hint below is enough. The reference is revealed in
-    // the result box after submit.
     area.innerHTML = `
       <div class="card quiz-card">
-        ${gateHeader(w, gate, '搭配填空')}
-        <div id="clozeArea"><p class="muted" style="margin-top:12px">🌀 生成题目中…</p></div>
+        ${gateHeader(w, gate, '三风格回忆')}
+        <p class="muted">这个词出现在下面三段英文里，回忆是哪个词👇</p>
+        <div id="clozeArea"><p class="muted" style="margin-top:12px">🌀 拉取三个语境中…</p></div>
       </div>
     `;
-    const cloze = await callHost('generateCollocationCloze', { en: w.en, zh: w.zh });
-    const c = cloze.result;
-    if (!c) {
-      // Fallback: skip gracefully
-      document.getElementById('clozeArea').innerHTML = `<p class="result-bad">⚠️ 生成失败，跳过此题</p>
+
+    // Fetch saved contexts; fill in missing ones by generating fresh.
+    const savedResp = await callHost('getWordContexts', { wordId: w.id });
+    const saved = (savedResp && savedResp.contexts) || {};
+
+    async function getOrGenShort() {
+      if (saved.short && saved.short.en) { return { en: saved.short.en, zh: saved.short.zh || '' }; }
+      const ctx = await findContextForWord(w);
+      return ctx ? { en: ctx.en, zh: ctx.zh } : null;
+    }
+    async function getOrGen(mode) {
+      const s = saved[mode];
+      if (s && s.en) { return { en: s.en, zh: s.zh || '' }; }
+      const msgType = mode === 'story' ? 'generateStoryContext' : 'generateFunContext';
+      const resp = await callHost(msgType, { en: w.en, zh: w.zh });
+      if (resp && resp.result && resp.result.en) {
+        persistWordContext(w.id, mode, resp.result.en, resp.result.zh);
+        return { en: resp.result.en, zh: resp.result.zh };
+      }
+      return null;
+    }
+
+    const [short, fun, story] = await Promise.all([getOrGenShort(), getOrGen('fun'), getOrGen('story')]);
+    const items = [
+      { key: 'short', label: '📝 短句', ctx: short },
+      { key: 'fun',   label: '🌸 小红书', ctx: fun },
+      { key: 'story', label: '📖 故事', ctx: story },
+    ];
+    if (items.every((i) => !i.ctx || !i.ctx.en)) {
+      document.getElementById('clozeArea').innerHTML = `<p class="result-bad">⚠️ 三个语境都没生成成功，跳过此题</p>
         <p><button id="skipG3">下一个</button></p>`;
       document.getElementById('skipG3').addEventListener('click', () => { idx++; show(); });
       return;
     }
-    // Safety net: if the LLM forgot to blank the target word inside the stem
-    // (which would defeat the whole point), mask any lingering occurrence.
-    let stem = String(c.stem || '');
+
     const enRaw = String(w.en || '').trim();
-    if (enRaw) {
-      try {
-        const rx = new RegExp(`\\b${escapeRegex(enRaw)}\\b`, 'gi');
-        stem = stem.replace(rx, '_____');
-      } catch { /* ignore bad regex */ }
+    const tokens = contentTokens(enRaw);
+    let maskPattern = null;
+    try {
+      if (tokens.length >= 2) {
+        maskPattern = new RegExp(`\\b${tokens.map(escapeRegex).join('[-\\s]+')}[a-z]*\\b`, 'gi');
+      } else if (enRaw) {
+        maskPattern = new RegExp(`\\b${escapeRegex(enRaw)}[a-z]*\\b`, 'gi');
+      }
+    } catch { /* ignore */ }
+    const blank = '＿＿＿＿';
+
+    function maskText(en) {
+      if (!maskPattern) { return escapeHtml(en); }
+      return escapeHtml(en).replace(maskPattern, `<mark class="cloze-blank">${blank}</mark>`);
     }
+    function highlightText(en) {
+      if (!maskPattern) { return escapeHtml(en); }
+      return escapeHtml(en).replace(maskPattern, '<mark class="cloze-answer">$&</mark>');
+    }
+
     document.getElementById('clozeArea').innerHTML = `
-      <div class="cloze-stem">${escapeHtml(stem)}</div>
-      <div class="quiz-hint">${escapeHtml(c.hint || '填入合适的词')}</div>
-      <input class="quiz-input" id="ans" placeholder="填空">
-      <p><button id="go">提交</button> <button class="secondary" id="skip">跳过</button></p>
+      ${items.map(({ label, ctx }) => `
+        <div class="cloze-passage-card">
+          <div class="context-tag">${label}</div>
+          <div class="cloze-passage" data-mode="${label}">
+            ${ctx && ctx.en ? maskText(ctx.en) : '<span class="muted">（这个语境暂时没抓到）</span>'}
+          </div>
+        </div>
+      `).join('')}
+      <div class="cloze-input-row">
+        <input class="quiz-input" id="ans" placeholder="填入三处相同的词" autocomplete="off">
+        <button id="go">提交</button>
+        <button class="secondary" id="skip">跳过</button>
+      </div>
       <div id="res"></div>
     `;
     document.getElementById('ans').focus();
     document.getElementById('skip').addEventListener('click', () => { idx++; show(); });
+
     const submit = async () => {
       const val = document.getElementById('ans').value.trim();
       if (!val) { return; }
-      document.getElementById('res').innerHTML = '<p class="muted">LLM 判分中…</p>';
-      const r = await callLM('gradeCollocation', { userAnswer: val, expected: c.answer, stem: c.stem });
-      submitResult(w, gate, r.correct, `${r.feedback} · 期待: ${c.answer}`);
+      const norm = (s) => s.toLowerCase().replace(/[^a-z\s\-]/g, '').replace(/\s+/g, ' ').trim();
+      const expected = norm(enRaw);
+      let pass = norm(val) === expected;
+      let feedback = pass ? '✓ 完全一致' : '';
+      if (!pass) {
+        document.getElementById('res').innerHTML = '<p class="muted">LLM 判分中…</p>';
+        // Use LLM to allow inflection variants (fortify vs fortified).
+        const firstPassage = (items.find((i) => i.ctx && i.ctx.en)?.ctx?.en) || '';
+        const r = await callLM('gradeCollocation', { userAnswer: val, expected: enRaw, stem: firstPassage });
+        pass = !!r.correct;
+        feedback = r.feedback || `期待: ${enRaw}`;
+      }
+      // Reveal the target in all three passages.
+      for (const el of document.querySelectorAll('.cloze-passage')) {
+        const idx0 = items.findIndex((i) => i.label === el.dataset.mode);
+        const ctx = items[idx0] && items[idx0].ctx;
+        if (ctx && ctx.en) { el.innerHTML = highlightText(ctx.en); }
+      }
+      submitResult(w, gate, pass, feedback);
     };
     document.getElementById('go').addEventListener('click', submit);
     document.getElementById('ans').addEventListener('keydown', (e) => { if (e.key === 'Enter') { submit(); } });

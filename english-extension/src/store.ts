@@ -111,6 +111,21 @@ export interface UserState {
   queriedWords?: Record<string, QueriedWordStat>;    // wordId -> stats
   aiSessions?: Record<string, AiSession>;             // sessionId -> full transcript
   customWords?: Record<string, CustomWord>;           // wordId -> user-added word
+  wordContexts?: Record<string, SavedWordContexts>;   // wordId -> saved English contexts per mode
+}
+
+/** English contexts (short / fun / story) saved the FIRST time the user
+ *  encountered each mode for a given word, so Gate-3 review can recall the
+ *  exact learn-day passages. Never overwritten once written. */
+export interface SavedWordContexts {
+  short?: SavedContextEntry;
+  fun?: SavedContextEntry;
+  story?: SavedContextEntry;
+}
+export interface SavedContextEntry {
+  en: string;
+  zh: string;
+  savedAt: string;
 }
 
 const EMPTY_STATE = (): UserState => ({
@@ -125,6 +140,7 @@ const EMPTY_STATE = (): UserState => ({
   queriedWords: {},
   aiSessions: {},
   customWords: {},
+  wordContexts: {},
 });
 
 function isoDate(d: Date = new Date()): string {
@@ -557,6 +573,25 @@ export class UserStore {
   hasCustomWord(en: string): boolean {
     this.ensureCustomMap();
     return !!this.state.customWords![this.customIdFor(en)];
+  }
+
+  // ---------- Saved English contexts per word (short / fun / story) ----------
+
+  /** Save an English context passage the FIRST time it's generated for a word.
+   *  Never overwrites — the "learn-day" version is preserved for later recall. */
+  saveWordContext(wordId: string, mode: 'short' | 'fun' | 'story', en: string, zh: string): boolean {
+    if (!wordId || !en) { return false; }
+    if (!this.state.wordContexts) { this.state.wordContexts = {}; }
+    const bucket = this.state.wordContexts[wordId] || {};
+    if (bucket[mode]) { return false; }
+    bucket[mode] = { en: String(en), zh: String(zh || ''), savedAt: new Date().toISOString() };
+    this.state.wordContexts[wordId] = bucket;
+    this.save();
+    return true;
+  }
+
+  getWordContexts(wordId: string): SavedWordContexts {
+    return (this.state.wordContexts && this.state.wordContexts[wordId]) || {};
   }
 
   /** Ebbinghaus queue: due today or earlier, most overdue first.

@@ -479,6 +479,17 @@ export async function openMainPanel(context: vscode.ExtensionContext, mode: stri
         panel.webview.postMessage({ type: 'userVocab', requestId: msg.requestId, items });
         break;
       }
+      case 'saveWordContext': {
+        if (store && msg.wordId && msg.mode && msg.en) {
+          store.saveWordContext(msg.wordId, msg.mode, msg.en, msg.zh || '');
+        }
+        break;
+      }
+      case 'getWordContexts': {
+        const contexts = store && msg.wordId ? store.getWordContexts(msg.wordId) : {};
+        panel.webview.postMessage({ type: 'wordContexts', requestId: msg.requestId, contexts });
+        break;
+      }
       case 'openInCopilotChat': {
         try {
           await vscode.commands.executeCommand('workbench.action.chat.open', { query: msg.query });

@@ -588,6 +588,44 @@ textarea { width: 100%; min-height: 60px; }
   font-family: "Georgia", "Times New Roman", serif;
 }
 
+.cloze-passage-card {
+  margin: 12px 0;
+  padding: 10px 14px;
+  background: var(--vscode-editorWidget-background);
+  border-left: 3px solid var(--vscode-textLink-foreground);
+  border-radius: 4px;
+}
+.cloze-passage {
+  margin-top: 6px;
+  font-size: 15px;
+  line-height: 1.65;
+  font-family: "Georgia", "Times New Roman", serif;
+  white-space: pre-wrap;
+}
+.cloze-blank {
+  background: rgba(255, 152, 0, 0.25);
+  padding: 0 4px;
+  border-radius: 3px;
+  letter-spacing: 2px;
+  font-weight: 600;
+}
+.cloze-answer {
+  background: rgba(76, 175, 80, 0.28);
+  padding: 0 4px;
+  border-radius: 3px;
+  font-weight: 600;
+}
+.cloze-input-row {
+  margin-top: 14px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.cloze-input-row .quiz-input {
+  flex: 1;
+  margin-bottom: 0;
+}
+
 textarea.quiz-input {
   resize: vertical;
   font-family: inherit;
