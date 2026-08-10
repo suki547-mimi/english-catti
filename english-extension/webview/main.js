@@ -1420,6 +1420,8 @@ function runQuizSession(mode, words, resume) {
         const last = tokens[tokens.length - 1];
         maskPatterns.push(new RegExp(`\\b${escapeRegex(last)}[a-z]*\\b`, 'gi'));
         maskPatterns.push(new RegExp(`\\b${escapeRegex(tokens[0])}[a-z]*\\b`, 'gi'));
+      } else if (tokens.length === 1) {
+        maskPatterns.push(new RegExp(`\\b${escapeRegex(tokens[0])}[a-z]*\\b`, 'gi'));
       } else if (enRaw) {
         maskPatterns.push(new RegExp(`\\b${escapeRegex(enRaw)}[a-z]*\\b`, 'gi'));
       }
