@@ -2570,6 +2570,18 @@ async function renderRookieFreePractice(content) {
   drawNextRookieFree();
 }
 
+// Small stopword set for a lightweight keyword-picking fallback when the LLM stalls.
+const ROOKIE_STOP = new Set(['the','a','an','and','or','but','so','of','to','in','on','at','for','with','by','from','into','over','under','about','as','is','are','was','were','be','been','being','am','do','does','did','have','has','had','will','would','could','should','can','may','might','must','shall','i','you','he','she','it','we','they','me','him','her','us','them','my','your','his','its','our','their','this','that','these','those','not','no','yes','if','then','than','when','while','because','just','only','also','too','very','really','well','ok','okay','get','got','go','gone','going','come','came','know','knew','see','saw','say','said','tell','told','make','made','take','took','give','gave','let','put','look','looks','looked','right','all','any','some','one','two','up','down','out','back','here','there','now','off','way','thing','things','yeah','hey','hi','hello','oh','uh','um','wow']);
+
+/** Fallback keyword picker: longest content word from the line. */
+function heuristicKeyword(line) {
+  const words = String(line || '').toLowerCase().match(/[a-z]{3,}/g) || [];
+  const filtered = words.filter((w) => !ROOKIE_STOP.has(w));
+  if (filtered.length === 0) { return null; }
+  filtered.sort((a, b) => b.length - a.length);
+  return { en: filtered[0], zh: '(未 AI 翻译，可点深度学习查看)', reason: 'LLM 未响应，用启发式挑了这个词', _fallback: true };
+}
+
 async function drawNextRookieFree() {
   const box = document.getElementById('freeCard');
   if (!box) { return; }
@@ -2581,20 +2593,38 @@ async function drawNextRookieFree() {
     return;
   }
   const kwResp = await callHost('extractRookieKeyword', { line: item.en });
-  const kw = kwResp && kwResp.keyword;
+  let kw = kwResp && kwResp.keyword;
+  if (!kw) { kw = heuristicKeyword(item.en); }
+  if (!kw) {
+    box.innerHTML = `
+      <div class="card">
+        <div class="muted">🎬 ${escapeHtml(item.episode.toUpperCase())}</div>
+        <div class="free-line" style="margin-top:8px">${escapeHtml(item.en)}</div>
+        <p class="result-bad" style="margin-top:12px">这句里挑不出合适的重点词，换一条吧。</p>
+      </div>
+    `;
+    return;
+  }
+  renderRookieFreeCard(box, item, kw);
+}
+
+function renderRookieFreeCard(box, item, kw) {
   const enData = encodeURIComponent(item.en);
+  const isFallback = !!kw._fallback;
   box.innerHTML = `
     <div class="card free-practice-card">
       <div class="muted" style="font-size:12px; margin-bottom:6px">🎬 ${escapeHtml(item.episode.toUpperCase())}</div>
-      ${kw ? `
-        <div class="free-target">
-          <div class="free-target-en">${escapeHtml(kw.en)}</div>
-          <div class="free-target-zh hidden" id="freeZh">${escapeHtml(kw.zh)}</div>
-          ${kw.reason ? `<div class="muted" style="font-size:12px; margin-top:4px">${escapeHtml(kw.reason)}</div>` : ''}
+      <div class="free-target">
+        <div class="free-target-en">${escapeHtml(kw.en)}</div>
+        <div class="free-target-zh hidden" id="freeZh">${escapeHtml(kw.zh)}</div>
+        ${kw.reason ? `<div class="muted" style="font-size:12px; margin-top:4px">${isFallback ? '⚠️ ' : ''}${escapeHtml(kw.reason)}</div>` : ''}
+        <p style="margin-top:6px">
           <button class="link-btn" id="revealZh">👁 显示中文</button>
-        </div>` : ''}
+          <button class="link-btn" id="reExtract">🔄 换个词</button>
+        </p>
+      </div>
       <div class="free-line" data-en="${enData}">
-        ${kw ? highlightWord(item.en, kw.en) : escapeHtml(item.en)}
+        ${highlightWord(item.en, kw.en)}
         <button class="mini-btn line-audio" data-text="${enData}" data-accent="us">🇺🇸</button>
         <button class="mini-btn line-audio" data-text="${enData}" data-accent="uk">🇬🇧</button>
       </div>
@@ -2609,14 +2639,16 @@ async function drawNextRookieFree() {
   for (const b of box.querySelectorAll('.line-audio')) {
     b.addEventListener('click', () => playSentenceAudio(b));
   }
-  const revealBtn = document.getElementById('revealZh');
-  if (revealBtn) {
-    revealBtn.addEventListener('click', () => {
-      document.getElementById('freeZh').classList.toggle('hidden');
-    });
-  }
+  document.getElementById('revealZh').addEventListener('click', () => {
+    document.getElementById('freeZh').classList.toggle('hidden');
+  });
+  document.getElementById('reExtract').addEventListener('click', async () => {
+    document.getElementById('reExtract').textContent = '🔄 换词中…';
+    const kw2 = await callHost('extractRookieKeyword', { line: item.en });
+    const chosen = (kw2 && kw2.keyword) || heuristicKeyword(item.en);
+    if (chosen) { renderRookieFreeCard(box, item, chosen); }
+  });
   const markScored = (known) => {
-    if (!kw) { return; }
     const wid = `rookie-${kw.en.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
     vscode.postMessage({ type: 'rookieRecordLearn', wordId: wid, en: kw.en, zh: kw.zh, known });
     const el = document.getElementById(known ? 'freeKnown' : 'freeUnknown');
@@ -2627,7 +2659,6 @@ async function drawNextRookieFree() {
   document.getElementById('freeKnown').addEventListener('click', () => markScored(true));
   document.getElementById('freeUnknown').addEventListener('click', () => markScored(false));
   document.getElementById('freeDeep').addEventListener('click', async () => {
-    if (!kw) { return; }
     const body = document.getElementById('freeDeepBody');
     body.innerHTML = `<div class="deep-loading">⏳ 生成中…</div>`;
     const m = await callHost('deepStudy', { en: kw.en, zh: kw.zh });
