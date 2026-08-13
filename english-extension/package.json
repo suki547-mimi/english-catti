@@ -52,6 +52,11 @@
         "command": "englishCatti.testAlarm",
         "title": "English CATTI: Test Alarm Now (fire immediately)",
         "category": "English CATTI"
+      },
+      {
+        "command": "englishCatti.buildRookieKeywords",
+        "title": "English CATTI: Build Rookie Keyword DB (LLM analysis)",
+        "category": "English CATTI"
       }
     ],
     "keybindings": [

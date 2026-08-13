@@ -787,6 +787,61 @@ export async function extractKeywordFromLine(line: string): Promise<RookieKeywor
   }
 }
 
+export interface RookieCurationInput { phrase: string; exampleLine: string; }
+export interface RookieCurationVerdict {
+  keep: boolean;
+  zh?: string;
+  tier?: 'high' | 'mid' | 'low';
+  note?: string;
+}
+
+/** Batch-judge a group of n-gram candidates: is this phrase worth adding to
+ *  a CATTI-targeted TV-dialogue vocab pool? Returns an array parallel to input.
+ *  On network/parse failure returns null so the caller can skip the batch. */
+export async function curateRookieKeywordBatch(
+  candidates: RookieCurationInput[],
+): Promise<RookieCurationVerdict[] | null> {
+  if (candidates.length === 0) { return []; }
+  try {
+    const model = await getModel();
+    if (!model) { return null; }
+    const listing = candidates.map((c, i) => {
+      const eg = c.exampleLine ? ` · 例："${c.exampleLine.slice(0, 100)}"` : '';
+      return `${i + 1}. "${c.phrase}"${eg}`;
+    }).join('\n');
+    const prompt =
+      `你在为一名 CATTI 2 笔译 / 3 口译目标的中国学习者，从美剧《菜鸟老警》台词里筛出**值得学习的英文表达**。\n\n` +
+      `每个候选词/词组：如果它是**地道的搭配 / 短语动词 / 习语 / 俚语 / CATTI 高频学习点**，就保留（keep: true）；\n` +
+      `如果它只是**语法碎片、句子片段、常见词的普通组合、专有名词、口水词**，就丢弃（keep: false）。\n\n` +
+      `保留的每一项要给：\n` +
+      `- zh：简明中文含义（≤ 12 字）\n` +
+      `- tier：high（成语/俚语/高价值搭配） / mid（值得学的搭配） / low（一般表达但可保留）\n` +
+      `- note：一句话点出为什么值得学（≤ 30 字，比如"典型短语动词"/"新闻常见搭配"/"生动俚语"）\n\n` +
+      `候选清单（共 ${candidates.length} 条）：\n${listing}\n\n` +
+      `只输出一段 JSON 数组（长度和候选完全一致，顺序完全一致）。不要 markdown 代码围栏。不要额外文字。\n` +
+      `每个元素格式：{"keep": true 或 false, "zh": "...", "tier": "high|mid|low", "note": "..."}\n` +
+      `丢弃的项：{"keep": false}`;
+    const messages = [vscode.LanguageModelChatMessage.User(prompt)];
+    const cts = new vscode.CancellationTokenSource();
+    const response = await model.sendRequest(messages, {}, cts.token);
+    const text = await collectResponse(response);
+    const arr = extractJsonArray(text);
+    if (!arr || arr.length !== candidates.length) {
+      log(`[curateRookieKeywordBatch] length mismatch or parse fail: expected ${candidates.length}, got ${arr ? arr.length : 'null'}. raw head: ${text.slice(0, 200)}`);
+      return null;
+    }
+    return arr.map((r: any) => ({
+      keep: !!r?.keep,
+      zh: typeof r?.zh === 'string' ? r.zh.trim() : undefined,
+      tier: r?.tier,
+      note: typeof r?.note === 'string' ? r.note.trim() : undefined,
+    }));
+  } catch (e: any) {
+    log(`[curateRookieKeywordBatch] error: ${e.message || e}`);
+    return null;
+  }
+}
+
 /** Extract a short (`zh`, `note`) pair for a word/phrase the user wants to
  *  add to their vocab from a tutor conversation. `contextText` (optional) is
  *  the surrounding assistant reply so the model can pick the meaning that

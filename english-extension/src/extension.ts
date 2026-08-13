@@ -3,6 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { openMainPanel, maybeAutoGenerateReading } from './panel';
 import { refreshAlarms, configureAlarmsInteractive, installOSAlarms, testAlarmNow } from './alarms';
+import { buildRookieKeywordDb } from './rookieKeywordBuilder';
 
 export function activate(context: vscode.ExtensionContext) {
   const ws = vscode.workspace.workspaceFolders?.[0];
@@ -32,6 +33,9 @@ export function activate(context: vscode.ExtensionContext) {
     }),
     vscode.commands.registerCommand('englishCatti.testAlarm', () => {
       testAlarmNow(dataRoot);
+    }),
+    vscode.commands.registerCommand('englishCatti.buildRookieKeywords', () => {
+      buildRookieKeywordDb(context, dataRoot);
     }),
   );
 
