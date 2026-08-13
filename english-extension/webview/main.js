@@ -276,6 +276,7 @@ function render() {
   else if (state.tab === 'learn') { renderLearn(); }
   else if (state.tab === 'review') { renderReview(); }
   else if (state.tab === 'reading') { renderReading(); }
+  else if (state.tab === 'movies') { renderMovies(); }
   else if (state.tab === 'tutor') { renderTutor(); }
   else if (state.tab === 'queried') { renderQueriedWords(); }
   else if (state.tab === 'stats') { renderStats(); }
@@ -2241,6 +2242,396 @@ function playOne(text, accent) {
       }
     };
     audio.play().catch(() => { /* onerror will trigger */ });
+  });
+}
+
+// ============ Tab: 🎬 美剧 ============
+
+let moviesState = {
+  view: 'catalog',   // 'catalog' | 'show' | 'browseEpisodes' | 'reader' | 'freePractice'
+  showId: null,
+  selectedSeason: null,
+  currentSlug: null,
+  readerPage: 0,
+  readerRevealAll: false,
+  freeHistory: [],   // recent items shown in free-practice mode
+};
+
+async function renderMovies() {
+  const content = document.getElementById('content');
+  const view = moviesState.view;
+  if (view === 'catalog') { await renderMoviesCatalog(content); }
+  else if (view === 'show') { await renderMoviesShow(content); }
+  else if (view === 'browseEpisodes') { await renderRookieBrowse(content); }
+  else if (view === 'reader') { await renderRookieReader(content); }
+  else if (view === 'freePractice') { await renderRookieFreePractice(content); }
+  else { await renderMoviesCatalog(content); }
+}
+
+async function renderMoviesCatalog(content) {
+  content.innerHTML = `<h2>🎬 美剧</h2><p class="muted">加载中…</p>`;
+  const resp = await callHost('getRookieCatalog');
+  const shows = (resp && resp.catalog && resp.catalog.shows) || [];
+  if (shows.length === 0) {
+    content.innerHTML = `<h2>🎬 美剧</h2><div class="card"><p class="result-bad">还没有可用的剧集数据。</p></div>`;
+    return;
+  }
+  content.innerHTML = `
+    <h2>🎬 美剧</h2>
+    <p class="muted">挑一部美剧，进去随便看还是随机练习都行。</p>
+    <div class="movies-grid">
+      ${shows.map((s) => `
+        <div class="movie-card" data-show="${escapeHtml(s.id)}">
+          <div class="movie-cover">🎬</div>
+          <div class="movie-body">
+            <h3>${escapeHtml(s.title)}</h3>
+            <p class="muted">${s.seasons.length} 季 · ${s.totalEpisodes} 集</p>
+            <p><button class="pick-show">进入</button></p>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+  for (const btn of content.querySelectorAll('.pick-show')) {
+    btn.addEventListener('click', () => {
+      const card = btn.closest('.movie-card');
+      moviesState.showId = card.dataset.show;
+      moviesState.view = 'show';
+      renderMovies();
+    });
+  }
+}
+
+async function renderMoviesShow(content) {
+  content.innerHTML = `<p class="muted">加载中…</p>`;
+  const resp = await callHost('getRookieCatalog');
+  const shows = (resp && resp.catalog && resp.catalog.shows) || [];
+  const show = shows.find((s) => s.id === moviesState.showId) || shows[0];
+  if (!show) {
+    content.innerHTML = `<h2>🎬 美剧</h2><div class="card"><p class="result-bad">找不到剧集。</p></div>`;
+    return;
+  }
+  const summ = await callHost('rookieGetSummary').catch(() => ({}));
+  const s = summ && summ.summary;
+  const learnedCount = s ? s.total_learned : 0;
+  const dueToday = s ? s.due_today : 0;
+  content.innerHTML = `
+    <div class="movie-crumbs">
+      <button class="link-btn" id="backToCatalog">← 回美剧列表</button>
+    </div>
+    <h2>🎬 ${escapeHtml(show.title)}</h2>
+    <div class="progress-strip">
+      <span class="chip-num">📺 <b>${show.totalEpisodes}</b> 集 · <b>${show.seasons.length}</b> 季</span>
+      <span class="chip-num chip-num-ok">📖 已学 <b>${learnedCount}</b> 词</span>
+      <span class="chip-num chip-num-warn">🔁 待复习 <b>${dueToday}</b></span>
+    </div>
+    <p class="muted" style="margin-top:12px">选择学习方式：</p>
+    <div class="movies-grid">
+      <div class="movie-card mode-card" id="modeBrowse">
+        <div class="movie-cover">📖</div>
+        <div class="movie-body">
+          <h3>一集一集看</h3>
+          <p class="muted">按季、集浏览全部台词。默认只英文，需要时点开中文翻译。每句可选加入词库。</p>
+          <p><button>进入</button></p>
+        </div>
+      </div>
+      <div class="movie-card mode-card" id="modeFree">
+        <div class="movie-cover">🎲</div>
+        <div class="movie-body">
+          <h3>自由练习</h3>
+          <p class="muted">随机抽一句台词 + 挑一个重点词/词组，认识/不熟评分后进本剧独立复习队列。</p>
+          <p><button>开始</button></p>
+        </div>
+      </div>
+    </div>
+    <p class="muted" style="font-size:12px; margin-top:16px">
+      💡 本剧数据与主学习进度<b>完全隔离</b>——这里的评分和艾宾浩斯只算在本剧内，不会污染词本 tab 的进度。
+    </p>
+  `;
+  document.getElementById('backToCatalog').addEventListener('click', () => {
+    moviesState.view = 'catalog'; moviesState.showId = null; renderMovies();
+  });
+  document.getElementById('modeBrowse').addEventListener('click', () => {
+    moviesState.view = 'browseEpisodes';
+    moviesState.selectedSeason = moviesState.selectedSeason || 1;
+    renderMovies();
+  });
+  document.getElementById('modeFree').addEventListener('click', () => {
+    moviesState.view = 'freePractice';
+    renderMovies();
+  });
+}
+
+async function renderRookieBrowse(content) {
+  content.innerHTML = `<p class="muted">加载中…</p>`;
+  const resp = await callHost('getRookieCatalog');
+  const shows = (resp && resp.catalog && resp.catalog.shows) || [];
+  const show = shows.find((s) => s.id === moviesState.showId) || shows[0];
+  if (!show) { content.innerHTML = '<p class="result-bad">找不到剧集</p>'; return; }
+  const seasonNum = moviesState.selectedSeason || show.seasons[0].season;
+  const season = show.seasons.find((s) => s.season === seasonNum) || show.seasons[0];
+  content.innerHTML = `
+    <div class="movie-crumbs">
+      <button class="link-btn" id="backToShow">← 回菜单</button>
+    </div>
+    <h2>📖 ${escapeHtml(show.title)}</h2>
+    <div class="season-tabs">
+      ${show.seasons.map((s) => `
+        <button class="season-tab ${s.season === season.season ? 'active' : ''}" data-season="${s.season}">
+          Season ${s.season} <span class="muted">(${s.episodes.length})</span>
+        </button>
+      `).join('')}
+    </div>
+    <div class="episode-grid">
+      ${season.episodes.map((ep) => `
+        <button class="episode-btn" data-slug="${ep.slug}">
+          <div class="ep-badge">S${String(ep.season).padStart(2,'0')}E${String(ep.episode).padStart(2,'0')}</div>
+        </button>
+      `).join('')}
+    </div>
+  `;
+  document.getElementById('backToShow').addEventListener('click', () => {
+    moviesState.view = 'show'; renderMovies();
+  });
+  for (const b of content.querySelectorAll('.season-tab')) {
+    b.addEventListener('click', () => {
+      moviesState.selectedSeason = Number(b.dataset.season);
+      renderMovies();
+    });
+  }
+  for (const b of content.querySelectorAll('.episode-btn')) {
+    b.addEventListener('click', () => {
+      moviesState.currentSlug = b.dataset.slug;
+      moviesState.readerPage = 0;
+      moviesState.readerRevealAll = false;
+      moviesState.view = 'reader';
+      renderMovies();
+    });
+  }
+}
+
+const LINES_PER_PAGE = 30;
+
+async function renderRookieReader(content) {
+  const slug = moviesState.currentSlug;
+  content.innerHTML = `<p class="muted">加载 ${escapeHtml(slug || '')}…</p>`;
+  const resp = await callHost('getRookieEpisode', { slug });
+  const ep = resp && resp.episode;
+  if (!ep) {
+    content.innerHTML = `<div class="card"><p class="result-bad">加载失败</p></div>`;
+    return;
+  }
+  const lines = ep.lines || [];
+  const totalPages = Math.max(1, Math.ceil(lines.length / LINES_PER_PAGE));
+  const page = Math.min(moviesState.readerPage || 0, totalPages - 1);
+  const start = page * LINES_PER_PAGE;
+  const chunk = lines.slice(start, start + LINES_PER_PAGE);
+  content.innerHTML = `
+    <div class="movie-crumbs">
+      <button class="link-btn" id="backToEpisodes">← 回集数列表</button>
+    </div>
+    <h2>📖 ${escapeHtml(slug.toUpperCase())} <span class="muted" style="font-size:14px">· ${lines.length} 句</span></h2>
+    <div class="reader-toolbar">
+      <button class="secondary" id="revealAllBtn">${moviesState.readerRevealAll ? '🙈 全部收起中文' : '👁 显示全部中文'}</button>
+    </div>
+    <div class="reader-lines">
+      ${chunk.map((line, i) => {
+        const idx = start + i;
+        const en = escapeHtml(line);
+        const enData = encodeURIComponent(line);
+        return `
+          <div class="reader-line" data-idx="${idx}" data-en="${enData}">
+            <div class="reader-line-en">
+              <span class="reader-line-num">${idx + 1}</span>
+              <span class="reader-line-text">${en}</span>
+              <span class="reader-line-actions">
+                <button class="mini-btn line-audio" data-text="${enData}" data-accent="us" title="美音">🇺🇸</button>
+                <button class="mini-btn line-audio" data-text="${enData}" data-accent="uk" title="英音">🇬🇧</button>
+                <button class="mini-btn toggle-zh-btn" title="显示/隐藏中文">🇨🇳</button>
+                <button class="mini-btn extract-kw-btn" title="加入本剧词库">⭐ 加词</button>
+              </span>
+            </div>
+            <div class="reader-line-zh ${moviesState.readerRevealAll ? '' : 'hidden'}"></div>
+            <div class="reader-line-kw hidden"></div>
+          </div>
+        `;
+      }).join('')}
+    </div>
+    <div class="reader-pager">
+      <button ${page === 0 ? 'disabled' : ''} id="prevPage">← 上一页</button>
+      <span class="muted">${page + 1} / ${totalPages}</span>
+      <button ${page >= totalPages - 1 ? 'disabled' : ''} id="nextPage">下一页 →</button>
+    </div>
+  `;
+  document.getElementById('backToEpisodes').addEventListener('click', () => {
+    moviesState.view = 'browseEpisodes'; renderMovies();
+  });
+  document.getElementById('prevPage').addEventListener('click', () => {
+    moviesState.readerPage = page - 1; renderMovies();
+  });
+  document.getElementById('nextPage').addEventListener('click', () => {
+    moviesState.readerPage = page + 1; renderMovies();
+  });
+  document.getElementById('revealAllBtn').addEventListener('click', async () => {
+    moviesState.readerRevealAll = !moviesState.readerRevealAll;
+    if (moviesState.readerRevealAll) {
+      for (const el of content.querySelectorAll('.reader-line')) {
+        const zhBox = el.querySelector('.reader-line-zh');
+        if (!zhBox.dataset.loaded) {
+          const en = decodeURIComponent(el.dataset.en);
+          zhBox.textContent = '⏳';
+          const tr = await callHost('translateRookieLine', { en, slug });
+          zhBox.textContent = (tr && tr.zh) || '（翻译失败）';
+          zhBox.dataset.loaded = '1';
+        }
+        zhBox.classList.remove('hidden');
+      }
+      document.getElementById('revealAllBtn').textContent = '🙈 全部收起中文';
+    } else {
+      for (const zh of content.querySelectorAll('.reader-line-zh')) { zh.classList.add('hidden'); }
+      document.getElementById('revealAllBtn').textContent = '👁 显示全部中文';
+    }
+  });
+  for (const b of content.querySelectorAll('.line-audio')) {
+    b.addEventListener('click', () => playSentenceAudio(b));
+  }
+  for (const el of content.querySelectorAll('.reader-line')) {
+    const zhBtn = el.querySelector('.toggle-zh-btn');
+    const kwBtn = el.querySelector('.extract-kw-btn');
+    const zhBox = el.querySelector('.reader-line-zh');
+    const kwBox = el.querySelector('.reader-line-kw');
+    zhBtn.addEventListener('click', async () => {
+      const wasHidden = zhBox.classList.contains('hidden');
+      if (wasHidden && !zhBox.dataset.loaded) {
+        const en = decodeURIComponent(el.dataset.en);
+        zhBox.textContent = '⏳ 翻译中…';
+        zhBox.classList.remove('hidden');
+        const tr = await callHost('translateRookieLine', { en, slug });
+        zhBox.textContent = (tr && tr.zh) || '（翻译失败）';
+        zhBox.dataset.loaded = '1';
+      } else {
+        zhBox.classList.toggle('hidden');
+      }
+    });
+    kwBtn.addEventListener('click', async () => {
+      const wasHidden = kwBox.classList.contains('hidden');
+      if (wasHidden && !kwBox.dataset.loaded) {
+        const en = decodeURIComponent(el.dataset.en);
+        kwBox.classList.remove('hidden');
+        kwBox.innerHTML = `<span class="muted">⏳ AI 提取重点词中…</span>`;
+        const r = await callHost('extractRookieKeyword', { line: en });
+        const kw = r && r.keyword;
+        if (!kw) {
+          kwBox.innerHTML = `<span class="result-bad">未能提取</span>`;
+          return;
+        }
+        kwBox.innerHTML = `
+          <div class="kw-suggestion">
+            <b>${escapeHtml(kw.en)}</b> — ${escapeHtml(kw.zh)}
+            ${kw.reason ? `<div class="muted" style="font-size:12px; margin-top:4px">${escapeHtml(kw.reason)}</div>` : ''}
+            <p style="margin-top:6px">
+              <button class="secondary confirm-add-kw">加入本剧词库</button>
+              <button class="link-btn dismiss-kw">忽略</button>
+            </p>
+          </div>
+        `;
+        kwBox.dataset.loaded = '1';
+        kwBox.querySelector('.confirm-add-kw').addEventListener('click', async () => {
+          const wid = `rookie-${kw.en.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+          await callHost('addRookieWord', { wordId: wid, en: kw.en, zh: kw.zh });
+          kwBox.innerHTML = `<span class="result-ok">✓ 已加入本剧词库</span>`;
+        });
+        kwBox.querySelector('.dismiss-kw').addEventListener('click', () => {
+          kwBox.classList.add('hidden');
+        });
+      } else {
+        kwBox.classList.toggle('hidden');
+      }
+    });
+  }
+}
+
+async function renderRookieFreePractice(content) {
+  content.innerHTML = `
+    <div class="movie-crumbs">
+      <button class="link-btn" id="backToShow">← 回菜单</button>
+    </div>
+    <h2>🎲 自由练习 · The Rookie</h2>
+    <p class="muted">随机抽台词 + 重点词。无学习指标，自由练，进度只在本剧内。</p>
+    <div id="freeCard"><p class="muted">加载中…</p></div>
+    <p style="margin-top:14px">
+      <button id="nextRandom">🎲 下一个</button>
+    </p>
+  `;
+  document.getElementById('backToShow').addEventListener('click', () => {
+    moviesState.view = 'show'; renderMovies();
+  });
+  document.getElementById('nextRandom').addEventListener('click', () => drawNextRookieFree());
+  drawNextRookieFree();
+}
+
+async function drawNextRookieFree() {
+  const box = document.getElementById('freeCard');
+  if (!box) { return; }
+  box.innerHTML = `<p class="muted">🎲 抽选中…</p>`;
+  const resp = await callHost('getRookieRandomLine', { excludeEpisodes: [] });
+  const item = resp && resp.item;
+  if (!item) {
+    box.innerHTML = `<p class="result-bad">语料库为空</p>`;
+    return;
+  }
+  const kwResp = await callHost('extractRookieKeyword', { line: item.en });
+  const kw = kwResp && kwResp.keyword;
+  const enData = encodeURIComponent(item.en);
+  box.innerHTML = `
+    <div class="card free-practice-card">
+      <div class="muted" style="font-size:12px; margin-bottom:6px">🎬 ${escapeHtml(item.episode.toUpperCase())}</div>
+      ${kw ? `
+        <div class="free-target">
+          <div class="free-target-en">${escapeHtml(kw.en)}</div>
+          <div class="free-target-zh hidden" id="freeZh">${escapeHtml(kw.zh)}</div>
+          ${kw.reason ? `<div class="muted" style="font-size:12px; margin-top:4px">${escapeHtml(kw.reason)}</div>` : ''}
+          <button class="link-btn" id="revealZh">👁 显示中文</button>
+        </div>` : ''}
+      <div class="free-line" data-en="${enData}">
+        ${kw ? highlightWord(item.en, kw.en) : escapeHtml(item.en)}
+        <button class="mini-btn line-audio" data-text="${enData}" data-accent="us">🇺🇸</button>
+        <button class="mini-btn line-audio" data-text="${enData}" data-accent="uk">🇬🇧</button>
+      </div>
+      <div class="free-actions">
+        <button class="secondary chip-btn chip-ok" id="freeKnown">✓ 认识</button>
+        <button class="secondary chip-btn chip-bad" id="freeUnknown">✗ 不熟</button>
+        <button class="secondary chip-btn" id="freeDeep">🔍 深度学习</button>
+      </div>
+      <div id="freeDeepBody"></div>
+    </div>
+  `;
+  for (const b of box.querySelectorAll('.line-audio')) {
+    b.addEventListener('click', () => playSentenceAudio(b));
+  }
+  const revealBtn = document.getElementById('revealZh');
+  if (revealBtn) {
+    revealBtn.addEventListener('click', () => {
+      document.getElementById('freeZh').classList.toggle('hidden');
+    });
+  }
+  const markScored = (known) => {
+    if (!kw) { return; }
+    const wid = `rookie-${kw.en.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+    vscode.postMessage({ type: 'rookieRecordLearn', wordId: wid, en: kw.en, zh: kw.zh, known });
+    const el = document.getElementById(known ? 'freeKnown' : 'freeUnknown');
+    if (el) { el.classList.add('chip-active'); el.disabled = true; }
+    const other = document.getElementById(known ? 'freeUnknown' : 'freeKnown');
+    if (other) { other.disabled = true; }
+  };
+  document.getElementById('freeKnown').addEventListener('click', () => markScored(true));
+  document.getElementById('freeUnknown').addEventListener('click', () => markScored(false));
+  document.getElementById('freeDeep').addEventListener('click', async () => {
+    if (!kw) { return; }
+    const body = document.getElementById('freeDeepBody');
+    body.innerHTML = `<div class="deep-loading">⏳ 生成中…</div>`;
+    const m = await callHost('deepStudy', { en: kw.en, zh: kw.zh });
+    body.innerHTML = `<div class="deep-card"><div class="deep-body">${m && m.markdown ? renderMarkdown(m.markdown) : '<span class="result-bad">失败</span>'}</div></div>`;
   });
 }
 

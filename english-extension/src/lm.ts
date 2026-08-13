@@ -733,6 +733,60 @@ export async function chatFreeform(
   }
 }
 
+// ============ TV show dialogue helpers (Rookie tab) ============
+
+export async function translateEnLine(en: string): Promise<string> {
+  try {
+    const model = await getModel();
+    if (!model) { return ''; }
+    const prompt =
+      `把下面这句英文口语（美剧台词）自然、地道地译成中文，保留原句的语气/情绪/俚语味道。\n` +
+      `只输出译文，不要加引号或额外解释。\n\n"${en}"`;
+    const messages = [vscode.LanguageModelChatMessage.User(prompt)];
+    const cts = new vscode.CancellationTokenSource();
+    const resp = await model.sendRequest(messages, {}, cts.token);
+    const text = (await collectResponse(resp)).trim();
+    return text.replace(/^["「『]|["」』]$/g, '');
+  } catch (e: any) {
+    log(`[translateEnLine] error: ${e.message || e}`);
+    return '';
+  }
+}
+
+export interface RookieKeywordSuggestion {
+  en: string;
+  zh: string;
+  reason: string;
+}
+
+/** Extract the single most CATTI-worthy word / phrase from a dialogue line. */
+export async function extractKeywordFromLine(line: string): Promise<RookieKeywordSuggestion | null> {
+  try {
+    const model = await getModel();
+    if (!model) { return null; }
+    const prompt =
+      `你是英语学习助手。挑出下面这句台词里**最值得学习的一个**英语单词或词组（2-3 词以内），` +
+      `优先高频短语/习语/搭配/俚语（比如 "brush off", "cross retaliation", "make a scene"）。\n` +
+      `如果没有，选一个高频动词或形容词。\n\n` +
+      `台词："${line}"\n\n` +
+      `只输出一行 JSON：{"en":"英文原形（小写）", "zh":"中文简明释义（≤10 字）", "reason":"一句话点出为什么这个词值得学"}`;
+    const messages = [vscode.LanguageModelChatMessage.User(prompt)];
+    const cts = new vscode.CancellationTokenSource();
+    const resp = await model.sendRequest(messages, {}, cts.token);
+    const text = await collectResponse(resp);
+    const parsed = parseJson(text);
+    if (!parsed || !parsed.en || !parsed.zh) { return null; }
+    return {
+      en: String(parsed.en).trim(),
+      zh: String(parsed.zh).trim(),
+      reason: String(parsed.reason || '').trim(),
+    };
+  } catch (e: any) {
+    log(`[extractKeywordFromLine] error: ${e.message || e}`);
+    return null;
+  }
+}
+
 /** Extract a short (`zh`, `note`) pair for a word/phrase the user wants to
  *  add to their vocab from a tutor conversation. `contextText` (optional) is
  *  the surrounding assistant reply so the model can pick the meaning that

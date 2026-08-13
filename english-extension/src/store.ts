@@ -158,28 +158,32 @@ function addDays(base: string | Date, days: number): string {
 export class UserStore {
   private path: string;
   private dataRoot: string;
+  private stateFilename: string;
+  private backupPrefix: string;
   private state: UserState;
 
-  constructor(dataRoot: string) {
+  constructor(dataRoot: string, stateFilename: string = 'user_state.json') {
     this.dataRoot = dataRoot;
-    this.path = path.join(dataRoot, 'user_state.json');
+    this.stateFilename = stateFilename;
+    this.backupPrefix = stateFilename.replace(/\.json$/, '') + '.backup-';
+    this.path = path.join(dataRoot, stateFilename);
+    fs.mkdirSync(dataRoot, { recursive: true });
     this.backupIfNeeded();
     this.state = this.load();
   }
 
-  /** Snapshot user_state.json to a dated file if today's backup doesn't exist.
+  /** Snapshot the state file to a dated backup if today's doesn't exist.
    *  Keeps the most recent 30 dated backups. */
   private backupIfNeeded() {
     try {
       if (!fs.existsSync(this.path)) { return; }
       const today = isoDate();
-      const backupName = `user_state.backup-${today}.json`;
+      const backupName = `${this.backupPrefix}${today}.json`;
       const backupPath = path.join(this.dataRoot, backupName);
-      if (fs.existsSync(backupPath)) { return; }   // already backed up today
+      if (fs.existsSync(backupPath)) { return; }
       fs.copyFileSync(this.path, backupPath);
-      // Prune old backups beyond 30
       const files = fs.readdirSync(this.dataRoot)
-        .filter((f) => f.startsWith('user_state.backup-') && f.endsWith('.json'))
+        .filter((f) => f.startsWith(this.backupPrefix) && f.endsWith('.json'))
         .sort();
       const toDelete = files.slice(0, Math.max(0, files.length - 30));
       for (const f of toDelete) {
@@ -203,11 +207,10 @@ export class UserStore {
         }
       }
     } catch (e) {
-      console.error('user_state load failed', e);
-      // Try to recover from the most recent backup
+      console.error(`${this.stateFilename} load failed`, e);
       try {
         const files = fs.readdirSync(this.dataRoot)
-          .filter((f) => f.startsWith('user_state.backup-') && f.endsWith('.json'))
+          .filter((f) => f.startsWith(this.backupPrefix) && f.endsWith('.json'))
           .sort();
         if (files.length > 0) {
           const latest = path.join(this.dataRoot, files[files.length - 1]);

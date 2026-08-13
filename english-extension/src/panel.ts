@@ -3,11 +3,12 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as crypto from 'crypto';
 import { spawn } from 'child_process';
-import { gradeSemantic, gradeSentence, generateContext, deepStudy, chatWithWord, generateReadingArticles, ReadingArticle, gradeReverseSemantic, generateCollocationCloze, gradeCollocation, gradeContextCloze, chatFreeform, generateStoryContext, generateFunContext, explainWordFromTutor } from './lm';
+import { gradeSemantic, gradeSentence, generateContext, deepStudy, chatWithWord, generateReadingArticles, ReadingArticle, gradeReverseSemantic, generateCollocationCloze, gradeCollocation, gradeContextCloze, chatFreeform, generateStoryContext, generateFunContext, explainWordFromTutor, translateEnLine, extractKeywordFromLine } from './lm';
 import { UserStore } from './store';
 
 let panel: vscode.WebviewPanel | undefined;
 let store: UserStore | undefined;
+let rookieStore: UserStore | undefined;
 let currentDataRoot: string | undefined;
 
 /** Background reading-corner generation status shared with the webview. */
@@ -94,6 +95,136 @@ function saveFavorites(items: ReadingArticle[]) {
   const p = path.join(root, 'favorites.json');
   fs.writeFileSync(p, JSON.stringify(items, null, 2), 'utf8');
 }
+
+// ---------- 🎬 Rookie helpers ----------
+
+function rookieRoot(): string | null {
+  if (!currentDataRoot) { return null; }
+  const dir = path.join(currentDataRoot, 'data', 'rookie');
+  fs.mkdirSync(dir, { recursive: true });
+  return dir;
+}
+
+function rookieEpisodesDir(): string | null {
+  if (!currentDataRoot) { return null; }
+  return path.join(currentDataRoot, 'data', 'subs', 'rookie', 'en');
+}
+
+interface RookieEpisodeSummary { slug: string; season: number; episode: number; }
+interface RookieCatalog {
+  shows: Array<{ id: string; title: string; totalEpisodes: number; seasons: Array<{ season: number; episodes: RookieEpisodeSummary[] }> }>;
+}
+
+let _rookieCatalog: RookieCatalog | null = null;
+
+function rookieCatalog(): RookieCatalog {
+  if (_rookieCatalog) { return _rookieCatalog; }
+  const dir = rookieEpisodesDir();
+  const shows: RookieCatalog['shows'] = [];
+  if (dir && fs.existsSync(dir)) {
+    const files = fs.readdirSync(dir).filter((f) => /^s\d{2}e\d{2}\.json$/.test(f)).sort();
+    const bySeason: Record<number, RookieEpisodeSummary[]> = {};
+    for (const f of files) {
+      const m = /^s(\d{2})e(\d{2})\.json$/.exec(f);
+      if (!m) { continue; }
+      const season = Number(m[1]);
+      const episode = Number(m[2]);
+      const slug = `s${m[1]}e${m[2]}`;
+      (bySeason[season] ||= []).push({ slug, season, episode });
+    }
+    const seasons = Object.keys(bySeason).map(Number).sort((a, b) => a - b).map((s) => ({ season: s, episodes: bySeason[s] }));
+    shows.push({ id: 'rookie', title: '菜鸟老警 · The Rookie', totalEpisodes: files.length, seasons });
+  }
+  _rookieCatalog = { shows };
+  return _rookieCatalog;
+}
+
+interface RookieEpisode { slug: string; title: string; url: string; lines: string[]; }
+
+function loadRookieEpisode(slug: string): RookieEpisode | null {
+  const dir = rookieEpisodesDir();
+  if (!dir || !/^s\d{2}e\d{2}$/.test(slug)) { return null; }
+  const p = path.join(dir, `${slug}.json`);
+  if (!fs.existsSync(p)) { return null; }
+  try { return JSON.parse(fs.readFileSync(p, 'utf8')); } catch { return null; }
+}
+
+/** Load the filtered dialogue pool (22k quality lines) with lazy-in-memory cache. */
+let _rookieFilteredLines: Array<{ episode: string; en: string }> | null = null;
+function rookieFilteredLines(): Array<{ episode: string; en: string }> {
+  if (_rookieFilteredLines) { return _rookieFilteredLines; }
+  if (!currentDataRoot) { return []; }
+  const p = path.join(currentDataRoot, 'data', 'subs', 'rookie', 'rookie_lines_filtered.json');
+  try {
+    _rookieFilteredLines = JSON.parse(fs.readFileSync(p, 'utf8'));
+  } catch {
+    _rookieFilteredLines = [];
+  }
+  return _rookieFilteredLines || [];
+}
+
+function pickRandomRookieLine(excludeEpisodes: string[] = []): { episode: string; en: string } | null {
+  const pool = rookieFilteredLines();
+  if (pool.length === 0) { return null; }
+  const excl = new Set(excludeEpisodes);
+  const filtered = excl.size ? pool.filter((x) => !excl.has(x.episode)) : pool;
+  const src = filtered.length ? filtered : pool;
+  return src[Math.floor(Math.random() * src.length)];
+}
+
+// LLM-translated line cache (persisted to disk so repeat views are instant).
+let _rookieTrCache: Record<string, string> | null = null;
+function rookieTrCachePath(): string | null {
+  const root = rookieRoot();
+  return root ? path.join(root, 'translations.json') : null;
+}
+function loadRookieTrCache(): Record<string, string> {
+  if (_rookieTrCache) { return _rookieTrCache; }
+  const p = rookieTrCachePath();
+  if (p && fs.existsSync(p)) {
+    try { _rookieTrCache = JSON.parse(fs.readFileSync(p, 'utf8')); } catch { _rookieTrCache = {}; }
+  } else {
+    _rookieTrCache = {};
+  }
+  return _rookieTrCache || {};
+}
+function saveRookieTrCache() {
+  const p = rookieTrCachePath();
+  if (!p || !_rookieTrCache) { return; }
+  try { fs.writeFileSync(p, JSON.stringify(_rookieTrCache, null, 0), 'utf8'); } catch { /* ignore */ }
+}
+async function getOrTranslateRookieLine(en: string, _slug: string): Promise<string> {
+  const cache = loadRookieTrCache();
+  const key = en.trim();
+  if (!key) { return ''; }
+  if (cache[key]) { return cache[key]; }
+  const zh = await translateEnLine(key);
+  if (zh) { cache[key] = zh; saveRookieTrCache(); }
+  return zh;
+}
+
+// Keyword cache (line -> {en, zh, reason})
+let _rookieKwCache: Record<string, { en: string; zh: string; reason: string }> | null = null;
+function rookieKwCachePath(): string | null {
+  const root = rookieRoot();
+  return root ? path.join(root, 'keywords.json') : null;
+}
+function getCachedRookieKeyword(line: string) {
+  if (!_rookieKwCache) {
+    const p = rookieKwCachePath();
+    if (p && fs.existsSync(p)) {
+      try { _rookieKwCache = JSON.parse(fs.readFileSync(p, 'utf8')); } catch { _rookieKwCache = {}; }
+    } else { _rookieKwCache = {}; }
+  }
+  return _rookieKwCache![line.trim()] || null;
+}
+function cacheRookieKeyword(line: string, kw: { en: string; zh: string; reason: string }) {
+  if (!_rookieKwCache) { _rookieKwCache = {}; }
+  _rookieKwCache[line.trim()] = kw;
+  const p = rookieKwCachePath();
+  if (p) { try { fs.writeFileSync(p, JSON.stringify(_rookieKwCache, null, 0), 'utf8'); } catch { /* ignore */ } }
+}
+
 
 /** Fire background TTS generation for every English sentence in every article,
  *  both US and UK accents. Uses `generateSentenceAudio` which is cached and dedup-safe.
@@ -274,6 +405,7 @@ export async function openMainPanel(context: vscode.ExtensionContext, mode: stri
   }
   // Init user store rooted at the same data folder
   store = new UserStore(path.join(wsRoot, 'data'));
+  rookieStore = new UserStore(path.join(wsRoot, 'data', 'rookie'), 'rookie_state.json');
   currentDataRoot = wsRoot;
 
   if (panel) {
@@ -619,6 +751,67 @@ export async function openMainPanel(context: vscode.ExtensionContext, mode: stri
         else { favs.unshift(msg.article); favorited = true; }
         saveFavorites(favs);
         panel.webview.postMessage({ type: 'favoriteToggled', requestId: msg.requestId, favorited, id: msg.article.id });
+        break;
+      }
+      // ---------- 🎬 美剧 tab: The Rookie ----------
+      case 'getRookieCatalog': {
+        const cat = rookieCatalog();
+        panel.webview.postMessage({ type: 'rookieCatalog', requestId: msg.requestId, catalog: cat });
+        break;
+      }
+      case 'getRookieEpisode': {
+        const ep = loadRookieEpisode(msg.slug || '');
+        panel.webview.postMessage({ type: 'rookieEpisode', requestId: msg.requestId, episode: ep });
+        break;
+      }
+      case 'getRookieRandomLine': {
+        const item = pickRandomRookieLine(msg.excludeEpisodes || []);
+        panel.webview.postMessage({ type: 'rookieRandomLine', requestId: msg.requestId, item });
+        break;
+      }
+      case 'translateRookieLine': {
+        const zh = await getOrTranslateRookieLine(msg.en || '', msg.slug || '');
+        panel.webview.postMessage({ type: 'rookieLineTranslation', requestId: msg.requestId, zh });
+        break;
+      }
+      case 'extractRookieKeyword': {
+        const line = String(msg.line || '');
+        let kw: any = null;
+        if (line) {
+          const cached = getCachedRookieKeyword(line);
+          kw = cached || await extractKeywordFromLine(line);
+          if (!cached && kw) { cacheRookieKeyword(line, kw); }
+        }
+        panel.webview.postMessage({ type: 'rookieKeyword', requestId: msg.requestId, keyword: kw });
+        break;
+      }
+      case 'addRookieWord': {
+        if (rookieStore) { rookieStore.recordLearn(msg.wordId, msg.en, msg.zh, true); }
+        panel.webview.postMessage({ type: 'rookieWordAdded', requestId: msg.requestId, ok: true });
+        break;
+      }
+      // Rookie-scoped SRS: separate state file, same intervals/rules.
+      case 'rookieRecordLearn': {
+        if (rookieStore) { rookieStore.recordLearn(msg.wordId, msg.en, msg.zh, !!msg.known); }
+        break;
+      }
+      case 'rookieRecordEbbinghausReview': {
+        if (rookieStore) { rookieStore.recordEbbinghausReview(msg.wordId, msg.en, msg.zh, msg.gate || 1, !!msg.pass); }
+        break;
+      }
+      case 'rookieGetSummary': {
+        const summary = rookieStore ? rookieStore.summary() : null;
+        panel.webview.postMessage({ type: 'rookieSummary', requestId: msg.requestId, summary });
+        break;
+      }
+      case 'rookieGetLearnedIds': {
+        const ids = rookieStore ? rookieStore.learnedIds() : [];
+        panel.webview.postMessage({ type: 'rookieLearnedIds', requestId: msg.requestId, ids });
+        break;
+      }
+      case 'rookieGetEbbinghausDue': {
+        const due = rookieStore ? rookieStore.getEbbinghausDue(msg.limit || 200) : [];
+        panel.webview.postMessage({ type: 'rookieEbbinghausDue', requestId: msg.requestId, due });
         break;
       }
     }
