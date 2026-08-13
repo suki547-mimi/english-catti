@@ -810,16 +810,25 @@ export async function curateRookieKeywordBatch(
       return `${i + 1}. "${c.phrase}"${eg}`;
     }).join('\n');
     const prompt =
-      `你在为一名 CATTI 2 笔译 / 3 口译目标的中国学习者，从美剧《菜鸟老警》台词里筛出**值得学习的英文表达**。\n\n` +
-      `每个候选词/词组：如果它是**地道的搭配 / 短语动词 / 习语 / 俚语 / CATTI 高频学习点**，就保留（keep: true）；\n` +
-      `如果它只是**语法碎片、句子片段、常见词的普通组合、专有名词、口水词**，就丢弃（keep: false）。\n\n` +
-      `保留的每一项要给：\n` +
-      `- zh：简明中文含义（≤ 12 字）\n` +
-      `- tier：high（成语/俚语/高价值搭配） / mid（值得学的搭配） / low（一般表达但可保留）\n` +
-      `- note：一句话点出为什么值得学（≤ 30 字，比如"典型短语动词"/"新闻常见搭配"/"生动俚语"）\n\n` +
+      `你在为一名 CATTI 2 笔译 / 3 口译目标的中国学习者，从美剧《菜鸟老警》台词里筛值得学的英文表达。\n\n` +
+      `**核心判断标准**（缺一不可，全部满足才 keep: true）：\n` +
+      `1. 这个字符串**本身**就是一个**完整、可独立理解的**学习单元（成语 / 短语动词 / 习语 / 俚语 / 固定搭配）\n` +
+      `2. 只看这个字符串，不加任何前后词，中国学习者也能听懂它是什么意思\n` +
+      `3. 具有一定学习难度：不是"the way / kind of / right now / gonna be"这类初级已经掌握的高频语法碎片\n\n` +
+      `**必须 keep: false 的情况**：\n` +
+      `- 语法碎片（"is gonna" / "gonna be" / "up to" / "in the" / "of the"）\n` +
+      `- 短语**片段**（比如 "the right" 是 "earn the right to" 的一半 → drop；"your hands" 是 "off your hands" 的一半 → drop；"but it's" 是 "but it's the new normal" 的碎片 → drop）\n` +
+      `- 单独看没明确意思的（"in there" / "out there" / "up in" / "up the"）\n` +
+      `- 初级已掌握的口语碎片（"you know what" / "come on" / "make sure"）\n` +
+      `- 例句里存在但不构成短语的碰撞（bigram 只是恰好相邻）\n\n` +
+      `**特别注意**：如果你想在 note 里写"XXX 是地道搭配"但那个 XXX 不是本项目候选字符串本身（而是更长的短语），说明这个候选是**碎片**，必须 keep: false。\n\n` +
+      `保留（keep: true）的每一项要给：\n` +
+      `- zh：候选**字符串本身**的简明中文含义（≤ 12 字）\n` +
+      `- tier：high（罕见成语/俚语/高价值）/ mid（值得学）/ low（可选）\n` +
+      `- note：一句话点出为什么**这个字符串**值得学（≤ 30 字），不能提及例句里的其他更长短语\n\n` +
       `候选清单（共 ${candidates.length} 条）：\n${listing}\n\n` +
       `只输出一段 JSON 数组（长度和候选完全一致，顺序完全一致）。不要 markdown 代码围栏。不要额外文字。\n` +
-      `每个元素格式：{"keep": true 或 false, "zh": "...", "tier": "high|mid|low", "note": "..."}\n` +
+      `保留的项：{"keep": true, "zh": "...", "tier": "high|mid|low", "note": "..."}\n` +
       `丢弃的项：{"keep": false}`;
     const messages = [vscode.LanguageModelChatMessage.User(prompt)];
     const cts = new vscode.CancellationTokenSource();

@@ -48,9 +48,16 @@ export async function buildRookieKeywordDb(context: vscode.ExtensionContext, dat
   }
 
   const candidates: Candidate[] = JSON.parse(fs.readFileSync(candPath, 'utf8'));
-  const cap = await promptCap(candidates.length);
-  if (cap === undefined) { return; }
+  const capChoice = await promptCap(candidates.length);
+  if (capChoice === undefined) { return; }
+  const cleanFirst = capChoice < 0;
+  const cap = Math.abs(capChoice);
   const batchLimit = Math.min(cap, candidates.length);
+
+  if (cleanFirst) {
+    try { if (fs.existsSync(outPath)) { fs.unlinkSync(outPath); } } catch { /* ignore */ }
+    try { if (fs.existsSync(progPath)) { fs.unlinkSync(progPath); } } catch { /* ignore */ }
+  }
 
   let curated: Record<string, CuratedEntry> = {};
   if (fs.existsSync(outPath)) {
@@ -126,7 +133,8 @@ export async function buildRookieKeywordDb(context: vscode.ExtensionContext, dat
 async function promptCap(totalCandidates: number): Promise<number | undefined> {
   const pick = await vscode.window.showQuickPick(
     [
-      { label: '快速试跑 · 前 200 个', value: 200 },
+      { label: '🧹 清空重跑（前 200 个，全新一轮）', value: -200 },
+      { label: '快速试跑 · 前 200 个（续跑，接着已有进度）', value: 200 },
       { label: '中等 · 前 1000 个', value: 1000 },
       { label: '全量 · 全部 ' + totalCandidates + ' 个', value: totalCandidates },
     ],
