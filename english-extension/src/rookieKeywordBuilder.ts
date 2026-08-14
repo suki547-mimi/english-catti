@@ -163,16 +163,18 @@ function normalizePhraseKey(phrase: string): string {
 }
 
 /** Reject hallucinated phrases: every token in the extracted phrase must
- *  appear in the source line (allowing simple inflection suffixes). */
+ *  appear in the source line (allowing common English inflection suffixes,
+ *  NOT arbitrary 4-char tails — that used to let 'hell' match 'hello'). */
 function validateHitAgainstLine(phrase: string, line: string): boolean {
   const key = normalizePhraseKey(phrase);
   if (!key) { return false; }
   const tokens = key.split(' ').filter(Boolean);
   if (tokens.length === 0) { return false; }
   const lineLc = ' ' + line.toLowerCase().replace(/[^a-z' \-]/g, ' ').replace(/\s+/g, ' ') + ' ';
+  const INFLECT = "(?:'s|s|es|ed|d|ing|ies|ier|iest|er|est)?";
   for (const t of tokens) {
     const escaped = t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const re = new RegExp(`(^| )${escaped}[a-z']{0,4}( |$)`);
+    const re = new RegExp(`(^| )${escaped}${INFLECT}( |$)`);
     if (!re.test(lineLc)) { return false; }
   }
   return true;

@@ -871,30 +871,35 @@ export async function extractRookiePhrasesFromLinesBatch(
     const listing = lines.map((l, i) => `${i + 1}. [id=${l.id}] "${l.en.slice(0, 200)}"`).join('\n');
     const prompt =
       `你在为一名 CATTI 2 笔译 / 3 口译目标的中国学习者，从美剧《菜鸟老警》台词里提炼值得学的英文表达。\n\n` +
-      `**任务**：给你 ${lines.length} 句台词，从每句里挑出 **0 到 3 个** 真正值得学的短语。\n\n` +
-      `**只挑**：\n` +
-      `- 短语动词（brush off / hold up / look into / get away with）\n` +
-      `- 习语 / 成语（bury the hatchet / off the hook / a stone's throw）\n` +
-      `- 俚语（rat someone out / spill the beans）\n` +
-      `- 地道搭配（file a report / press charges / stand a chance）\n` +
-      `- CATTI 高频翻译考点（by all means / to that end）\n\n` +
-      `**必须跳过**：\n` +
-      `- 单个普通名词/动词/形容词（book / walk / good）\n` +
-      `- 初级已掌握短语（come on / thank you / take care）\n` +
-      `- 语法碎片（is gonna / want to / kind of）\n` +
-      `- 专有名词、地名、人名\n` +
-      `- 如果整句里没有值得学的表达，就返回空数组 []\n\n` +
+      `**任务**：给你 ${lines.length} 句台词，从**每一句**里挑出 **值得学的英文短语**。\n\n` +
+      `**倾向多挑（宁多勿漏）**：只要句子里有可以扩展词汇量的表达，就必须挑出来。典型的一句 5-15 词的台词往往有 1-2 个值得学的东西。\n\n` +
+      `**值得挑**（这些都算）：\n` +
+      `- 短语动词（brush off / hold up / look into / get away with / call in / stand down / dial back）\n` +
+      `- 习语 / 成语（bury the hatchet / off the hook / a stone's throw / cold feet / bite the bullet）\n` +
+      `- 俚语（rat someone out / spill the beans / go bogus 假的）\n` +
+      `- 地道搭配（file a report / press charges / stand a chance / breach of duty / rap sheet 前科记录 / lay low / go dark）\n` +
+      `- 情感/语气表达（cut it out / knock it off / give me a break / lose it / freak out / get real）\n` +
+      `- 警察/法律术语（misdemeanor / probable cause / plea deal / restraining order / accessory to / go on record）\n` +
+      `- CATTI 高频翻译考点（by all means / to that end / in light of / at the expense of）\n` +
+      `- 生动的形容词/副词（riveting / bogus / low-key / off-hand）\n\n` +
+      `**跳过**：\n` +
+      `- 单个普通名词/动词/形容词（book / walk / good / talk）\n` +
+      `- 初级已掌握短语（thank you / take care / very much / not really）\n` +
+      `- 语法碎片（is gonna / want to / kind of / a lot of / going to）\n` +
+      `- 专有名词、地名、人名（Lucy / John / LA / Dodgers）\n\n` +
       `**短语必须**：\n` +
-      `- 是完整的可独立理解单元（不能是任意 n-gram 切片）\n` +
-      `- 原句里必须完整、连续地出现（除了大小写、时态、单复数变化）\n\n` +
+      `- 完整可独立理解的学习单元（不是任意 n-gram 切片）\n` +
+      `- 原句里完整、连续地出现（允许词形变化：时态/单复数/大小写）\n\n` +
       `台词清单：\n${listing}\n\n` +
       `只输出一段 JSON 对象，键是行 id，值是短语数组。不要 markdown 围栏，不要额外文字。\n` +
-      `格式示例（值可能是空数组 []）：\n` +
+      `每个短语项：{"phrase": "brush off", "zh": "不理睬；打发", "tier": "high|mid|low", "note": "值得学的原因，≤25字"}\n` +
+      `一句里确实一个也挑不出才返回 []。\n` +
+      `格式示例：\n` +
       `{\n` +
-      `  "line-42": [\n` +
-      `    {"phrase": "brush off", "zh": "不理睬；打发", "tier": "high", "note": "典型短语动词，口语高频"}\n` +
+      `  "L42": [\n` +
+      `    {"phrase": "brush off", "zh": "不理睬", "tier": "high", "note": "典型短语动词"}\n` +
       `  ],\n` +
-      `  "line-43": []\n` +
+      `  "L43": []\n` +
       `}`;
     const messages = [vscode.LanguageModelChatMessage.User(prompt)];
     const cts = new vscode.CancellationTokenSource();
