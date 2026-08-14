@@ -1,0 +1,68 @@
+{
+  "the job": {
+    "en": "the job",
+    "zh": "在职/当警察",
+    "tier": "mid",
+    "note": "on the job 指从事警察工作，警察剧高频表达",
+    "freq": 84,
+    "examples": [
+      {
+        "episode": "s01e02",
+        "en": "I've been on the job 12 years, never fired my weapon"
+      },
+      {
+        "episode": "s01e02",
+        "en": "We're gonna sit here all morning? Hey, writing tickets is the heart of the job"
+      },
+      {
+        "episode": "s01e03",
+        "en": "I only give it to officers wounded on the job"
+      }
+    ],
+    "addedAt": "2026-08-13T08:35:31.720Z"
+  },
+  "what the hell": {
+    "en": "what the hell",
+    "zh": "搞什么鬼",
+    "tier": "low",
+    "note": "what the hell 常见强调反问语气",
+    "freq": 68,
+    "examples": [
+      {
+        "episode": "s01e01",
+        "en": "What the hell are you talking about? You've wanted to be a detective since you were a kid"
+      },
+      {
+        "episode": "s01e01",
+        "en": "What the hell just happened? That was my wife"
+      },
+      {
+        "episode": "s01e03",
+        "en": "You want to tell me what the hell is going on? We're filming stunts for our YouTube channel"
+      }
+    ],
+    "addedAt": "2026-08-13T08:35:31.720Z"
+  },
+  "get out of": {
+    "en": "get out of",
+    "zh": "离开/摆脱",
+    "tier": "low",
+    "note": "get out of 短语动词，用法多样",
+    "freq": 68,
+    "examples": [
+      {
+        "episode": "s01e01",
+        "en": "Well, I don't know why the hell you two are so determined to get out of patrol"
+      },
+      {
+        "episode": "s01e02",
+        "en": "I died NOLAN: Police! Get out of the car! I died NOLAN: Driver, step away from your vehicle! - I died"
+      },
+      {
+        "episode": "s01e03",
+        "en": "And with their partners on ice here, I bet you they are ready to get out of Dodge"
+      }
+    ],
+    "addedAt": "2026-08-13T08:35:31.720Z"
+  }
+}

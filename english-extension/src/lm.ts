@@ -851,6 +851,80 @@ export async function curateRookieKeywordBatch(
   }
 }
 
+export interface RookiePhraseHit {
+  phrase: string;
+  zh: string;
+  tier: 'high' | 'mid' | 'low';
+  note: string;
+}
+
+/** Line-based extraction: give LLM a batch of full dialogue lines, ask it
+ *  to pull out any CATTI-worthy phrases from each (0..3 per line). This
+ *  sidesteps the fragment problem n-gram windows have. */
+export async function extractRookiePhrasesFromLinesBatch(
+  lines: Array<{ id: string; en: string }>,
+): Promise<Record<string, RookiePhraseHit[]> | null> {
+  if (lines.length === 0) { return {}; }
+  try {
+    const model = await getModel();
+    if (!model) { return null; }
+    const listing = lines.map((l, i) => `${i + 1}. [id=${l.id}] "${l.en.slice(0, 200)}"`).join('\n');
+    const prompt =
+      `你在为一名 CATTI 2 笔译 / 3 口译目标的中国学习者，从美剧《菜鸟老警》台词里提炼值得学的英文表达。\n\n` +
+      `**任务**：给你 ${lines.length} 句台词，从每句里挑出 **0 到 3 个** 真正值得学的短语。\n\n` +
+      `**只挑**：\n` +
+      `- 短语动词（brush off / hold up / look into / get away with）\n` +
+      `- 习语 / 成语（bury the hatchet / off the hook / a stone's throw）\n` +
+      `- 俚语（rat someone out / spill the beans）\n` +
+      `- 地道搭配（file a report / press charges / stand a chance）\n` +
+      `- CATTI 高频翻译考点（by all means / to that end）\n\n` +
+      `**必须跳过**：\n` +
+      `- 单个普通名词/动词/形容词（book / walk / good）\n` +
+      `- 初级已掌握短语（come on / thank you / take care）\n` +
+      `- 语法碎片（is gonna / want to / kind of）\n` +
+      `- 专有名词、地名、人名\n` +
+      `- 如果整句里没有值得学的表达，就返回空数组 []\n\n` +
+      `**短语必须**：\n` +
+      `- 是完整的可独立理解单元（不能是任意 n-gram 切片）\n` +
+      `- 原句里必须完整、连续地出现（除了大小写、时态、单复数变化）\n\n` +
+      `台词清单：\n${listing}\n\n` +
+      `只输出一段 JSON 对象，键是行 id，值是短语数组。不要 markdown 围栏，不要额外文字。\n` +
+      `格式示例（值可能是空数组 []）：\n` +
+      `{\n` +
+      `  "line-42": [\n` +
+      `    {"phrase": "brush off", "zh": "不理睬；打发", "tier": "high", "note": "典型短语动词，口语高频"}\n` +
+      `  ],\n` +
+      `  "line-43": []\n` +
+      `}`;
+    const messages = [vscode.LanguageModelChatMessage.User(prompt)];
+    const cts = new vscode.CancellationTokenSource();
+    const response = await model.sendRequest(messages, {}, cts.token);
+    const text = await collectResponse(response);
+    const parsed = parseJson(text);
+    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+      log(`[extractRookiePhrasesFromLinesBatch] parse fail. Head: ${text.slice(0, 200)}`);
+      return null;
+    }
+    const out: Record<string, RookiePhraseHit[]> = {};
+    for (const line of lines) {
+      const raw = (parsed as any)[line.id];
+      if (!Array.isArray(raw)) { out[line.id] = []; continue; }
+      out[line.id] = raw
+        .filter((h) => h && h.phrase)
+        .map((h: any) => ({
+          phrase: String(h.phrase).trim(),
+          zh: String(h.zh || '').trim(),
+          tier: (h.tier === 'high' || h.tier === 'mid' || h.tier === 'low') ? h.tier : 'mid',
+          note: String(h.note || '').trim(),
+        }));
+    }
+    return out;
+  } catch (e: any) {
+    log(`[extractRookiePhrasesFromLinesBatch] error: ${e.message || e}`);
+    return null;
+  }
+}
+
 /** Extract a short (`zh`, `note`) pair for a word/phrase the user wants to
  *  add to their vocab from a tutor conversation. `contextText` (optional) is
  *  the surrounding assistant reply so the model can pick the meaning that
